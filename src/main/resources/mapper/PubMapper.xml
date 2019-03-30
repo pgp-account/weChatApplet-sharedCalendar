@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bdilab.sharedcalendar.mapper.PubMapper">
+
+    <!--查询个人信息-->
+    <select id="selectUserByOpenId" parameterType="String" resultType="com.bdilab.sharedcalendar.model.User">
+                select user.id as id,
+                       user.user_name as userName,
+                       user.user_pswd as userPswd,
+                       user.user_openid as userOpenid,
+                from user
+                where user.user_openid= #{openId}
+            </select>
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.sharedcalendar.model.User">
+        INSERT INTO user(user_name,user_pswd,user_openid) VALUES (#{userName},#{userPswd},#{userOpenid});
+    </insert>
+
+</mapper>
