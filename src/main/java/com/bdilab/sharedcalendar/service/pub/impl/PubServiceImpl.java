@@ -11,14 +11,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PubServiceImpl implements PubService {
-    @Autowired
     private PubMapper pubMapper;
     /**
      * 验证是否为首次登录，根据rescode获取用户openid，并与数据库做比对
      * */
     @Override
     public User userSignCheck(String rescode) {
-        String openId = null;
+        String openId;
         String appId = AppInfo.getAppID();
         // 小程序的 app secret (在微信小程序管理后台获取)
         String secretId = AppInfo.getAppSecret();
