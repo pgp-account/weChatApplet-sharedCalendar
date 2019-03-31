@@ -2,11 +2,11 @@ package com.bdilab.sharedcalendar.controller.pub;
 
 import com.bdilab.sharedcalendar.common.response.ResponseResult;
 import com.bdilab.sharedcalendar.model.User;
-import com.bdilab.sharedcalendar.model.UserModel;
 
 import com.bdilab.sharedcalendar.service.pub.PubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,16 +19,19 @@ import java.util.Map;
 //AppSecret:39139bf387a9f8cb0bedd82d4a8af569
 
 /**
- * Created by Administrator on 2017/11/15.
+ * Created by hh on 2019/3/29
  * 当前控制器类主要为用户的登录功能使用
- * 1.鉴定用户登录成功，返回：｛"data":"../public/structure","meta":{"success":true,"code":"001","message":"登录成功"}｝
- * 2.如果用户登录失败
- * 1）用户名不存在，则返回｛"data":[],"meta":{"success":false,"code":"002","message":"用户名不存在"}｝
- * 2）用户名存在，密码错误，则返回：｛"data":[],"meta":{"success":false,"code":"003","message":"密码错误"}｝
- * 3.如果参数检查不合法，则返回：｛"data":[],"meta":{"success":false,"code":"004","message":"参数不合法"}｝
- * 4.获取当前页面有哪些url可用，则返回：{"data":[],"meta":{"success":true,"code":"005","message":"获取用户页面可用url成功"}}
+ * 对于signCheck
+ * 1.用户已经注册过，"meta":{"success":true,"code":"001","message":"登录成功"}
+ * 2.用户为首次登录，"meta":{"success":false,"code":"002","message":"用户为首次登录，需要注册"}
+ * 对于signup
+ * 1.注册成功，"meta":{"success":true,"code":"003","message":"注册成功"}
  */
 @Controller
+/**
+ * CrossOrigin 注解，允许跨域
+ */
+@CrossOrigin
 public class PubController {
 
     @Autowired
@@ -50,11 +53,11 @@ public class PubController {
 
     /**
      * 判断用户是否是首次登录，若是，需要输入用户名和密码进行登录；反之可以直接通过微信授权登录
-     * @param rescode
+     * @param rescode 微信后台生成的一张临时的身份证，有效时间为5分钟
      * @param httpSession 采用从Redis自动注入的Session
      */
     @ResponseBody
-    @RequestMapping(value = "/public/signin", method = RequestMethod.GET)
+    @RequestMapping(value = "/public/signCheck", method = RequestMethod.POST)
     public ResponseResult signCheck(String rescode, HttpSession httpSession) {
         //在pubService中利用rescode调用微信api获取openid，查询数据库中是否有该id对应的用户，组装成UserModel返回
         User um = pubService.userSignCheck(rescode);
@@ -63,15 +66,14 @@ public class PubController {
         session_id = httpSession.getId();
         System.out.println("session_id = " + httpSession.getId());
         //首次登录，需要注册
-        if (um.getUserName() == null) return new ResponseResult(false, "001", "用户为首次登录，需要注册", null);
+        if (um.getUserName() == null) return new ResponseResult(false, "002", "用户为首次登录，需要注册", null);
         //非首次登录，进行登录操作
         else{
-            Map<String, String> data = new HashMap<String, String>();
+            Map<String, String> data = new HashMap<>();
             //返回用户名和登录session_id
             data.put("userName", um.getUserName() + "");
             data.put("session_id", session_id);
-
-            return new ResponseResult(true, "002", "登录成功", data);
+            return new ResponseResult(true, "001", "登录成功", data);
         }
     }
 
@@ -82,8 +84,8 @@ public class PubController {
      * @param httpSession 采用从Redis自动注入的Session
      */
     @ResponseBody
-    @RequestMapping(value = "/public/signup", method = RequestMethod.POST)
-    public ResponseResult signup(String userName, String password, HttpSession httpSession) {
+    @RequestMapping(value = "/public/signUp", method = RequestMethod.POST)
+    public ResponseResult signUp(String userName, String password, HttpSession httpSession) {
         System.out.println("guid=" + userName + ",password=" + password);
         //从session中获取
         String openID = httpSession.getAttribute("openID").toString();
@@ -98,11 +100,10 @@ public class PubController {
         System.out.println("session_id=" + httpSession.getId());
         httpSession.setAttribute("openID", user.getUserOpenid());
         session_id = httpSession.getId();
-        Map<String, String> data = new HashMap<String, String>();
+        Map<String, String> data = new HashMap<>();
         //返回用户名和登录session_id
         data.put("userName", user.getUserName() + "");
         data.put("session_id", session_id);
-
-        return new ResponseResult(true, "001", "登录成功", data);
+        return new ResponseResult(true, "003", "注册成功", data);
     }
 }

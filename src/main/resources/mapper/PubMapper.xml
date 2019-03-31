@@ -11,11 +11,12 @@
                 select user.id as id,
                        user.user_name as userName,
                        user.user_pswd as userPswd,
-                       user.user_openid as userOpenid,
+                       user.user_openid as userOpenid
                 from user
                 where user.user_openid= #{openId}
             </select>
 
+    <!--新建用户-->
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.sharedcalendar.model.User">
         INSERT INTO user(user_name,user_pswd,user_openid) VALUES (#{userName},#{userPswd},#{userOpenid});
     </insert>
