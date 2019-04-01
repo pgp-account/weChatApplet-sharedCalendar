@@ -16,7 +16,7 @@ public class PubServiceImpl implements PubService {
      * 验证是否为首次登录，根据rescode获取用户openid，并与数据库做比对
      * */
     @Override
-    public User userSignCheck(String rescode) {
+    public User userSignIn(String rescode) {
         String openId;
         String appId = AppInfo.getAppID();
         // 小程序的 app secret (在微信小程序管理后台获取)
@@ -40,16 +40,15 @@ public class PubServiceImpl implements PubService {
         if(um == null)
             um = new User();
             um.setUserOpenid(openId);
+        pubMapper.insertUser(um);
         return um;
     }
 
-    /**
-     * 用户首次登录，根据rescode获取用户openid，将其与uid和password绑定存入数据库
-     */
-    @Override
-    public boolean userSignUp(User user){
-        pubMapper.insertUser(user);
-        return true;
+    public boolean updateUserInfo(User user){
+        if(pubMapper.updateUserInfo(user)==1)
+            return true;
+        else return false;
     }
+
 
 }

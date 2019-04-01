@@ -41,12 +41,8 @@
         tableName:数据库中对应的表
         schema:该表对应的实体类名
         -->
-        <table tableName="event" schema="EventNotice"/>
-        <table tableName="event_notice" schema="EventNotice"/>
-        <table tableName="event_type" schema="EventType"/>
-        <table tableName="subscribed_event_type" schema="SubscribedEventType"/>
         <table tableName="user" schema="User"/>
-        <table tableName="uuid_share_log" schema="UuidShareLog"/>
+
 
             <!-- optional   , only for mybatis3 runtime
                  自动生成的键值（identity,或者序列值）

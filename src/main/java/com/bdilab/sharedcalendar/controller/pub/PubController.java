@@ -6,10 +6,7 @@ import com.bdilab.sharedcalendar.model.User;
 import com.bdilab.sharedcalendar.service.pub.PubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -52,58 +49,50 @@ public class PubController {
     private String open_id;
 
     /**
-     * 判断用户是否是首次登录，若是，需要输入用户名和密码进行登录；反之可以直接通过微信授权登录
+     * 登录，若是，需要输入用户名和密码进行登录；反之可以直接通过微信授权登录
      * @param rescode 微信后台生成的一张临时的身份证，有效时间为5分钟
      * @param httpSession 采用从Redis自动注入的Session
      */
     @ResponseBody
-    @RequestMapping(value = "/public/signCheck", method = RequestMethod.POST)
-    public ResponseResult signCheck(String rescode, HttpSession httpSession) {
+    @RequestMapping(value = "/public/signIn", method = RequestMethod.POST)
+    public ResponseResult signIn(@RequestParam String rescode, HttpSession httpSession) {
         //在pubService中利用rescode调用微信api获取openid，查询数据库中是否有该id对应的用户，组装成UserModel返回
-        User um = pubService.userSignCheck(rescode);
+        User um = pubService.userSignIn(rescode);
         //创建session维护openid
         httpSession.setAttribute("openID", um.getUserOpenid());
         session_id = httpSession.getId();
         System.out.println("session_id = " + httpSession.getId());
         //首次登录，需要注册
-        if (um.getUserName() == null) return new ResponseResult(false, "002", "用户为首次登录，需要注册", null);
-        //非首次登录，进行登录操作
-        else{
-            Map<String, String> data = new HashMap<>();
-            //返回用户名和登录session_id
-            data.put("userName", um.getUserName() + "");
-            data.put("session_id", session_id);
-            return new ResponseResult(true, "001", "登录成功", data);
-        }
+
+        Map<String, String> data = new HashMap<>();
+        //返回session_id给前端缓存
+        data.put("session_id", session_id);
+        return new ResponseResult(true, "001", "登录成功", data);
+
     }
 
     /**
-     * 首次登录，微信登录授权，输入小程序业务侧的用户名密码，在服务端获取到用户openid后，对其进行绑定
-     * @param userName         the guid provided by user
-     * @param password    the md5 password sent
+     * 获取用户信息，用户打开小程序时授权可以获得userInfo信息，在用户登录小程序后，发送到后端作为用户数据保存
+     * @param nickName 用户微信昵称
+     * @param avatarUrl 用户微信头像url
      * @param httpSession 采用从Redis自动注入的Session
      */
     @ResponseBody
-    @RequestMapping(value = "/public/signUp", method = RequestMethod.POST)
-    public ResponseResult signUp(String userName, String password, HttpSession httpSession) {
-        System.out.println("guid=" + userName + ",password=" + password);
-        //从session中获取
-        String openID = httpSession.getAttribute("openID").toString();
-        //组装userModel
+    @RequestMapping(value = "/public/updateUserInfo", method = RequestMethod.POST)
+    public ResponseResult updateUserInfo(@RequestParam String nickName,@RequestParam String avatarUrl, HttpSession httpSession) {
         User user = new User();
-        user.setUserName(userName);
-        user.setUserPswd(password);
-        user.setUserOpenid(openID);
-        //新建用户
-        pubService.userSignUp(user);
-        //设置session为其登录
-        System.out.println("session_id=" + httpSession.getId());
-        httpSession.setAttribute("openID", user.getUserOpenid());
-        session_id = httpSession.getId();
-        Map<String, String> data = new HashMap<>();
-        //返回用户名和登录session_id
-        data.put("userName", user.getUserName() + "");
-        data.put("session_id", session_id);
-        return new ResponseResult(true, "003", "注册成功", data);
+        user.setNickName(nickName);
+        user.setAvatarUrl(avatarUrl);
+        //从session中获取open_id
+        user.setUserOpenid(httpSession.getAttribute("openID").toString());
+        if(pubService.updateUserInfo(user)){
+            Map<String, String> data = new HashMap<>();
+            //返回用户名
+            data.put("userName", user.getNickName());
+            return new ResponseResult(true, "001", "更新用户信息成功", data);
+        }
+        else return new ResponseResult(true, "002", "更新用户信息失败", null);
+
     }
+
 }

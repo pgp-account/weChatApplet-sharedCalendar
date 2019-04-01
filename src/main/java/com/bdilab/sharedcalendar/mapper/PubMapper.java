@@ -11,4 +11,5 @@ public interface PubMapper {
      */
     User selectUserByOpenId(@Param("openId")String openId);
     User insertUser(@Param("user")User user);
+    int updateUserInfo(@Param("user")User user);
 }
