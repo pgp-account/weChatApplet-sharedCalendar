@@ -21,11 +21,6 @@ import java.util.Map;
 /**
  * Created by hh on 2019/3/29
  * 当前控制器类主要为用户的登录功能使用
- * 对于signCheck
- * 1.用户已经注册过，"meta":{"success":true,"code":"001","message":"登录成功"}
- * 2.用户为首次登录，"meta":{"success":false,"code":"002","message":"用户为首次登录，需要注册"}
- * 对于signup
- * 1.注册成功，"meta":{"success":true,"code":"003","message":"注册成功"}
  */
 @Controller
 /**
