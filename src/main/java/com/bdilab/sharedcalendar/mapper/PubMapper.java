@@ -6,10 +6,11 @@ import org.apache.ibatis.annotations.Param;
 public interface PubMapper {
     /**
      * 根据openId搜索用户
-     * @param openId
+     * @param user_id
      * @return
      */
-    User selectUserByOpenId(@Param("openId")String openId);
+    User selectUserById(@Param("user_id")int user_id);
+    User selectUserByOpenid(@Param("open_id")String open_id);
     User insertUser(@Param("user")User user);
     int updateUserInfo(@Param("user")User user);
 }
