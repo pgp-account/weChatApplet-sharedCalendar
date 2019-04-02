@@ -12,4 +12,17 @@
         INSERT INTO event_type(type_name, type_descrption, type_transparency, fk_creator_id, create_time,subscriber_num) VALUES (#{typeName}, #{typeDescrption}, #{typeTransparency}, #{fkCreatorId}, #{createTime},#{subscriberNum});
     </insert>
 
+    <!--搜索用户日程列表信息-->
+    <select id="selectEventTypeById" parameterType="int" resultType="com.bdilab.sharedcalendar.model.EventType">
+                select event_type.id as id,
+                       event_type.type_name as typeName,
+                       event_type.type_descrption as typeDescrption,
+                       event_type.type_transparency as typeTransparency,
+                       event_type.fk_creator_id as fkCreatorId,
+                       event_type.create_time as createTime,
+                       event_type.subscriber_num as subscriberNum
+                from event_type
+                where event_type.fk_creator_id= #{userId}
+            </select>
+
 </mapper>
