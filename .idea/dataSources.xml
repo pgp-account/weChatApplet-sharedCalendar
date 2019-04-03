@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="SharedCalendar" uuid="fcf238f4-7804-4582-83fe-b09dd10bcdcb">
+    <data-source source="LOCAL" name="sharedcalendar@39.96.188.220" uuid="ca6e6b7f-fd49-409b-ba95-8e2797e3883c">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>

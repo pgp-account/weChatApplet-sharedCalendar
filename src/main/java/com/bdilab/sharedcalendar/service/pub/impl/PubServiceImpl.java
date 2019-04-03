@@ -9,11 +9,16 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+
 @Service
 public class PubServiceImpl implements PubService {
+    @Autowired
     private PubMapper pubMapper;
     /**
-     * 验证是否为首次登录，根据rescode获取用户openid，并与数据库做比对
+     * 登录，通过微信授权登录，使用前端发送的rescode与微信后台交互获得openid
+     * 若用户为首次登陆，在数据库中添加用户信息
+     * @param rescode 微信临时身份证
      * */
     @Override
     public User userSignIn(String rescode) {
@@ -32,23 +37,20 @@ public class PubServiceImpl implements PubService {
         JSONObject json = new JSONObject(sr);
         // 获取会话密钥（session_key）
         //TODO:持久化session_key
-        String session_key = json.get("session_key").toString();
-        // 用户的唯一标识（openid）
-        openId = (String) json.get("openid");
-
-        User um = pubMapper.selectUserByOpenId(openId);
-        if(um == null)
-            um = new User();
-            um.setUserOpenid(openId);
-        pubMapper.insertUser(um);
-        return um;
+        if(json.has("session_key")){
+            String session_key = json.get("session_key").toString();
+            // 用户的唯一标识（openid）
+            openId = (String) json.get("openid");
+            User um = pubMapper.selectUserByOpenid(openId);
+            //数据库中没有该用户，则添加该用户
+            if(um == null){
+                um = new User();
+                um.setUserOpenid(openId);
+                pubMapper.insertUser(um);
+            }
+            return um;
+        }
+        return null;
     }
-
-    public boolean updateUserInfo(User user){
-        if(pubMapper.updateUserInfo(user)==1)
-            return true;
-        else return false;
-    }
-
 
 }

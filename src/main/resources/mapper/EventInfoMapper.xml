@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bdilab.sharedcalendar.mapper.EventInfoMapper">
+
+    <!--根据日程id查看日程-->
+    <select id="selectEventById" parameterType="Integer" resultType="com.bdilab.sharedcalendar.model.Event">
+        select id, fk_creator_id as fkCreatorId, event_name as eventName, start_time as startTime,
+        end_time as endTime,fk_type_id as fkTypeId,type_name as typeName,event_content as eventContent,
+        event_frequency as eventFrequency,event_end_condition as eventEndCondition,repeat_end_time as repeatEndTime,
+        repeat_times as repeatTimes,current_repeat_times as currentRepeatTimes,notice_choice as noticeChoice
+        from event
+        where event.id= #{event_id}
+    </select>
+
+    <!--根据日期开始时间搜索日程-->
+    <select id="searchEventsByDate" parameterType="String" resultType="com.bdilab.sharedcalendar.model.Event">
+        select id, fk_creator_id as fkCreatorId, event_name as eventName, start_time as startTime,
+                   end_time as endTime,fk_type_id as fkTypeId,type_name as typeName,event_content as eventContent,
+                   event_frequency as eventFrequency,event_end_condition as eventEndCondition,repeat_end_time as repeatEndTime,
+                   repeat_times as repeatTimes,current_repeat_times as currentRepeatTimes,notice_choice as noticeChoice
+        from event
+        where date_format(start_time,'%Y%m%d')=#{start_time}
+        order by startTime desc
+    </select>
+
+    <!--插入新日程-->
+    <insert id="insertEvent" useGeneratedKeys="true" keyProperty="id" parameterType="com.bdilab.sharedcalendar.model.Event">
+        INSERT INTO event(fk_creator_id,event_name,start_time,end_time,fk_type_id,event_content,event_frequency,event_end_condition,repeat_end_time,repeat_times,current_repeat_times,notice_choice)
+        VALUES (#{fkCreatorId},#{eventName},#{startTime},#{endTime},#{fkTypeId},#{eventContent},#{eventFrequency},#{eventEndCondition},#{repeatEndTime},#{repeatTimes},#{currentRepeatTimes},#{noticeChoice});
+    </insert>
+
+    <!--更新日程-->
+    <update id="updateEvent" parameterType="com.bdilab.sharedcalendar.model.Event">
+        update event set event_name=#{eventName},start_time=#{startTime},end_time=#{endTime},fk_type_id=#{fkTypeId},
+        event_content=#{eventContent},event_frequency=#{eventFrequency},event_end_condition=#{eventEndCondition},repeat_end_time=#{repeatEndTime},
+        repeat_times=#{repeatTimes},current_repeat_times=#{currentRepeatTimes},notice_choice=#{noticeChoice}
+        where id=#{id} and fk_creator_id=#{fkCreatorId}
+    </update>
+
+    <!--删除日程-->
+    <delete id="deleteEvent" parameterType="Integer">
+        delete from event where id=#{event_id}
+    </delete>
+</mapper>

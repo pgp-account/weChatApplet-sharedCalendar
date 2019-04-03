@@ -8,7 +8,7 @@
     <!--指定属性配置文件-->
     <properties resource="application.properties"></properties>
     <!--指定数据库的jdbc驱动包位置  这个路径直接从generator.propteries读取貌似会有问题-->
-    <classPathEntry location="C:\Users\87190\.m2\repository\mysql\mysql-connector-java\5.1.35\\mysql-connector-java-5.1.35.jar"/>
+    <classPathEntry location="C:\Users\admin\.m2\repository\mysql\mysql-connector-java\5.1.35\\mysql-connector-java-5.1.35.jar"/>
 
     <context id="mysqlgenerator" targetRuntime="MyBatis3">
         <!--jdbc数据库连接配置
@@ -41,12 +41,8 @@
         tableName:数据库中对应的表
         schema:该表对应的实体类名
         -->
-        <table tableName="event" schema="EventNotice"/>
-        <table tableName="event_notice" schema="EventNotice"/>
-        <table tableName="event_type" schema="EventType"/>
-        <table tableName="subscribed_event_type" schema="SubscribedEventType"/>
-        <table tableName="user" schema="User"/>
-        <table tableName="uuid_share_log" schema="UuidShareLog"/>
+        <table tableName="event" schema="Event"/>
+
 
             <!-- optional   , only for mybatis3 runtime
                  自动生成的键值（identity,或者序列值）

@@ -6,25 +6,36 @@
 
 <mapper namespace="com.bdilab.sharedcalendar.mapper.PubMapper">
 
+
     <!--查询个人信息-->
-    <select id="selectUserByOpenId" parameterType="String" resultType="com.bdilab.sharedcalendar.model.User">
+    <select id="selectUserById" parameterType="int" resultType="com.bdilab.sharedcalendar.model.User">
                 select user.id as id,
                        user.user_name as userName,
                        user.user_pswd as userPswd,
                        user.user_openid as userOpenid
                 from user
-                where user.user_openid= #{openId}
+                where user.id= #{id}
+            </select>
+
+    <!--查询个人信息-->
+    <select id="selectUserByOpenid" parameterType="String" resultType="com.bdilab.sharedcalendar.model.User">
+                select user.id as id,
+                       user.nick_name as nickName,
+                       user.avatar_url as avatarUrl,
+                       user.user_openid as userOpenid
+                from user
+                where user.user_openid= #{open_id}
             </select>
 
     <!--新建用户-->
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.bdilab.sharedcalendar.model.User">
-        INSERT INTO user(user_openid) VALUES (#{userOpenid})
+        INSERT INTO user(user_openid) VALUES (#{userOpenid});
     </insert>
 
     <!--更新用户信息-->
-    <update id="updatePlanInfoByExamId" parameterType="com.sse.partyManagement.vo.PlanInfoVO">
+    <update id="updateUserInfo" parameterType="com.bdilab.sharedcalendar.model.User">
         UPDATE user
         SET nick_name = #{nickName}, avatar_url = #{avatarUrl}
-        WHERE user_openid = #{userOpenid}
+        WHERE id = #{id}
     </update>
 </mapper>
