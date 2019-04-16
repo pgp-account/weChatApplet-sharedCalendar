@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface EventTypeMapper {
 
-    int insertEventType(@Param("eventType")EventType eventType);
-    List<EventType> selectEventTypeById(@Param("userId")int userId);
+    int insertEventType(EventType eventType);
+    List<EventType> selectEventTypeById(int userId);
 
 }

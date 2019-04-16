@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="sharedcalendar@39.96.188.220" uuid="ca6e6b7f-fd49-409b-ba95-8e2797e3883c">
+    <data-source source="LOCAL" name="sharedcalendar@39.96.188.220" uuid="f526c47f-a108-41b6-ad72-f3e9006b6a57">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://39.96.188.220:3306/sharedcalendar</jdbc-url>
+      <jdbc-url>jdbc:mysql://39.96.188.220:3306/sharedcalendar?characterEncoding=utf-8&amp;tinyInt1isBit=false</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

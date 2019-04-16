@@ -54,6 +54,7 @@ public class EventTypeController {
         eventType.setSubscriberNum(0);
         eventType.setFkCreatorId(Integer.parseInt(httpSession.getAttribute("user_id").toString()));
         eventType.setCreateTime(createTime);
+
         Map<String, String> data = new HashMap<>();
         data.put("type_name",typeName);
 
@@ -71,7 +72,10 @@ public class EventTypeController {
         int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
         List<EventType> eventTypes = eventTypeService.getEventTypeList(userId);
         ResponseResult responseResult = new ResponseResult();
-        responseResult.setData(eventTypes);
+        Map<String ,Object> data = new HashMap<>();
+        data.put("EventTypes",eventTypes);
+        data.put("Total",eventTypes.size());
+        responseResult.setData(data);
         responseResult.setMeta(new MetaData( true,"001","获取用户所有日程类型列表成功"));
         return responseResult;
     }
