@@ -25,7 +25,7 @@ public class EventController {
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping(value = "event/createEvent", method = RequestMethod.POST)
+    @RequestMapping(value = "/event/createEvent", method = RequestMethod.POST)
     public ResponseResult createEvent(@RequestParam(value = "eventName") String eventName,
                                       @RequestParam(value = "startTime")Date startTime,
                                       @RequestParam(value = "endTime") Date endTime,
@@ -145,4 +145,18 @@ public class EventController {
         }
         return responseResult;
     }
+
+    /**
+     * 获取用户某个时间段的日程列表信息
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @return
+     * @throws Exception
+     */
+//    @ResponseBody
+//    @RequestMapping(value = "event/getEventListByTime", method = RequestMethod.POST)
+//    public ResponseResult getEvents(@RequestParam Date startTime,
+//                                    @RequestParam Date endTime) throws Exception{
+//
+//    }
 }

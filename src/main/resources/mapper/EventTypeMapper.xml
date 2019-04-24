@@ -25,4 +25,13 @@
                 where event_type.fk_creator_id= #{userId}
             </select>
 
+    <!--删除用户的多个日程类型-->
+    <delete id="deleteEventType">
+        delete from event_type where event_type.id IN
+        <foreach collection="eventTypeIds" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
 </mapper>

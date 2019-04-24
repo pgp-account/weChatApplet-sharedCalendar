@@ -9,5 +9,8 @@
         <module name="SharedCalendar" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SharedCalendar" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

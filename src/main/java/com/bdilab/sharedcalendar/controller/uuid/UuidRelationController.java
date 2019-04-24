@@ -28,11 +28,12 @@ public class UuidRelationController {
 
     /**
      * 获取日程类型分享链接
+     * @param typeId 类型id
+     * @param httpSession
      */
     @ResponseBody
-    @RequestMapping(value = "/uuid/getShareCode", method = RequestMethod.GET)
-    public ResponseResult getShareUrl(@RequestParam int typeId, HttpSession httpSession) {
-        //EventType eventType = eventTypeService.getEventTypeById(typeId);
+    @RequestMapping(value = "/uuid/generateShareCode", method = RequestMethod.GET)
+    public ResponseResult generateShareCode(@RequestParam int typeId, HttpSession httpSession) {
         UuidRelation uuidRelation = uuidRelationService.generateShareCode(typeId);
         if(uuidRelation!=null) {
             Map<String, String> data = new HashMap<>();
@@ -40,5 +41,17 @@ public class UuidRelationController {
             return new ResponseResult(true,"001","获取日程类型分享链接成功",data);
         }
         return new ResponseResult(false,"002","获取日程类型分享链接失败",null);
+    }
+
+    /**
+     * 订阅日程类型
+     * 当该日程类型已被删除，需提醒用户
+     * @param typeId 类型id
+     * @param httpSession
+     */
+    @ResponseBody
+    @RequestMapping(value = "/uuid/subscribeEventType", method = RequestMethod.GET)
+    public ResponseResult subscribeEventType(@RequestParam int typeId, HttpSession httpSession) {
+        return new ResponseResult(false,"002","订阅失败",null);
     }
 }

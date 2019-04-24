@@ -7,8 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface EventTypeMapper {
-
     int insertEventType(EventType eventType);
     List<EventType> selectEventTypeById(int userId);
-
+    void deleteEventType(@Param("eventTypeIds") List<Integer> eventTypeIds);
 }

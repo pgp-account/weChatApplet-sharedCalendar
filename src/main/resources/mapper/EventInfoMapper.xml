@@ -45,4 +45,29 @@
     <delete id="deleteEvent" parameterType="Integer">
         delete from event where id=#{event_id}
     </delete>
+
+    <!--删除特定日程类型下的全部日程-->
+    <delete id="deleteEventByEventType" parameterType="Integer">
+        delete from event where event.fk_type_id=#{eventType}
+    </delete>
+
+    <!--根据类型id搜索日程-->
+    <select id="selectEventByEventType" parameterType="int" resultType="com.bdilab.sharedcalendar.model.Event">
+        select event.id as id,
+            event.fk_creator_id as fkCreatorId,
+            event.event_name as eventName,
+            event.start_time as startTime,
+            event.end_time as endTime,
+            event.fk_type_id as fkTypeId,
+            event.event_frequency as eventFrequency,
+            event.event_end_condition as eventEndCondition,
+            event.repeat_end_time as repeatEndTime,
+            event.repeat_times as repeatTimes,
+            event.current_repeat_times as currentRepeatTimes,
+            event.notice_choice as noticeChoice,
+            event.event_content as eventContent
+        from event
+        where event.fk_type_id= #{eventType}
+    </select>
+
 </mapper>

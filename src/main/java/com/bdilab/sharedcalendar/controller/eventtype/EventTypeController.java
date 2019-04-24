@@ -12,10 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hh on 2019/4/1
@@ -59,8 +56,8 @@ public class EventTypeController {
         data.put("type_name",typeName);
 
         if(eventTypeService.createEventType(eventType))
-            return new ResponseResult(true, "001", "创建成功", data);
-        return new ResponseResult(false, "002", "创建失败", data);
+            return new ResponseResult(true, "001", "创建类型成功", data);
+        return new ResponseResult(false, "002", "创建类型失败", data);
     }
 
     /**
@@ -68,8 +65,9 @@ public class EventTypeController {
      */
     @ResponseBody
     @RequestMapping(value = "/eventtype/getEventTypeList", method = RequestMethod.GET)
-    public ResponseResult createEventTpye(HttpSession httpSession) {
+    public ResponseResult getEventTypeList(HttpSession httpSession) {
         int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
+        //int userId = 2;
         List<EventType> eventTypes = eventTypeService.getEventTypeList(userId);
         ResponseResult responseResult = new ResponseResult();
         Map<String ,Object> data = new HashMap<>();
@@ -80,6 +78,38 @@ public class EventTypeController {
         return responseResult;
     }
 
+    /**
+     * 删除日程类型
+     * 删除日程类型时，该日程类型下的所有日程有两种操作方式：
+     * 1、一并删除
+     * 2、转至另一个日程类型下
+     * @param eventTypeIds 用","隔开的多个EventTypeId
+     * @param operationType 对日程类型下的日程的操作方式
+     * @param newEventType 当将日程转至另一日程类型下时，对应日程类型的id
+     */
+    @ResponseBody
+    @RequestMapping(value = "/eventtype/deleteEventTypes", method = RequestMethod.POST)
+    public ResponseResult deleteEventTypes(@RequestParam String eventTypeIds,
+                                           @RequestParam int operationType,
+                                           @RequestParam(required = false) int newEventType) {
+        System.out.println("multiMsgIds="+eventTypeIds);
+        String[] messageIds=eventTypeIds.split(",");
+        if(messageIds.length==0){
+            return new ResponseResult(false,"04006","参数错误，日程类型id为空");
+        }
 
+        List<Integer> list=new ArrayList<>();
+        for(int i=0;i<messageIds.length;i++){
+            list.add(Integer.valueOf(messageIds[i]));
+        }
+        if(operationType==1){
+            eventTypeService.deleteEventTypes(list);
+        }
+        else{
+            eventTypeService.deleteEventTypes(list,newEventType);
+        }
 
+        return new ResponseResult(true,"001","删除日程类型成功",null);
+
+    }
 }

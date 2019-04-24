@@ -37,4 +37,6 @@ public interface EventService {
      * @return
      */
     boolean deleteEvent(int event_id);
+
+    //List<Event> get
 }

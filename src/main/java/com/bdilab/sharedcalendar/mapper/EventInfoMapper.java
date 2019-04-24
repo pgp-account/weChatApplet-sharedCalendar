@@ -37,4 +37,12 @@ public interface EventInfoMapper {
      * @param event_id
      */
     void deleteEvent(@Param("event_id") int event_id);
+
+    /**
+     * 删除特定日程类型下的全部日程
+     * @param eventType 日程类型id
+     */
+    void deleteEventByEventType(int eventType);
+
+    List<Event> selectEventByEventType(int eventType);
 }

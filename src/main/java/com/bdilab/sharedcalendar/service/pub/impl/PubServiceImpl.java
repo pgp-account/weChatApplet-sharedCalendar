@@ -1,6 +1,8 @@
 package com.bdilab.sharedcalendar.service.pub.impl;
 
+import com.bdilab.sharedcalendar.mapper.EventTypeMapper;
 import com.bdilab.sharedcalendar.mapper.PubMapper;
+import com.bdilab.sharedcalendar.model.EventType;
 import com.bdilab.sharedcalendar.model.User;
 import com.bdilab.sharedcalendar.service.pub.PubService;
 import com.bdilab.sharedcalendar.statics.AppInfo;
@@ -9,12 +11,16 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 
 
 @Service
 public class PubServiceImpl implements PubService {
+
     @Autowired
     private PubMapper pubMapper;
+    @Autowired
+    private EventTypeMapper eventTypeMapper;
     /**
      * 登录，通过微信授权登录，使用前端发送的rescode与微信后台交互获得openid
      * 若用户为首次登陆，在数据库中添加用户信息
@@ -42,11 +48,22 @@ public class PubServiceImpl implements PubService {
             // 用户的唯一标识（openid）
             openId = (String) json.get("openid");
             User um = pubMapper.selectUserByOpenid(openId);
-            //数据库中没有该用户，则添加该用户
+            //数据库中没有该用户，则添加该用户，并为用户新建一个默认类型
             if(um == null){
                 um = new User();
                 um.setUserOpenid(openId);
+                //insert后自动将主键赋值给um.userId
                 pubMapper.insertUser(um);
+
+                //为用户新建一个默认日程类型
+                EventType eventType = new EventType();
+                eventType.setTypeName("默认");
+                eventType.setTypeTransparency(1);
+                eventType.setSubscriberNum(0);
+                eventType.setFkCreatorId(um.getId());
+                eventTypeMapper.insertEventType(eventType);
+
+                eventType.setCreateTime(new Date());
             }
             return um;
         }
