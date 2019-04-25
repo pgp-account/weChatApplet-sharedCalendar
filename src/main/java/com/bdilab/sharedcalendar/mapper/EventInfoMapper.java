@@ -12,7 +12,7 @@ public interface EventInfoMapper {
      * @param event_id
      * @return
      */
-    Event selectEventById(@Param("event_id") int event_id);
+    Event selectEventById(int event_id);
 
     /**
      * 根据日程开始时间搜索日程
@@ -30,7 +30,7 @@ public interface EventInfoMapper {
      * 修改日程
      * @param event
      */
-    void updateEvent(@Param("event") Event event);
+    void updateEvent(Event event);
 
     /**
      * 删除日程
@@ -44,5 +44,17 @@ public interface EventInfoMapper {
      */
     void deleteEventByEventType(int eventType);
 
+    /**
+     * 获取同一日程类型下的全部日程
+     * @param eventType
+     * @return
+     */
     List<Event> selectEventByEventType(int eventType);
+
+    /**
+     * 获取用户全部日程
+     * @param userId
+     * @return
+     */
+    List<Event> selectEventByUserId(int userId);
 }

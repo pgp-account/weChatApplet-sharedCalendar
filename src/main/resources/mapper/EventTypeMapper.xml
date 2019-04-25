@@ -13,7 +13,7 @@
     </insert>
 
     <!--搜索用户日程列表信息-->
-    <select id="selectEventTypeById" parameterType="int" resultType="com.bdilab.sharedcalendar.model.EventType">
+    <select id="selectEventTypeByUserId" parameterType="int" resultType="com.bdilab.sharedcalendar.model.EventType">
                 select event_type.id as id,
                        event_type.type_name as typeName,
                        event_type.type_descrption as typeDescrption,
@@ -33,5 +33,24 @@
         </foreach>
     </delete>
 
+    <!--根据typeId搜索用户名-->
+    <select id="selectCreatorNameByTypeId" parameterType="int" resultType="String">
+        select user.nick_name
+        from user,event_type
+        where event_type.id=#{typeId} and user.id = event_type.fk_creator_id
+    </select>
+
+    <!--根据typeId搜索EventType-->
+    <select id="selectEventTypeById" parameterType="int" resultType="com.bdilab.sharedcalendar.model.EventType">
+        select event_type.id as id,
+               event_type.type_name as typeName,
+               event_type.type_descrption as typeDescrption,
+               event_type.type_transparency as typeTransparency,
+               event_type.fk_creator_id as fkCreatorId,
+               event_type.create_time as createTime,
+               event_type.subscriber_num as subscriberNum
+        from event_type
+        where event_type.id= #{typeId}
+    </select>
 
 </mapper>

@@ -1,9 +1,11 @@
 package com.bdilab.sharedcalendar.controller.event;
 
+import com.bdilab.sharedcalendar.common.response.MetaData;
 import com.bdilab.sharedcalendar.common.response.ResponseResult;
 import com.bdilab.sharedcalendar.model.Event;
 import com.bdilab.sharedcalendar.service.event.EventService;
 
+import com.bdilab.sharedcalendar.vo.EventVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class EventController {
@@ -153,10 +159,25 @@ public class EventController {
      * @return
      * @throws Exception
      */
-//    @ResponseBody
-//    @RequestMapping(value = "event/getEventListByTime", method = RequestMethod.POST)
-//    public ResponseResult getEvents(@RequestParam Date startTime,
-//                                    @RequestParam Date endTime) throws Exception{
-//
-//    }
+    @ResponseBody
+    @RequestMapping(value = "event/getEventListByTime", method = RequestMethod.POST)
+    public ResponseResult getEvents(@RequestParam Date startTime,
+                                    @RequestParam Date endTime,
+                                    @RequestParam HttpSession httpSession) throws Exception{
+        int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
+        //int userId = 2;
+//        String date = "2019-05-11 00:00:00";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        startTime = sdf.parse(date);
+//        endTime = new Date(startTime.getTime() + 24 * 60 * 60 * 1000 * 7);
+
+        List<EventVO> eventVOs = eventService.getEventVOsByDate(startTime,endTime,userId);
+        ResponseResult responseResult = new ResponseResult();
+        Map<String ,Object> data = new HashMap<>();
+        data.put("EventVOs",eventVOs);
+        data.put("Total",eventVOs.size());
+        responseResult.setData(data);
+        responseResult.setMeta(new MetaData( true,"001","获取用户所有日程成功"));
+        return responseResult;
+    }
 }

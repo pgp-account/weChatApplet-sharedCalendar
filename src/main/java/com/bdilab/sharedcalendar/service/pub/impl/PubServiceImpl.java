@@ -61,6 +61,8 @@ public class PubServiceImpl implements PubService {
                 eventType.setTypeTransparency(1);
                 eventType.setSubscriberNum(0);
                 eventType.setFkCreatorId(um.getId());
+                eventType.setSubscriberNum(0);
+                eventType.setCreateTime(new Date());
                 eventTypeMapper.insertEventType(eventType);
 
                 eventType.setCreateTime(new Date());

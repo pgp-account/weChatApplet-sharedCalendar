@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * CrossOrigin 注解，允许跨域
  */
-@CrossOrigin
+@CrossOrigin(allowCredentials = "true",allowedHeaders = "*")
 @Api(value = "envent type controller")
 public class EventTypeController {
 
@@ -91,7 +91,7 @@ public class EventTypeController {
     @RequestMapping(value = "/eventtype/deleteEventTypes", method = RequestMethod.POST)
     public ResponseResult deleteEventTypes(@RequestParam String eventTypeIds,
                                            @RequestParam int operationType,
-                                           @RequestParam(required = false) int newEventType) {
+                                           @RequestParam(required = false,defaultValue = "0") int newEventType) {
         System.out.println("multiMsgIds="+eventTypeIds);
         String[] messageIds=eventTypeIds.split(",");
         if(messageIds.length==0){

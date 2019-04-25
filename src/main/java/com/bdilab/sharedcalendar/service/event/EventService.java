@@ -1,8 +1,9 @@
 package com.bdilab.sharedcalendar.service.event;
 
 import com.bdilab.sharedcalendar.model.Event;
+import com.bdilab.sharedcalendar.vo.EventVO;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 public interface EventService {
@@ -38,5 +39,5 @@ public interface EventService {
      */
     boolean deleteEvent(int event_id);
 
-    //List<Event> get
+    List<EventVO> getEventVOsByDate(Date startTime, Date endTime, int userId);
 }

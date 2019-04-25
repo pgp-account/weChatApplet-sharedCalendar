@@ -9,7 +9,7 @@
     <!--根据日程id查看日程-->
     <select id="selectEventById" parameterType="Integer" resultType="com.bdilab.sharedcalendar.model.Event">
         select id, fk_creator_id as fkCreatorId, event_name as eventName, start_time as startTime,
-        end_time as endTime,fk_type_id as fkTypeId,type_name as typeName,event_content as eventContent,
+        end_time as endTime,fk_type_id as fkTypeId,event_content as eventContent,
         event_frequency as eventFrequency,event_end_condition as eventEndCondition,repeat_end_time as repeatEndTime,
         repeat_times as repeatTimes,current_repeat_times as currentRepeatTimes,notice_choice as noticeChoice
         from event
@@ -70,4 +70,22 @@
         where event.fk_type_id= #{eventType}
     </select>
 
+    <!--根据用户id搜索日程-->
+    <select id="selectEventByUserId" parameterType="int" resultType="com.bdilab.sharedcalendar.model.Event">
+        select event.id as id,
+               event.fk_creator_id as fkCreatorId,
+               event.event_name as eventName,
+               event.start_time as startTime,
+               event.end_time as endTime,
+               event.fk_type_id as fkTypeId,
+               event.event_frequency as eventFrequency,
+               event.event_end_condition as eventEndCondition,
+               event.repeat_end_time as repeatEndTime,
+               event.repeat_times as repeatTimes,
+               event.current_repeat_times as currentRepeatTimes,
+               event.notice_choice as noticeChoice,
+               event.event_content as eventContent
+        from event
+        where event.fk_creator_id= #{userId}
+    </select>
 </mapper>

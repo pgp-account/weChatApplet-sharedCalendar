@@ -6,6 +6,7 @@ import com.bdilab.sharedcalendar.model.User;
 import com.bdilab.sharedcalendar.service.pub.PubService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+
+import sun.misc.BASE64Encoder;
+import sun.misc.BASE64Decoder;
 
 //AppID:AppID
 //AppSecret:39139bf387a9f8cb0bedd82d4a8af569
@@ -57,16 +61,26 @@ public class PubController {
     @RequestMapping(value = "/public/signIn", method = RequestMethod.POST)
     public ResponseResult signIn(@RequestParam String rescode, HttpSession httpSession) {
         //在pubService中利用rescode调用微信api获取openid，查询数据库中是否有该id对应的用户，组装成UserModel返回
+
         User um = pubService.userSignIn(rescode);
         //创建session维护openid
         if(um!=null){
             httpSession.setAttribute("user_id", um.getId());
-        session_id = httpSession.getId();
-        System.out.println("session_id = " + httpSession.getId());
-        Map<String, String> data = new HashMap<>();
-        //返回session_id给前端缓存
-        data.put("session_id", session_id);
-        return new ResponseResult(true, "001", "登录成功", data);
+            //httpSession.setAttribute("user_id", 2);
+            session_id = httpSession.getId();
+            System.out.println("session_id = " + httpSession.getId());
+            Map<String, String> data = new HashMap<>();
+            //返回session_id给前端缓存
+            try{
+                //对session_id进行编码，不然无法解析
+                BASE64Encoder encoder = new BASE64Encoder();
+                session_id = encoder.encode(session_id.getBytes("UTF-8"));
+                System.out.println(session_id);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            data.put("session_id", session_id);
+            return new ResponseResult(true, "001", "登录成功", data);
         }
         return new ResponseResult(false, "002", "登陆失败，rescode无效", null);
 

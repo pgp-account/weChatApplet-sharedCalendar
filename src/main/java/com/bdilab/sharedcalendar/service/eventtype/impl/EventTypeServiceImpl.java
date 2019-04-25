@@ -27,7 +27,7 @@ public class EventTypeServiceImpl implements EventTypeService {
     }
 
     public List<EventType> getEventTypeList(int userId){
-        return eventTypeMapper.selectEventTypeById(userId);
+        return eventTypeMapper.selectEventTypeByUserId(userId);
     }
 
     //删除日程类型，同时删除其下的日程
@@ -37,7 +37,7 @@ public class EventTypeServiceImpl implements EventTypeService {
              ) {
             eventInfoMapper.deleteEventByEventType(eventTypeId);
         }
-
+        eventTypeMapper.deleteEventType(eventTypeIds);
     }
 
     //删除日程类型，同时将日程迁移至新的日程类型下
