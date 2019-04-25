@@ -24,19 +24,19 @@ public interface EventInfoMapper {
      * 插入新日程
      * @param event
      */
-    void insertEvent(@Param("event") Event event);
+    int insertEvent( Event event);
 
     /**
      * 修改日程
      * @param event
      */
-    void updateEvent(Event event);
+    int updateEvent(Event event);
 
     /**
      * 删除日程
-     * @param event_id
+     * @param eventIds
      */
-    void deleteEvent(@Param("event_id") int event_id);
+    void deleteEvent(@Param("eventIds") List<Integer> eventIds);
 
     /**
      * 删除特定日程类型下的全部日程

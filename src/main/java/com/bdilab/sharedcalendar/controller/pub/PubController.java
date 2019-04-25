@@ -49,14 +49,12 @@ public class PubController {
      */
     private String session_id;
 
-    private String open_id;
 
     /**
      * 登录，通过微信授权登录，若用户为首次登陆，在数据库中添加用户信息
      * @param rescode 微信后台生成的一张临时的身份证，有效时间为5分钟
      * @param httpSession 采用从Redis自动注入的Session
      */
-
     @ResponseBody
     @RequestMapping(value = "/public/signIn", method = RequestMethod.POST)
     public ResponseResult signIn(@RequestParam String rescode, HttpSession httpSession) {
@@ -85,5 +83,27 @@ public class PubController {
         return new ResponseResult(false, "002", "登陆失败，rescode无效", null);
 
     }
-
+    /**
+     * 获取用户信息，用户打开小程序时授权可以获得userInfo信息，在用户登录小程序后，发送到后端作为用户数据保存
+     * @param nickName 用户微信昵称
+     * @param avatarUrl 用户微信头像url
+     * @param httpSession 采用从Redis自动注入的Session
+     */
+    @ResponseBody
+    @RequestMapping(value = "/public/updateUserInfo", method = RequestMethod.POST)
+    public ResponseResult updateUserInfo(@RequestParam String nickName,
+                                         @RequestParam String avatarUrl,
+                                         HttpSession httpSession) {
+        User user = new User();
+        user.setNickName(nickName);
+        user.setAvatarUrl(avatarUrl);
+        user.setId(2);
+        if(pubService.updateUserInfo(user)){
+            Map<String, String> data = new HashMap<>();
+            //返回用户名
+            data.put("userName", user.getNickName());
+            return new ResponseResult(true, "001", "更新用户信息成功", data);
+        }
+        else return new ResponseResult(true, "002", "更新用户信息失败", null);
+    }
 }

@@ -40,4 +40,11 @@ public interface EventTypeMapper {
      * @return
      */
     EventType selectEventTypeById(int typeId);
+
+    /**
+     * 更新EventType信息
+     * @param eventType
+     * @return
+     */
+    int updateEventTypeInfo(EventType eventType);
 }

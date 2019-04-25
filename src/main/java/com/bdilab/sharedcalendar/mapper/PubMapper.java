@@ -9,5 +9,5 @@ public interface PubMapper {
     User selectUserById(int user_id);
     User selectUserByOpenid(String open_id);
     int insertUser(User user);
-
+    int updateUserInfo(User user);
 }

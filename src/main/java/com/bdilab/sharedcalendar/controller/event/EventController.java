@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class EventController {
@@ -38,47 +35,42 @@ public class EventController {
                                       @RequestParam(value = "fkTypeId") Integer fkTypeId,
                                       @RequestParam(value = "eventFrequency") Integer eventFrequency,
                                       @RequestParam(value = "eventEndCondition") Integer eventEndCondition,
-                                      @RequestParam(value = "repeatEndTime") Date repeatEndTime,
-                                      @RequestParam(value = "repeatTimes") Integer repeatTimes,
+                                      @RequestParam(value = "repeatEndTime",required = false) Date repeatEndTime,
+                                      @RequestParam(value = "repeatTimes",required = false) Integer repeatTimes,
                                       @RequestParam(value = "noticeChoice") Integer noticeChoice,
                                       @RequestParam(value = "eventContent") String eventContent,
                                       HttpSession httpSession) throws Exception{
         ResponseResult responseResult = new ResponseResult();
         Event event = new Event();
-        try{
-            Integer creatorId = (Integer) httpSession.getAttribute("openID");
-            event.setFkCreatorId(creatorId);
-            event.setEventName(eventName);
-            event.setStartTime(startTime);
-            event.setEndTime(endTime);
-            event.setFkTypeId(fkTypeId);
-            event.setEventFrequency(eventFrequency);
-            event.setNoticeChoice(noticeChoice);
-            event.setEventContent(eventContent);
-            event.setEventEndCondition(eventEndCondition);
-            //重复次数初始化为0
-            event.setRepeatTimes(0);
-            //重复截止时间初始化为null
-            event.setRepeatEndTime(null);
-            //当前重复次数初始化为0
-            event.setCurrentRepeatTimes(0);
-            //重复终止条件为0设置重复次数，重复终止条件为1设置重复截止时间，否则不设置
-            if(eventEndCondition == 0){
-                event.setRepeatTimes(repeatTimes);
-            }else if (eventEndCondition == 1){
-                event.setRepeatEndTime(repeatEndTime);
-            }else {
+        Integer creatorId = (Integer) httpSession.getAttribute("openID");
+        event.setFkCreatorId(creatorId);
+        event.setEventName(eventName);
+        event.setStartTime(startTime);
+        event.setEndTime(endTime);
+        event.setFkTypeId(fkTypeId);
+        event.setEventFrequency(eventFrequency);
+        event.setNoticeChoice(noticeChoice);
+        event.setEventContent(eventContent);
+        event.setEventEndCondition(eventEndCondition);
+        //重复次数初始化为0
+        event.setRepeatTimes(0);
+        //重复截止时间初始化为null
+        event.setRepeatEndTime(null);
+        //当前重复次数初始化为0
+        event.setCurrentRepeatTimes(0);
+        //重复终止条件为0设置重复次数，重复终止条件为1设置重复截止时间，否则不设置
+        if(eventEndCondition == 0){
+            event.setRepeatTimes(repeatTimes);
+        }else if (eventEndCondition == 1){
+            event.setRepeatEndTime(repeatEndTime);
+        }else {
 
-            }
-            if(eventService.createEvent(event)){
-                responseResult.setSuccess(true);
-                responseResult.setCode("301");
-                responseResult.setMessage("添加日程成功");
-            }
-        }catch (Exception e){
-            responseResult.setSuccess(false);
-            responseResult.setCode("302");
-            responseResult.setMessage("添加日程失败");
+        }
+        if(eventService.createEvent(event)){
+            responseResult.setSuccess(true);
+            responseResult.setCode("301");
+            responseResult.setMessage("添加日程成功");
+            responseResult.setData(event);
         }
         return responseResult;
     }
@@ -91,40 +83,41 @@ public class EventController {
     @ResponseBody
     @RequestMapping(value = "event/updateEvent", method = RequestMethod.POST)
     public ResponseResult updateEvent(@RequestParam(value = "eventId") Integer eventId,
-                                      @RequestParam(value = "eventName") String eventName,
-                                      @RequestParam(value = "startTime")Date startTime,
-                                      @RequestParam(value = "endTime") Date endTime,
-                                      @RequestParam(value = "fkTypeId") Integer fkTypeId,
-                                      @RequestParam(value = "eventFrequency") Integer eventFrequency,
-                                      @RequestParam(value = "eventEndCondition") Integer eventEndCondition,
-                                      @RequestParam(value = "repeatEndTime") Date repeatEndTime,
-                                      @RequestParam(value = "repeatTimes") Integer repeatTimes,
-                                      @RequestParam(value = "noticeChoice") Integer noticeChoice,
-                                      @RequestParam(value = "eventContent") String eventContent,
+                                      @RequestParam(value = "eventName",required = false) String eventName,
+                                      @RequestParam(value = "startTime",required = false)Date startTime,
+                                      @RequestParam(value = "endTime",required = false) Date endTime,
+                                      @RequestParam(value = "fkTypeId",required = false) Integer fkTypeId,
+                                      @RequestParam(value = "eventFrequency",required = false) Integer eventFrequency,
+                                      @RequestParam(value = "eventEndCondition",required = false) Integer eventEndCondition,
+                                      @RequestParam(value = "repeatEndTime",required = false) Date repeatEndTime,
+                                      @RequestParam(value = "repeatTimes",required = false) Integer repeatTimes,
+                                      @RequestParam(value = "noticeChoice",required = false) Integer noticeChoice,
+                                      @RequestParam(value = "eventContent",required = false) String eventContent,
                                       HttpSession httpSession) throws Exception{
         ResponseResult responseResult = new ResponseResult();
         //Integer creatorId = (Integer) httpSession.getAttribute("openID");
         Event event = eventService.selectEventById(eventId);
-        event.setEventName(eventName);
-        event.setStartTime(startTime);
-        event.setEndTime(endTime);
-        event.setFkTypeId(fkTypeId);
-        event.setEventFrequency(eventFrequency);
-        event.setNoticeChoice(noticeChoice);
-        event.setEventContent(eventContent);
-        event.setEventEndCondition(eventEndCondition);
+        if (eventName!=null){event.setEventName(eventName);}
+        if (startTime!=null){event.setStartTime(startTime);}
+        if (endTime!=null){event.setEndTime(endTime);}
+        if (fkTypeId!=null){event.setFkTypeId(fkTypeId);}
+        if (eventFrequency!=null){event.setEventFrequency(eventFrequency);}
+        if (noticeChoice!=null){event.setNoticeChoice(noticeChoice);}
+        if (eventContent!=null)event.setEventContent(eventContent);
+        if (eventEndCondition!=null){event.setEventEndCondition(eventEndCondition);}
         //重复终止条件为0设置重复次数，重复终止条件为1设置重复截止时间，否则不设置
-        if(eventEndCondition == 0){
+        if(eventEndCondition!=null && eventEndCondition== 0){
             event.setRepeatTimes(repeatTimes);
-        }else if (eventEndCondition == 1){
+        }else if (eventEndCondition!=null && eventEndCondition == 1){
             event.setRepeatEndTime(repeatEndTime);
         }else {
 
         }
-        if(eventService.upadateEvent(event)){
+        if(eventService.updateEvent(event)){
             responseResult.setSuccess(true);
             responseResult.setCode("401");
             responseResult.setMessage("更新日程成功");
+            responseResult.setData(event);
         }else {
             responseResult.setSuccess(false);
             responseResult.setCode("402");
@@ -138,18 +131,20 @@ public class EventController {
      */
     @ResponseBody
     @RequestMapping(value = "event/deleteEvent", method = RequestMethod.POST)
-    public ResponseResult deleteEvent(@RequestParam("eventId") Integer eventId) throws Exception{
-        ResponseResult responseResult = new ResponseResult();
-        if (eventService.deleteEvent(eventId)){
-            responseResult.setSuccess(true);
-            responseResult.setCode("501");
-            responseResult.setMessage("删除日程成功");
-        }else {
-            responseResult.setSuccess(false);
-            responseResult.setCode("502");
-            responseResult.setMessage("删除日程失败");
+    public ResponseResult deleteEvent(@RequestParam("eventIds") String eventIds) throws Exception{
+        String[] stringEventIds = eventIds.split(",");
+        if (stringEventIds.length==0){
+            return new ResponseResult(false,"003","日程id为空");
         }
-        return responseResult;
+        List<Integer> listEventIds = new ArrayList<>();
+        for (String s:stringEventIds){
+            listEventIds.add(Integer.valueOf(s));
+        }
+        if (eventService.deleteEvent(listEventIds)){
+            return new ResponseResult(true,"001","删除多条日程成功",listEventIds);
+        }else {
+            return new ResponseResult(false,"002","删除多条日程失败");
+        }
     }
 
     /**

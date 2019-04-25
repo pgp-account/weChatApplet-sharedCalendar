@@ -53,4 +53,15 @@
         where event_type.id= #{typeId}
     </select>
 
+    <!--更新EventType信息-->
+    <update id="updateEventTypeInfo"  parameterType="com.bdilab.sharedcalendar.model.EventType">
+        update event_type
+        <trim prefix="set" suffixOverrides=",">
+            <if test="typeName!=null">type_name=#{typeName},</if>
+            <if test="typeTransparency!=-1">type_transparency=#{typeTransparency},</if>
+            <if test="typeDescrption!=null">type_descrption=#{typeDescrption}</if>
+        </trim>
+        where event_type.id=#{id}
+    </update>
+
 </mapper>

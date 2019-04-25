@@ -61,7 +61,7 @@ public class EventTypeController {
     }
 
     /**
-     * 获取用户日程类型列表信息
+     * 获取用户自己创建的日程类型列表信息
      */
     @ResponseBody
     @RequestMapping(value = "/eventtype/getEventTypeList", method = RequestMethod.GET)
@@ -76,6 +76,30 @@ public class EventTypeController {
         responseResult.setData(data);
         responseResult.setMeta(new MetaData( true,"001","获取用户所有日程类型列表成功"));
         return responseResult;
+    }
+
+    /**
+     * 用户更新日程类型信息
+     * @param typeId 类型id
+     * @param typeName 类型名
+     * @param typeDescrption 类型描述
+     * @param typeTransparency 类型可视度
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/eventtype/updateEventTypeInfo", method = RequestMethod.POST)
+    public ResponseResult updateEventTypeInfo(@RequestParam int typeId,
+                                              @RequestParam String typeName,
+                                              @RequestParam String typeDescrption,
+                                              @RequestParam(defaultValue = "-1") int typeTransparency) {
+        EventType eventType = new EventType();
+        eventType.setId(typeId);
+        if(!typeName.equals("")) eventType.setTypeName(typeName);
+        eventType.setTypeTransparency(typeTransparency);
+        if(!typeDescrption.equals("")) eventType.setTypeDescrption(typeDescrption);
+        if(eventTypeService.updateEventTypeInfo(eventType))
+            return new ResponseResult(false,"001","更新成功");
+        return new ResponseResult(false,"001","更新失败");
     }
 
     /**
@@ -95,7 +119,7 @@ public class EventTypeController {
         System.out.println("multiMsgIds="+eventTypeIds);
         String[] messageIds=eventTypeIds.split(",");
         if(messageIds.length==0){
-            return new ResponseResult(false,"04006","参数错误，日程类型id为空");
+            return new ResponseResult(false,"002","参数错误，日程类型id为空");
         }
 
         List<Integer> list=new ArrayList<>();
@@ -110,6 +134,5 @@ public class EventTypeController {
         }
 
         return new ResponseResult(true,"001","删除日程类型成功",null);
-
     }
 }

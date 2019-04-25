@@ -72,4 +72,12 @@ public class PubServiceImpl implements PubService {
         return null;
     }
 
+    public boolean updateUserInfo(User user){
+        return pubMapper.updateUserInfo(user)==1;
+    }
+
+    @Override
+    public boolean insertUser(User user) {
+        return pubMapper.insertUser(user)==1;
+    }
 }

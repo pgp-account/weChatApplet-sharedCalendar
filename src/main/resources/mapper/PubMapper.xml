@@ -32,6 +32,13 @@
         INSERT INTO user(user_openid) VALUES (#{userOpenid});
     </insert>
 
+    <!--更新用户信息-->
+    <update id="updateUserInfo" parameterType="com.bdilab.sharedcalendar.model.User">
+        UPDATE user
+        SET user.nick_name = #{nickName}, user.avatar_url = #{avatarUrl}
+        WHERE user.id = #{id}
+    </update>
+
     <!--为用户新建默认类型-->
     <insert id="insertDefaultEventType" useGeneratedKeys="true" keyProperty="id" parameterType="com.bdilab.sharedcalendar.model.EventType">
         INSERT INTO event_type(type_name, type_transparency, fk_creator_id, create_time,subscriber_num) VALUES (#{typeName}, #{typeTransparency}, #{fkCreatorId}, #{createTime},#{subscriberNum});

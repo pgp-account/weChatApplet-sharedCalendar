@@ -27,6 +27,7 @@ public class EventTypeServiceImpl implements EventTypeService {
     }
 
     public List<EventType> getEventTypeList(int userId){
+        //用户自己创建的日程类型
         return eventTypeMapper.selectEventTypeByUserId(userId);
     }
 
@@ -53,5 +54,15 @@ public class EventTypeServiceImpl implements EventTypeService {
             }
         }
         eventTypeMapper.deleteEventType(eventTypeIds);
+    }
+
+    @Override
+    public boolean updateEventTypeInfo(EventType eventType) {
+        return eventTypeMapper.updateEventTypeInfo(eventType)==1;
+    }
+
+    @Override
+    public EventType getEventTypeById(int typeId) {
+        return eventTypeMapper.selectEventTypeById(typeId);
     }
 }

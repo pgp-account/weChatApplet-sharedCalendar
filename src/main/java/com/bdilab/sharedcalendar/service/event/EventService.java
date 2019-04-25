@@ -30,14 +30,14 @@ public interface EventService {
      * @param event
      * @return
      */
-    boolean upadateEvent(Event event);
+    boolean updateEvent(Event event);
 
     /**
      * 删除日程
-     * @param event_id
+     * @param eventIds
      * @return
      */
-    boolean deleteEvent(int event_id);
+    boolean deleteEvent(List<Integer> eventIds);
 
     List<EventVO> getEventVOsByDate(Date startTime, Date endTime, int userId);
 }

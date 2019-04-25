@@ -25,11 +25,7 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public boolean createEvent(Event event) {
-        boolean result = eventInfoMapper.selectEventById(event.getId()) == null;
-        if(result){
-            eventInfoMapper.insertEvent(event);
-            return true;
-        }
+        if(eventInfoMapper.insertEvent(event)==1) return true;
         return false;
     }
 
@@ -40,7 +36,7 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public Event selectEventById(Integer event_id) {
-        return null;
+        return eventInfoMapper.selectEventById(event_id);
     }
 
     /**
@@ -61,28 +57,21 @@ public class EventServiceImpl implements EventService {
      * @return
      */
     @Override
-    public boolean upadateEvent(Event event) {
-        boolean result = eventInfoMapper.selectEventById(event.getId()) != null;
-        if (result){
-            eventInfoMapper.updateEvent(event);
-            return true;
-        }
+    public boolean updateEvent(Event event) {
+        if (eventInfoMapper.updateEvent(event)==1) return true;
         return false;
     }
 
     /**
      * 删除日程
-     * @param event_id
+     * @param eventIds
      * @return
      */
     @Override
-    public boolean deleteEvent(int event_id) {
-        boolean result = eventInfoMapper.selectEventById(event_id) != null;
-        if (result){
-            eventInfoMapper.deleteEvent(event_id);
-            return true;
-        }
-        return false;
+    public boolean deleteEvent(List<Integer> eventIds) {
+        eventInfoMapper.deleteEvent(eventIds);
+        return true;
+
     }
 
     @Override

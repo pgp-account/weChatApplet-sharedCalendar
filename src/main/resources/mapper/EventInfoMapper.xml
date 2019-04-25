@@ -38,12 +38,15 @@
         update event set event_name=#{eventName},start_time=#{startTime},end_time=#{endTime},fk_type_id=#{fkTypeId},
         event_content=#{eventContent},event_frequency=#{eventFrequency},event_end_condition=#{eventEndCondition},repeat_end_time=#{repeatEndTime},
         repeat_times=#{repeatTimes},current_repeat_times=#{currentRepeatTimes},notice_choice=#{noticeChoice}
-        where id=#{id} and fk_creator_id=#{fkCreatorId}
+        where id=#{id}
     </update>
 
     <!--删除日程-->
-    <delete id="deleteEvent" parameterType="Integer">
-        delete from event where id=#{event_id}
+    <delete id="deleteEvent" >
+        delete from event where id in
+        <foreach collection="eventIds" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
     </delete>
 
     <!--删除特定日程类型下的全部日程-->
