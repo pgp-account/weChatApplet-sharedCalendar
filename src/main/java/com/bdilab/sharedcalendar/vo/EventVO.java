@@ -21,6 +21,8 @@ public class EventVO {
      */
     private String eventName;
 
+    private Integer fkTypeId;
+
     /**
      * 日程内容
      */
@@ -86,7 +88,9 @@ public class EventVO {
         this.currentRepeatTimes = event.getCurrentRepeatTimes();
         this.repeatTimes = event.getRepeatTimes();
         this.eventFrequency = event.getEventFrequency();
+        this.fkTypeId = event.getFkTypeId();
     }
+
 
     public void setId(Integer id) {
         this.id = id;
@@ -138,6 +142,14 @@ public class EventVO {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public void setTypeId(Integer fkTypeId) {
+        this.fkTypeId = fkTypeId;
+    }
+
+    public Integer getTypeId() {
+        return fkTypeId;
     }
 
     public Date getEndTime() {
