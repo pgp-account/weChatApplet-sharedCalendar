@@ -42,7 +42,7 @@ public class EventController {
                                       HttpSession httpSession) throws Exception{
         ResponseResult responseResult = new ResponseResult();
         Event event = new Event();
-        Integer creatorId = (Integer) httpSession.getAttribute("openID");
+        Integer creatorId = (Integer) httpSession.getAttribute("user_id");
         event.setFkCreatorId(creatorId);
         event.setEventName(eventName);
         event.setStartTime(startTime);
@@ -95,7 +95,6 @@ public class EventController {
                                       @RequestParam(value = "eventContent",required = false) String eventContent,
                                       HttpSession httpSession) throws Exception{
         ResponseResult responseResult = new ResponseResult();
-        //Integer creatorId = (Integer) httpSession.getAttribute("openID");
         Event event = eventService.selectEventById(eventId);
         if (eventName!=null){event.setEventName(eventName);}
         if (startTime!=null){event.setStartTime(startTime);}

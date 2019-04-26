@@ -67,7 +67,7 @@ public class EventTypeController {
     @RequestMapping(value = "/eventtype/getEventTypeList", method = RequestMethod.GET)
     public ResponseResult getEventTypeList(HttpSession httpSession) {
         int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
-        //int userId = 2;
+        //int userId = 3;
         List<EventType> eventTypes = eventTypeService.getEventTypeList(userId);
         ResponseResult responseResult = new ResponseResult();
         Map<String ,Object> data = new HashMap<>();
