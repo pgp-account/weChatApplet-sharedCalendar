@@ -92,6 +92,18 @@ public class EventServiceImpl implements EventService {
 
                 System.out.println(date);
                 eventVO.setStartTime(date);
+                //对于按重复次数终结的日程，为其设置已重复次数
+                if(event.getEventEndCondition()==0){
+                    long timeInterval = 24 * 60 * 60 * 1000;
+                    //每周重复日程
+                    if(event.getEventFrequency()==2) timeInterval = 24 * 60 * 60 * 1000 * 7;
+                    long repeatedTimes;
+                    if(event.getStartTime().getTime()<date.getTime())
+                        repeatedTimes = (date.getTime()-event.getStartTime().getTime())/(timeInterval)+1;
+                    else repeatedTimes = 0;
+                    eventVO.setCurrentRepeatTimes((int)repeatedTimes);
+                }
+
                 eventVO.setEndTime(new Date(date.getTime()+duration));
                 eventVOs.add(eventVO);
             }

@@ -89,14 +89,14 @@ public class EventTypeController {
     @ResponseBody
     @RequestMapping(value = "/eventtype/updateEventTypeInfo", method = RequestMethod.POST)
     public ResponseResult updateEventTypeInfo(@RequestParam int typeId,
-                                              @RequestParam String typeName,
-                                              @RequestParam String typeDescrption,
-                                              @RequestParam(defaultValue = "-1") int typeTransparency) {
+                                              @RequestParam(required = false) String typeName,
+                                              @RequestParam(required = false) String typeDescrption,
+                                              @RequestParam(required = false) Integer typeTransparency) {
         EventType eventType = new EventType();
         eventType.setId(typeId);
-        if(!typeName.equals("")) eventType.setTypeName(typeName);
+        eventType.setTypeName(typeName);
         eventType.setTypeTransparency(typeTransparency);
-        if(!typeDescrption.equals("")) eventType.setTypeDescrption(typeDescrption);
+        eventType.setTypeDescrption(typeDescrption);
         if(eventTypeService.updateEventTypeInfo(eventType))
             return new ResponseResult(false,"001","更新成功");
         return new ResponseResult(false,"001","更新失败");

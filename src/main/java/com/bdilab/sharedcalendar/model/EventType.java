@@ -28,7 +28,7 @@ public class EventType {
      *
      * @mbg.generated Sat Mar 30 15:00:05 CST 2019
      */
-    private int typeTransparency;
+    private Integer typeTransparency;
 
     /**
      *
@@ -122,7 +122,7 @@ public class EventType {
      *
      * @mbg.generated Sat Mar 30 15:00:05 CST 2019
      */
-    public int getTypeTransparency() {
+    public Integer getTypeTransparency() {
         return typeTransparency;
     }
 
@@ -134,7 +134,7 @@ public class EventType {
      *
      * @mbg.generated Sat Mar 30 15:00:05 CST 2019
      */
-    public void setTypeTransparency(int typeTransparency) {
+    public void setTypeTransparency(Integer typeTransparency) {
         this.typeTransparency = typeTransparency;
     }
 

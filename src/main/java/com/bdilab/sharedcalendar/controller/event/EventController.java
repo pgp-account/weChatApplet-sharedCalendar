@@ -158,9 +158,9 @@ public class EventController {
     @RequestMapping(value = "event/getEventListByTime", method = RequestMethod.POST)
     public ResponseResult getEvents(@RequestParam Date startTime,
                                     @RequestParam Date endTime,
-                                    @RequestParam HttpSession httpSession) throws Exception{
+                                    HttpSession httpSession) throws Exception{
         int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
-        //int userId = 2;
+//        int userId = 2;
 //        String date = "2019-05-11 00:00:00";
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //        startTime = sdf.parse(date);

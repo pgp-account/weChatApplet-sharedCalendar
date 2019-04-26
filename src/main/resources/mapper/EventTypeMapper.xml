@@ -58,7 +58,7 @@
         update event_type
         <trim prefix="set" suffixOverrides=",">
             <if test="typeName!=null">type_name=#{typeName},</if>
-            <if test="typeTransparency!=-1">type_transparency=#{typeTransparency},</if>
+            <if test="typeTransparency!=null">type_transparency=#{typeTransparency},</if>
             <if test="typeDescrption!=null">type_descrption=#{typeDescrption}</if>
         </trim>
         where event_type.id=#{id}
