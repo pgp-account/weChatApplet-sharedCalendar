@@ -2,6 +2,7 @@ package com.bdilab.sharedcalendar.service.eventtype.impl;
 
 import com.bdilab.sharedcalendar.mapper.EventInfoMapper;
 import com.bdilab.sharedcalendar.mapper.EventTypeMapper;
+import com.bdilab.sharedcalendar.mapper.PubMapper;
 import com.bdilab.sharedcalendar.mapper.UuidRelationMapper;
 import com.bdilab.sharedcalendar.model.Event;
 import com.bdilab.sharedcalendar.model.EventType;
@@ -9,6 +10,7 @@ import com.bdilab.sharedcalendar.model.SubscribedRelation;
 import com.bdilab.sharedcalendar.model.UuidRelation;
 import com.bdilab.sharedcalendar.service.eventtype.EventTypeService;
 import com.bdilab.sharedcalendar.utils.UuidGenerator;
+import com.bdilab.sharedcalendar.vo.SubEventTypeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,9 @@ public class EventTypeServiceImpl implements EventTypeService {
     @Autowired
     private UuidRelationMapper uuidRelationMapper;
 
+    @Autowired
+    private PubMapper pubMapper;
+
     public boolean createEventType(EventType eventType){
         if(eventTypeMapper.insertEventType(eventType)==1) return true;
         return false;
@@ -38,15 +43,18 @@ public class EventTypeServiceImpl implements EventTypeService {
     }
 
     @Override
-    public List<EventType> getEventSubTypeList(int userId) {
+    public List<SubEventTypeVO> getEventSubTypeList(int userId) {
         //用户订阅的日程类型
         List<SubscribedRelation> SRlist = uuidRelationMapper.selectSubscribedRelationByUserId(userId);
-        List<EventType> eventTypes = new ArrayList<>();
+        List<SubEventTypeVO> subEventTypeVOS = new ArrayList<>();
         for (SubscribedRelation sr:SRlist
              ) {
-            eventTypes.add(eventTypeMapper.selectEventTypeById(sr.getFkTypeId()));
+            SubEventTypeVO subEventTypeVO = new SubEventTypeVO(eventTypeMapper.selectEventTypeById(sr.getFkTypeId()));
+            subEventTypeVO.setSubscribedDate(sr.getSubscribeTime());
+            subEventTypeVO.setCreatorName(pubMapper.selectUserById(sr.getFkCreatorId()).getNickName());
+            subEventTypeVOS.add(subEventTypeVO);
         }
-        return eventTypes;
+        return subEventTypeVOS;
     }
 
     //删除日程类型，同时删除其下的日程

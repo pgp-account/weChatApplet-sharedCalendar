@@ -6,6 +6,7 @@ import com.bdilab.sharedcalendar.model.Event;
 import com.bdilab.sharedcalendar.model.EventType;
 import com.bdilab.sharedcalendar.model.UuidRelation;
 import com.bdilab.sharedcalendar.service.eventtype.EventTypeService;
+import com.bdilab.sharedcalendar.vo.SubEventTypeVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -86,11 +87,11 @@ public class EventTypeController {
     public ResponseResult getSubEventTypeList(HttpSession httpSession) {
         int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
         //int userId = 2;
-        List<EventType> eventTypes = eventTypeService.getEventSubTypeList(userId);
+        List<SubEventTypeVO> subEventTypeVOS = eventTypeService.getEventSubTypeList(userId);
         ResponseResult responseResult = new ResponseResult();
         Map<String ,Object> data = new HashMap<>();
-        data.put("EventTypes",eventTypes);
-        data.put("Total",eventTypes.size());
+        data.put("SubscribedEventTypes",subEventTypeVOS);
+        data.put("Total",subEventTypeVOS.size());
         responseResult.setData(data);
         responseResult.setMeta(new MetaData( true,"001","获取用户订阅日程类型列表成功"));
         return responseResult;

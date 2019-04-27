@@ -56,10 +56,10 @@ public class UuidRelationController {
         int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
         //int userId = 2;
         int typeId = uuidRelationService.getShareCodeStatus(shareCode,userId);
-        if(uuidRelationService.isMine(userId,typeId)) return new ResponseResult(false,"002","订阅失败，不可以订阅自己创建的类型哦",null);
+
         if(typeId == 0) return new ResponseResult(false,"002","订阅失败，该分享链接已被使用或已过期，或您已订阅过该类型",null);
         else{
-
+            if(uuidRelationService.isMine(userId,typeId)) return new ResponseResult(false,"002","订阅失败，不可以订阅自己创建的类型哦",null);
             if(uuidRelationService.subscribeEventType(shareCode,userId,typeId))
                 return new ResponseResult(true,"001","订阅成功",null);
         }

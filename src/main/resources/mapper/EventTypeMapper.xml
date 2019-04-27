@@ -64,4 +64,16 @@
         where event_type.id=#{id}
     </update>
 
+    <update id="increaseSubNum"  parameterType="Integer">
+        update event_type
+        set event_type.subscriber_num=event_type.subscriber_num+1
+        where event_type.id=#{id}
+    </update>
+
+    <update id="decreaseSubNum"  parameterType="Integer">
+        update event_type
+        set event_type.subscriber_num=event_type.subscriber_num-1
+        where event_type.id=#{id}
+    </update>
+
 </mapper>

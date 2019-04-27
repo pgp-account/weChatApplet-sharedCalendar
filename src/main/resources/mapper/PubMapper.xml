@@ -6,12 +6,11 @@
 
 <mapper namespace="com.bdilab.sharedcalendar.mapper.PubMapper">
 
-
     <!--查询个人信息-->
     <select id="selectUserById" parameterType="int" resultType="com.bdilab.sharedcalendar.model.User">
                 select user.id as id,
-                       user.user_name as userName,
-                       user.user_pswd as userPswd,
+                       user.nick_name as userName,
+                       user.avatar_url as avatarUrl,
                        user.user_openid as userOpenid
                 from user
                 where user.id= #{id}

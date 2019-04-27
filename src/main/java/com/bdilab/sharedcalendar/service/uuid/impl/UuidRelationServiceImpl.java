@@ -19,6 +19,11 @@ public class UuidRelationServiceImpl implements UuidRelationService {
     @Autowired
     EventTypeMapper eventTypeMapper;
 
+    /**
+     * 获取shareCode
+     * @param typeId
+     * @return
+     */
     public UuidRelation generateShareCode(int typeId){
         if(eventTypeMapper.selectEventTypeById(typeId)!=null){
             UuidRelation uuidRelation = new UuidRelation();
@@ -34,12 +39,14 @@ public class UuidRelationServiceImpl implements UuidRelationService {
         return null;
     }
 
-    @Override
-    public boolean isMine(int userId, int typeId) {
-        EventType eventType = eventTypeMapper.selectEventTypeById(typeId);
-        return eventType.getFkCreatorId()==userId;
-    }
 
+
+    /**
+     * 检测shareCode是否可用
+     * @param shareCode
+     * @param userId
+     * @return
+     */
     @Override
     public Integer getShareCodeStatus(String shareCode,int userId) {
         UuidRelation uuidRelation = uuidRelationMapper.selectUuidRelationByUuid(shareCode);
@@ -49,6 +56,13 @@ public class UuidRelationServiceImpl implements UuidRelationService {
         return 0;
     }
 
+    /**
+     * 订阅
+     * @param shareCode
+     * @param userId
+     * @param typeId
+     * @return
+     */
     @Override
     public boolean subscribeEventType(String shareCode,int userId,int typeId) {
         SubscribedRelation subscribedRelation = new SubscribedRelation();
@@ -57,11 +71,43 @@ public class UuidRelationServiceImpl implements UuidRelationService {
         subscribedRelation.setFkUserId(userId);
         subscribedRelation.setFkCreatorId(eventTypeMapper.selectEventTypeById(typeId).getFkCreatorId());
         subscribedRelation.setSubscribeTime(new Date());
-        return uuidRelationMapper.insertSubscribeRelation(subscribedRelation)==1;
+        //插入SubscribeRelation表
+        if(uuidRelationMapper.insertSubscribeRelation(subscribedRelation)==1){
+            //将shareCode设为已使用
+            uuidRelationMapper.setIsUsed(uuidRelation.getId(),1);
+            //增加订阅人
+            eventTypeMapper.increaseSubNum(typeId);
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * 取消订阅
+     * @param userId
+     * @param typeId
+     * @return
+     */
     @Override
     public boolean cancelSubscribe(int userId, int typeId) {
-        return uuidRelationMapper.deleteByUserIdAndTypeId(userId,typeId)==1;
+
+        if(uuidRelationMapper.deleteByUserIdAndTypeId(userId,typeId)==1){
+            //减少订阅人
+            eventTypeMapper.decreaseSubNum(typeId);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 检测日程类型是否属于用户
+     * @param userId
+     * @param typeId
+     * @return
+     */
+    @Override
+    public boolean isMine(int userId, int typeId) {
+        EventType eventType = eventTypeMapper.selectEventTypeById(typeId);
+        return eventType.getFkCreatorId()==userId;
     }
 }

@@ -56,4 +56,10 @@
         where subscribed_relation.fk_user_id = #{userId}
     </select>
 
+    <update id="setIsUsed">
+        UPDATE uuid_relation
+        SET uuid_relation.is_used = #{isUsed}
+        WHERE uuid_relation.id = #{id}
+    </update>
+
 </mapper>

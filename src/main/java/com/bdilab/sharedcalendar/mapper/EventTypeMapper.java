@@ -47,4 +47,18 @@ public interface EventTypeMapper {
      * @return
      */
     int updateEventTypeInfo(EventType eventType);
+
+    /**
+     * 订阅日程后，subNum++
+     * @param typeId
+     * @return
+     */
+    int increaseSubNum(Integer typeId);
+
+    /**
+     * 取消订阅后，subNum--
+     * @param typeId
+     * @return
+     */
+    int decreaseSubNum(Integer typeId);
 }

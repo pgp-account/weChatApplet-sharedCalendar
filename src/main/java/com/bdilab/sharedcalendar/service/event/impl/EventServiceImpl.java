@@ -7,6 +7,7 @@ import com.bdilab.sharedcalendar.model.EventType;
 import com.bdilab.sharedcalendar.service.event.EventService;
 import com.bdilab.sharedcalendar.service.eventtype.EventTypeService;
 import com.bdilab.sharedcalendar.vo.EventVO;
+import com.bdilab.sharedcalendar.vo.SubEventTypeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -84,10 +85,10 @@ public class EventServiceImpl implements EventService {
         //用户自己创建的日程
         List<Event> events = eventInfoMapper.selectEventByUserId(userId);
         //该用户订阅的日程
-        List<EventType> eventTypes = eventTypeService.getEventSubTypeList(userId);
-        for (EventType eventType:eventTypes
+        List<SubEventTypeVO> subEventTypeVOS = eventTypeService.getEventSubTypeList(userId);
+        for (SubEventTypeVO subEventTypeVO:subEventTypeVOS
              ) {
-            events.addAll(eventInfoMapper.selectEventByEventType(eventType.getId()));
+            events.addAll(eventInfoMapper.selectEventByEventType(subEventTypeVO.getId()));
         }
 
         List<EventVO> eventVOs =  new ArrayList<>();
