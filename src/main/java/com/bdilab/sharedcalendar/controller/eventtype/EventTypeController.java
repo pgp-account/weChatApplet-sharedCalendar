@@ -6,6 +6,7 @@ import com.bdilab.sharedcalendar.model.Event;
 import com.bdilab.sharedcalendar.model.EventType;
 import com.bdilab.sharedcalendar.model.UuidRelation;
 import com.bdilab.sharedcalendar.service.eventtype.EventTypeService;
+import com.bdilab.sharedcalendar.vo.EventTypeInfoVO;
 import com.bdilab.sharedcalendar.vo.SubEventTypeVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +95,43 @@ public class EventTypeController {
         data.put("Total",subEventTypeVOS.size());
         responseResult.setData(data);
         responseResult.setMeta(new MetaData( true,"001","获取用户订阅日程类型列表成功"));
+        return responseResult;
+    }
+
+    /**
+     * 获取用户订阅的日程类型列表信息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/eventtype/getAllEventTypeList", method = RequestMethod.GET)
+    public ResponseResult getAllEventTypeList(HttpSession httpSession) {
+        int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
+        //int userId = 2;
+        List<SubEventTypeVO> subEventTypeVOS = eventTypeService.getEventSubTypeList(userId);
+        List<EventType> eventTypes = eventTypeService.getEventTypeList(userId);
+
+        ResponseResult responseResult = new ResponseResult();
+        Map<String ,Object> data = new HashMap<>();
+        data.put("Created Event Types",eventTypes);
+        data.put("CreatedEventTypes Total",eventTypes.size());
+        data.put("Subscribed Event Types",subEventTypeVOS);
+        data.put("SubscribedEventTypes Total",subEventTypeVOS.size());
+        responseResult.setData(data);
+        responseResult.setMeta(new MetaData( true,"001","获取用户所有日程类型列表成功"));
+        return responseResult;
+    }
+
+    /**
+     * 获取特定日程类型详细信息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/eventtype/getEventTypeInfo", method = RequestMethod.GET)
+    public ResponseResult getEventTypeInfo(@RequestParam int typeId, HttpSession httpSession) {
+        EventTypeInfoVO eventTypeInfoVO =  eventTypeService.getEventTypeInfoById(typeId);
+        ResponseResult responseResult = new ResponseResult();
+        Map<String ,Object> data = new HashMap<>();
+        data.put("EventType",eventTypeInfoVO);
+        responseResult.setData(data);
+        responseResult.setMeta(new MetaData( true,"001","获取日程类型详细信息成功"));
         return responseResult;
     }
 

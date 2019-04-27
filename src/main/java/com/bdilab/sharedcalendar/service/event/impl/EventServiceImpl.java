@@ -91,39 +91,49 @@ public class EventServiceImpl implements EventService {
             events.addAll(eventInfoMapper.selectEventByEventType(subEventTypeVO.getId()));
         }
 
-        List<EventVO> eventVOs =  new ArrayList<>();
-        for (Event event:events) {
-            List<Date> repeatStartTimeList = repeatStartTime(startTime,endTime,event);
-
-            for(Date date:repeatStartTimeList){
-                EventVO eventVO = new EventVO(event);
-                long duration = event.getEndTime().getTime()-event.getStartTime().getTime();
-                eventVO.setCreatorName(eventTypeMapper.selectCreatorNameByTypeId(event.getFkTypeId()));
-                eventVO.setEventTypeName(eventTypeMapper.selectEventTypeById(event.getFkTypeId()).getTypeName());
-                int noticeChoice = eventInfoMapper.selectEventById(event.getId()).getNoticeChoice();
-                if(noticeChoice==1) eventVO.setNoticeTime(new Date(date.getTime()-10*60*1000));
-                else if(noticeChoice==2) eventVO.setNoticeTime(new Date(date.getTime()-30*60*1000));
-
-                eventVO.setStartTime(date);
-                //对于按重复次数终结的日程，为其设置已重复次数
-                if(event.getEventEndCondition()==0){
-                    long timeInterval = 24 * 60 * 60 * 1000;
-                    //每周重复日程
-                    if(event.getEventFrequency()==2) timeInterval = 24 * 60 * 60 * 1000 * 7;
-                    long repeatedTimes;
-                    if(event.getStartTime().getTime()<date.getTime())
-                        repeatedTimes = (date.getTime()-event.getStartTime().getTime())/(timeInterval)+1;
-                    else repeatedTimes = 0;
-                    eventVO.setCurrentRepeatTimes((int)repeatedTimes);
-                }
-
-                eventVO.setEndTime(new Date(date.getTime()+duration));
-                eventVOs.add(eventVO);
-            }
-        }
-        return eventVOs;
+//        List<EventVO> eventVOs =  new ArrayList<>();
+////        for (Event event:events) {
+////            List<Date> repeatStartTimeList = repeatStartTime(startTime,endTime,event);
+////
+////            for(Date date:repeatStartTimeList){
+////                EventVO eventVO = new EventVO(event);
+////                long duration = event.getEndTime().getTime()-event.getStartTime().getTime();
+////                eventVO.setCreatorName(eventTypeMapper.selectCreatorNameByTypeId(event.getFkTypeId()));
+////                eventVO.setEventTypeName(eventTypeMapper.selectEventTypeById(event.getFkTypeId()).getTypeName());
+////                int noticeChoice = eventInfoMapper.selectEventById(event.getId()).getNoticeChoice();
+////                if(noticeChoice==1) eventVO.setNoticeTime(new Date(date.getTime()-10*60*1000));
+////                else if(noticeChoice==2) eventVO.setNoticeTime(new Date(date.getTime()-30*60*1000));
+////
+////                eventVO.setStartTime(date);
+////                //对于按重复次数终结的日程，为其设置已重复次数
+////                if(event.getEventEndCondition()==0){
+////                    long timeInterval = 24 * 60 * 60 * 1000;
+////                    //每周重复日程
+////                    if(event.getEventFrequency()==2) timeInterval = 24 * 60 * 60 * 1000 * 7;
+////                    long repeatedTimes;
+////                    if(event.getStartTime().getTime()<date.getTime())
+////                        repeatedTimes = (date.getTime()-event.getStartTime().getTime())/(timeInterval)+1;
+////                    else repeatedTimes = 0;
+////                    eventVO.setCurrentRepeatTimes((int)repeatedTimes);
+////                }
+////
+////                eventVO.setEndTime(new Date(date.getTime()+duration));
+////                eventVOs.add(eventVO);
+////            }
+////        }
+////        return eventVOs;
+        return getEventsByTime(events,startTime,endTime);
     }
-//1,1
+
+
+    @Override
+    public List<EventVO> getEventVOsByTypeAndTime(Date startTime,Date endTime,int typeId) {
+        //用户自己创建的日程
+        List<Event> events = eventInfoMapper.selectEventByEventType(typeId);
+        return getEventsByTime(events,startTime,endTime);
+    }
+
+    //1,1
     private List<Date> repeatStartTime(Date startTime, Date endTime, Event event){
         List<Date> dateList = new ArrayList<>();
         //不重复日程
@@ -139,7 +149,7 @@ public class EventServiceImpl implements EventService {
         long timeInterval = 24 * 60 * 60 * 1000;
         //每周重复日程
         if(event.getEventFrequency()==2) timeInterval = 24 * 60 * 60 * 1000 * 7;
-        //每年重复日程
+            //每年重复日程
         else if(event.getEventFrequency()==3){
             Calendar c = Calendar.getInstance();
             Date date = event.getStartTime();
@@ -183,17 +193,50 @@ public class EventServiceImpl implements EventService {
         }
         //无限重复
         else{
-                Date date;
-                if(event.getStartTime().getTime()<startTime.getTime())
-                    date = new Date(((startTime.getTime()-event.getStartTime().getTime())/( timeInterval)+1)* timeInterval+event.getStartTime().getTime());
-                else date = event.getStartTime();
-                while (date.getTime()<endTime.getTime()){
-                    dateList.add(date);
-                    date = new Date(date.getTime()+timeInterval);
-                }
+            Date date;
+            if(event.getStartTime().getTime()<startTime.getTime())
+                date = new Date(((startTime.getTime()-event.getStartTime().getTime())/( timeInterval)+1)* timeInterval+event.getStartTime().getTime());
+            else date = event.getStartTime();
+            while (date.getTime()<endTime.getTime()){
+                dateList.add(date);
+                date = new Date(date.getTime()+timeInterval);
+            }
 
         }
         return dateList;
     }
+
+    List<EventVO> getEventsByTime(List<Event> events,Date startTime,Date endTime){
+        List<EventVO> eventVOs =  new ArrayList<>();
+        for (Event event:events) {
+            List<Date> repeatStartTimeList = repeatStartTime(startTime,endTime,event);
+            for(Date date:repeatStartTimeList){
+                EventVO eventVO = new EventVO(event);
+                long duration = event.getEndTime().getTime()-event.getStartTime().getTime();
+                eventVO.setCreatorName(eventTypeMapper.selectCreatorNameByTypeId(event.getFkTypeId()));
+                eventVO.setEventTypeName(eventTypeMapper.selectEventTypeById(event.getFkTypeId()).getTypeName());
+                int noticeChoice = eventInfoMapper.selectEventById(event.getId()).getNoticeChoice();
+                if(noticeChoice==1) eventVO.setNoticeTime(new Date(date.getTime()-10*60*1000));
+                else if(noticeChoice==2) eventVO.setNoticeTime(new Date(date.getTime()-30*60*1000));
+                eventVO.setStartTime(date);
+                //对于按重复次数终结的日程，为其设置已重复次数
+                if(event.getEventEndCondition()==0){
+                    long timeInterval = 24 * 60 * 60 * 1000;
+                    //每周重复日程
+                    if(event.getEventFrequency()==2) timeInterval = 24 * 60 * 60 * 1000 * 7;
+                    long repeatedTimes;
+                    if(event.getStartTime().getTime()<date.getTime())
+                        repeatedTimes = (date.getTime()-event.getStartTime().getTime())/(timeInterval)+1;
+                    else repeatedTimes = 0;
+                    eventVO.setCurrentRepeatTimes((int)repeatedTimes);
+                }
+
+                eventVO.setEndTime(new Date(date.getTime()+duration));
+                eventVOs.add(eventVO);
+            }
+        }
+        return eventVOs;
+    }
+
 }
 

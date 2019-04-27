@@ -40,4 +40,6 @@ public interface EventService {
     boolean deleteEvent(List<Integer> eventIds);
 
     List<EventVO> getEventVOsByDate(Date startTime, Date endTime, int userId);
+
+    List<EventVO> getEventVOsByTypeAndTime(Date startTime,Date endTime, int typeId);
 }

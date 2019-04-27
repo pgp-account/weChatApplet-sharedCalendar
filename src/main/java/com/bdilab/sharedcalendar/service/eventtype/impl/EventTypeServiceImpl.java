@@ -10,6 +10,7 @@ import com.bdilab.sharedcalendar.model.SubscribedRelation;
 import com.bdilab.sharedcalendar.model.UuidRelation;
 import com.bdilab.sharedcalendar.service.eventtype.EventTypeService;
 import com.bdilab.sharedcalendar.utils.UuidGenerator;
+import com.bdilab.sharedcalendar.vo.EventTypeInfoVO;
 import com.bdilab.sharedcalendar.vo.SubEventTypeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,7 +95,10 @@ public class EventTypeServiceImpl implements EventTypeService {
     }
 
     @Override
-    public EventType getEventTypeById(int typeId) {
-        return eventTypeMapper.selectEventTypeById(typeId);
+    public EventTypeInfoVO getEventTypeInfoById(int typeId) {
+        EventType eventType =  eventTypeMapper.selectEventTypeById(typeId);
+        EventTypeInfoVO eventTypeInfoVO = new EventTypeInfoVO(eventType);
+        eventTypeInfoVO.setCreatorName(pubMapper.selectUserById(eventType.getFkCreatorId()).getNickName());
+        return eventTypeInfoVO;
     }
 }

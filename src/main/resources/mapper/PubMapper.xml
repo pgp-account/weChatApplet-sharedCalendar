@@ -9,7 +9,7 @@
     <!--查询个人信息-->
     <select id="selectUserById" parameterType="int" resultType="com.bdilab.sharedcalendar.model.User">
                 select user.id as id,
-                       user.nick_name as userName,
+                       user.nick_name as nickName,
                        user.avatar_url as avatarUrl,
                        user.user_openid as userOpenid
                 from user

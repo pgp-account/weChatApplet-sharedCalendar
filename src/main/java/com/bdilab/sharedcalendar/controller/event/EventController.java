@@ -159,7 +159,7 @@ public class EventController {
                                     @RequestParam Date endTime,
                                     HttpSession httpSession) throws Exception{
         int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
-//        int userId = 2;
+        //int userId = 2;
 //        String date = "2019-05-11 00:00:00";
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //        startTime = sdf.parse(date);
@@ -173,5 +173,28 @@ public class EventController {
         responseResult.setData(data);
         responseResult.setMeta(new MetaData( true,"001","获取用户所有日程成功"));
         return responseResult;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "event/getEventListByTypeAndTime", method = RequestMethod.POST)
+    public ResponseResult getEventListByTypeAndTime(@RequestParam int typeId,
+                                                    @RequestParam Date startTime,
+                                                    @RequestParam Date endTime,
+                                                    HttpSession httpSession) throws Exception{
+        //        int userId = 2;
+//        String date = "2019-05-11 00:00:00";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        startTime = sdf.parse(date);
+//        endTime = new Date(startTime.getTime() + 24 * 60 * 60 * 1000 * 7);
+
+        List<EventVO> eventVOs = eventService.getEventVOsByTypeAndTime(startTime,endTime, typeId);
+        ResponseResult responseResult = new ResponseResult();
+        Map<String ,Object> data = new HashMap<>();
+        data.put("EventVOs",eventVOs);
+        data.put("Total",eventVOs.size());
+        responseResult.setData(data);
+        responseResult.setMeta(new MetaData( true,"001","按类型获取日程成功"));
+        return responseResult;
+
     }
 }
