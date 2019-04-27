@@ -3,5 +3,8 @@ package com.bdilab.sharedcalendar.service.uuid;
 import com.bdilab.sharedcalendar.model.UuidRelation;
 
 public interface UuidRelationService {
-    public UuidRelation generateShareCode(int typeId);
+    UuidRelation generateShareCode(int typeId);
+    Integer getShareCodeStatus(String shareCode,int userId);
+    boolean subscribeEventType(String shareCode, int userId, int typeId);
+    boolean cancelSubscribe(int userId,int typeId);
 }

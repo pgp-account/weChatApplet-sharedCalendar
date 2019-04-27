@@ -57,6 +57,7 @@ public class EventVO {
      */
     private Integer repeatTimes;
 
+    private Integer noticeChoice;
     /**
      * 当前重复次数
      */
@@ -89,6 +90,7 @@ public class EventVO {
         this.repeatTimes = event.getRepeatTimes();
         this.eventFrequency = event.getEventFrequency();
         this.fkTypeId = event.getFkTypeId();
+        this.noticeChoice = event.getNoticeChoice();
     }
 
 
@@ -144,11 +146,20 @@ public class EventVO {
         this.endTime = endTime;
     }
 
-    public void setTypeId(Integer fkTypeId) {
+
+    public void setFkTypeId(Integer fkTypeId) {
         this.fkTypeId = fkTypeId;
     }
 
-    public Integer getTypeId() {
+    public void setNoticeChoice(Integer noticeChoice) {
+        this.noticeChoice = noticeChoice;
+    }
+
+    public Integer getNoticeChoice() {
+        return noticeChoice;
+    }
+
+    public Integer getFkTypeId() {
         return fkTypeId;
     }
 

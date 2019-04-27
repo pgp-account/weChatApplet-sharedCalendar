@@ -11,4 +11,49 @@
         INSERT INTO uuid_relation(fk_type_id, uuid, is_used, expire_time) VALUES (#{fkTypeId}, #{uuid}, #{isUsed}, #{expireTime});
     </insert>
 
+    <select id="selectUuidRelationByUuid" parameterType="String" resultType="com.bdilab.sharedcalendar.model.UuidRelation">
+        select uuid_relation.id as id,
+            uuid_relation.fk_type_id as fkTypeId,
+            uuid_relation.uuid as uuid,
+            uuid_relation.is_used as isUsed,
+            uuid_relation.expire_time as expireTime
+        from uuid_relation
+        where uuid_relation.uuid= #{shareCode}
+    </select>
+
+    <insert id="insertSubscribeRelation" useGeneratedKeys="true" keyProperty="id" parameterType="com.bdilab.sharedcalendar.model.SubscribedRelation">
+        INSERT INTO subscribed_relation(fk_type_id, fk_user_id, fk_creator_id, subscribe_time) VALUES (#{fkTypeId}, #{fkUserId}, #{fkCreatorId}, #{subscribeTime});
+    </insert>
+
+    <select id="selectSubscribedRelationByUserIdAndTypeId" resultType="com.bdilab.sharedcalendar.model.SubscribedRelation">
+        select subscribed_relation.id as id,
+            subscribed_relation.fk_type_id as fkTypeId,
+            subscribed_relation.fk_user_id as userId,
+            subscribed_relation.fk_creator_id as fkCreatorId,
+            subscribed_relation.subscribe_time as subscribeTime
+        from subscribed_relation
+        where subscribed_relation.fk_type_id= #{typeId} and subscribed_relation.fk_user_id = #{userId}
+    </select>
+
+
+    <delete id="deleteByUserIdAndTypeId">
+        delete from subscribed_relation
+        where subscribed_relation.fk_user_id = #{userId} and subscribed_relation.fk_type_id = #{typeId}
+    </delete>
+
+    <delete id="deleteByTypeId">
+        delete from subscribed_relation
+        where subscribed_relation.fk_type_id = #{typeId}
+    </delete>
+
+    <select id="selectSubscribedRelationByUserId" parameterType="int" resultType="com.bdilab.sharedcalendar.model.SubscribedRelation">
+        select subscribed_relation.id as id,
+               subscribed_relation.fk_type_id as fkTypeId,
+               subscribed_relation.fk_user_id as userId,
+               subscribed_relation.fk_creator_id as fkCreatorId,
+               subscribed_relation.subscribe_time as subscribeTime
+        from subscribed_relation
+        where subscribed_relation.fk_user_id = #{userId}
+    </select>
+
 </mapper>

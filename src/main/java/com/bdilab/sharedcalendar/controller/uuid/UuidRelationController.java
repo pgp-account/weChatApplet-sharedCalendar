@@ -46,12 +46,37 @@ public class UuidRelationController {
     /**
      * 订阅日程类型
      * 当该日程类型已被删除，需提醒用户
-     * @param typeId 类型id
+     * @param shareCode uuid
      * @param httpSession
      */
     @ResponseBody
-    @RequestMapping(value = "/uuid/subscribeEventType", method = RequestMethod.GET)
-    public ResponseResult subscribeEventType(@RequestParam int typeId, HttpSession httpSession) {
-        return new ResponseResult(false,"002","订阅失败",null);
+    @RequestMapping(value = "/uuid/subscribeEventType", method = RequestMethod.POST)
+    public ResponseResult subscribeEventType(@RequestParam String shareCode,
+                                             HttpSession httpSession) {
+        int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
+        //int userId = 2;
+        int typeId = uuidRelationService.getShareCodeStatus(shareCode,userId);
+        if(typeId == 0) return new ResponseResult(false,"002","订阅失败，该分享链接已被使用或已过期，或您已订阅过该类型",null);
+        else{
+
+            if(uuidRelationService.subscribeEventType(shareCode,userId,typeId))
+                return new ResponseResult(true,"001","订阅成功",null);
+        }
+        return new ResponseResult(false,"003","订阅失败",null);
+    }
+
+    /**
+     * 取消订阅
+     * @param typeId 类型id
+     */
+    @ResponseBody
+    @RequestMapping(value = "/uuid/cancelSubscribe", method = RequestMethod.POST)
+    public ResponseResult subscribeEventType(@RequestParam int typeId,
+                                             HttpSession httpSession) {
+        int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
+        //int userId = 2;
+        if(uuidRelationService.cancelSubscribe(userId,typeId))
+            return new ResponseResult(true,"001","取消订阅成功",null);
+        return new ResponseResult(false,"002","取消订阅失败",null);
     }
 }

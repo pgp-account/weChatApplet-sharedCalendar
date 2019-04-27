@@ -10,6 +10,7 @@ import java.util.List;
 public interface EventTypeService {
     boolean createEventType(EventType eventType);
     List<EventType> getEventTypeList(int userId);
+    List<EventType> getEventSubTypeList(int userId);
     EventType getEventTypeById(int typeId);
     void deleteEventTypes(List<Integer> eventTypeIds);
     void deleteEventTypes(List<Integer> eventTypeIds, int newEventTypeId);

@@ -3,7 +3,9 @@ package com.bdilab.sharedcalendar.service.event.impl;
 import com.bdilab.sharedcalendar.mapper.EventInfoMapper;
 import com.bdilab.sharedcalendar.mapper.EventTypeMapper;
 import com.bdilab.sharedcalendar.model.Event;
+import com.bdilab.sharedcalendar.model.EventType;
 import com.bdilab.sharedcalendar.service.event.EventService;
+import com.bdilab.sharedcalendar.service.eventtype.EventTypeService;
 import com.bdilab.sharedcalendar.vo.EventVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventTypeMapper eventTypeMapper;
+
+    @Autowired
+    private EventTypeService eventTypeService;
     /**
      * 创建日程
      */
@@ -76,7 +81,15 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventVO> getEventVOsByDate(Date startTime, Date endTime, int userId){
+        //用户自己创建的日程
         List<Event> events = eventInfoMapper.selectEventByUserId(userId);
+        //该用户订阅的日程
+        List<EventType> eventTypes = eventTypeService.getEventSubTypeList(userId);
+        for (EventType eventType:eventTypes
+             ) {
+            events.addAll(eventInfoMapper.selectEventByEventType(eventType.getId()));
+        }
+
         List<EventVO> eventVOs =  new ArrayList<>();
         for (Event event:events) {
             List<Date> repeatStartTimeList = repeatStartTime(startTime,endTime,event);
@@ -90,7 +103,6 @@ public class EventServiceImpl implements EventService {
                 if(noticeChoice==1) eventVO.setNoticeTime(new Date(date.getTime()-10*60*1000));
                 else if(noticeChoice==2) eventVO.setNoticeTime(new Date(date.getTime()-30*60*1000));
 
-                System.out.println(date);
                 eventVO.setStartTime(date);
                 //对于按重复次数终结的日程，为其设置已重复次数
                 if(event.getEventEndCondition()==0){

@@ -79,6 +79,24 @@ public class EventTypeController {
     }
 
     /**
+     * 获取用户订阅的日程类型列表信息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/eventtype/getSubEventTypeList", method = RequestMethod.GET)
+    public ResponseResult getSubEventTypeList(HttpSession httpSession) {
+        int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
+        //int userId = 2;
+        List<EventType> eventTypes = eventTypeService.getEventSubTypeList(userId);
+        ResponseResult responseResult = new ResponseResult();
+        Map<String ,Object> data = new HashMap<>();
+        data.put("EventTypes",eventTypes);
+        data.put("Total",eventTypes.size());
+        responseResult.setData(data);
+        responseResult.setMeta(new MetaData( true,"001","获取用户订阅日程类型列表成功"));
+        return responseResult;
+    }
+
+    /**
      * 用户更新日程类型信息
      * @param typeId 类型id
      * @param typeName 类型名
