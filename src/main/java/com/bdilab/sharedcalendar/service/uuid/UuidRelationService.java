@@ -7,4 +7,5 @@ public interface UuidRelationService {
     Integer getShareCodeStatus(String shareCode,int userId);
     boolean subscribeEventType(String shareCode, int userId, int typeId);
     boolean cancelSubscribe(int userId,int typeId);
+    boolean isMine(int userId,int typeId);
 }

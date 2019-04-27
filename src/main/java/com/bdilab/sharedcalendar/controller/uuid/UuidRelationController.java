@@ -32,7 +32,7 @@ public class UuidRelationController {
      * @param httpSession
      */
     @ResponseBody
-    @RequestMapping(value = "/uuid/generateShareCode", method = RequestMethod.GET)
+    @RequestMapping(value = "/uuid/generateShareCode", method = RequestMethod.POST)
     public ResponseResult generateShareCode(@RequestParam int typeId, HttpSession httpSession) {
         UuidRelation uuidRelation = uuidRelationService.generateShareCode(typeId);
         if(uuidRelation!=null) {
@@ -56,6 +56,7 @@ public class UuidRelationController {
         int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
         //int userId = 2;
         int typeId = uuidRelationService.getShareCodeStatus(shareCode,userId);
+        if(uuidRelationService.isMine(userId,typeId)) return new ResponseResult(false,"002","订阅失败，不可以订阅自己创建的类型哦",null);
         if(typeId == 0) return new ResponseResult(false,"002","订阅失败，该分享链接已被使用或已过期，或您已订阅过该类型",null);
         else{
 

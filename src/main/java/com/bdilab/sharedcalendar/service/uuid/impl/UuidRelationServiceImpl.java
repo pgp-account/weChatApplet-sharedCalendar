@@ -35,6 +35,12 @@ public class UuidRelationServiceImpl implements UuidRelationService {
     }
 
     @Override
+    public boolean isMine(int userId, int typeId) {
+        EventType eventType = eventTypeMapper.selectEventTypeById(typeId);
+        return eventType.getFkCreatorId()==userId;
+    }
+
+    @Override
     public Integer getShareCodeStatus(String shareCode,int userId) {
         UuidRelation uuidRelation = uuidRelationMapper.selectUuidRelationByUuid(shareCode);
         //未被删除且未使用且未过期且之前未订阅过该类型
@@ -57,6 +63,5 @@ public class UuidRelationServiceImpl implements UuidRelationService {
     @Override
     public boolean cancelSubscribe(int userId, int typeId) {
         return uuidRelationMapper.deleteByUserIdAndTypeId(userId,typeId)==1;
-
     }
 }
