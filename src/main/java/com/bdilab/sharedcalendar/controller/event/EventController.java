@@ -43,6 +43,13 @@ public class EventController {
         ResponseResult responseResult = new ResponseResult();
         Event event = new Event();
         Integer creatorId = (Integer) httpSession.getAttribute("user_id");
+//        String date = "2019-05-11 12:00:00";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        startTime = sdf.parse(date);
+//        endTime = new Date(startTime.getTime() + 60 * 60 * 1000);
+//        int creatorId =5;
+
+
         event.setFkCreatorId(creatorId);
         event.setEventName(eventName);
         event.setStartTime(startTime);

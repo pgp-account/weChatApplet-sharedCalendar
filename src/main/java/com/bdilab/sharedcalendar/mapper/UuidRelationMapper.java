@@ -15,6 +15,7 @@ public interface UuidRelationMapper {
     int deleteByUserIdAndTypeId(@Param("userId")int userId,@Param("typeId")int typeId);
     int deleteByTypeId(@Param("typeId")int typeId);
     List<SubscribedRelation> selectSubscribedRelationByUserId(int userId);
+    List<SubscribedRelation> selectSubscribedRelationByTypeId(int typeId);
     int setIsUsed(@Param("id")int id,@Param("isUsed")int isUsed);
 
 }

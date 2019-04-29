@@ -1,10 +1,14 @@
 package com.bdilab.sharedcalendar.service.uuid.impl;
 
+import com.bdilab.sharedcalendar.common.enums.MessageType;
 import com.bdilab.sharedcalendar.mapper.EventTypeMapper;
+import com.bdilab.sharedcalendar.mapper.MessageMapper;
 import com.bdilab.sharedcalendar.mapper.UuidRelationMapper;
 import com.bdilab.sharedcalendar.model.EventType;
+import com.bdilab.sharedcalendar.model.Message;
 import com.bdilab.sharedcalendar.model.SubscribedRelation;
 import com.bdilab.sharedcalendar.model.UuidRelation;
+import com.bdilab.sharedcalendar.service.message.MessageService;
 import com.bdilab.sharedcalendar.service.uuid.UuidRelationService;
 import com.bdilab.sharedcalendar.utils.UuidGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +22,8 @@ public class UuidRelationServiceImpl implements UuidRelationService {
     UuidRelationMapper uuidRelationMapper;
     @Autowired
     EventTypeMapper eventTypeMapper;
-
+    @Autowired
+    MessageService messageService;
     /**
      * 获取shareCode
      * @param typeId
@@ -77,6 +82,14 @@ public class UuidRelationServiceImpl implements UuidRelationService {
             uuidRelationMapper.setIsUsed(uuidRelation.getId(),1);
             //增加订阅人
             eventTypeMapper.increaseSubNum(typeId);
+            //发送消息
+            Message message = new Message();
+            message.setIsRead(0);
+            message.setFkMsgSender(subscribedRelation.getFkUserId());
+            message.setFkMsgReciever(subscribedRelation.getFkCreatorId());
+            message.setCreateTime(new Date());
+            message.setFkEventType(subscribedRelation.getFkTypeId());
+            messageService.sendMessage(message, MessageType.SUBSCRIBE);
             return true;
         }
         return false;
@@ -90,10 +103,20 @@ public class UuidRelationServiceImpl implements UuidRelationService {
      */
     @Override
     public boolean cancelSubscribe(int userId, int typeId) {
-
+        //System.out.println("userID="+userId+"\ntypeID="+typeId);
+        SubscribedRelation subscribedRelation = uuidRelationMapper.selectSubscribedRelationByUserIdAndTypeId(userId,typeId);
+        //System.out.println("userID:"+subscribedRelation.getFkUserId());
         if(uuidRelationMapper.deleteByUserIdAndTypeId(userId,typeId)==1){
             //减少订阅人
             eventTypeMapper.decreaseSubNum(typeId);
+            //发送消息
+            Message message = new Message();
+            message.setIsRead(0);
+            message.setFkMsgSender(subscribedRelation.getFkUserId());
+            message.setFkMsgReciever(subscribedRelation.getFkCreatorId());
+            message.setCreateTime(new Date());
+            message.setFkEventType(subscribedRelation.getFkTypeId());
+            messageService.sendMessage(message, MessageType.CANCEL_SUB);
             return true;
         }
         return false;

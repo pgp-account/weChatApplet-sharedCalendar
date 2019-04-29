@@ -41,7 +41,7 @@
         tableName:数据库中对应的表
         schema:该表对应的实体类名
         -->
-        <table tableName="event" schema="Event"/>
+        <table tableName="message" schema="Message"/>
 
 
             <!-- optional   , only for mybatis3 runtime

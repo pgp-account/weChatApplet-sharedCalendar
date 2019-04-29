@@ -28,7 +28,7 @@
     <select id="selectSubscribedRelationByUserIdAndTypeId" resultType="com.bdilab.sharedcalendar.model.SubscribedRelation">
         select subscribed_relation.id as id,
             subscribed_relation.fk_type_id as fkTypeId,
-            subscribed_relation.fk_user_id as userId,
+            subscribed_relation.fk_user_id as fkUserId,
             subscribed_relation.fk_creator_id as fkCreatorId,
             subscribed_relation.subscribe_time as subscribeTime
         from subscribed_relation
@@ -49,11 +49,21 @@
     <select id="selectSubscribedRelationByUserId" parameterType="int" resultType="com.bdilab.sharedcalendar.model.SubscribedRelation">
         select subscribed_relation.id as id,
                subscribed_relation.fk_type_id as fkTypeId,
-               subscribed_relation.fk_user_id as userId,
+               subscribed_relation.fk_user_id as fkUserId,
                subscribed_relation.fk_creator_id as fkCreatorId,
                subscribed_relation.subscribe_time as subscribeTime
         from subscribed_relation
         where subscribed_relation.fk_user_id = #{userId}
+    </select>
+
+    <select id="selectSubscribedRelationByTypeId" parameterType="int" resultType="com.bdilab.sharedcalendar.model.SubscribedRelation">
+        select subscribed_relation.id as id,
+               subscribed_relation.fk_type_id as fkTypeId,
+               subscribed_relation.fk_user_id as fkUserId,
+               subscribed_relation.fk_creator_id as fkCreatorId,
+               subscribed_relation.subscribe_time as subscribeTime
+        from subscribed_relation
+        where subscribed_relation.fk_type_id = #{typeId}
     </select>
 
     <update id="setIsUsed">

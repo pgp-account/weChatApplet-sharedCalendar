@@ -99,7 +99,7 @@ public class EventTypeController {
     }
 
     /**
-     * 获取用户订阅的日程类型列表信息
+     * 获取用户所有的日程类型列表信息
      */
     @ResponseBody
     @RequestMapping(value = "/eventtype/getAllEventTypeList", method = RequestMethod.GET)
@@ -173,7 +173,7 @@ public class EventTypeController {
     public ResponseResult deleteEventTypes(@RequestParam String eventTypeIds,
                                            @RequestParam int operationType,
                                            @RequestParam(required = false,defaultValue = "0") int newEventType) {
-        System.out.println("multiMsgIds="+eventTypeIds);
+        System.out.println("eventTypeIds="+eventTypeIds);
         String[] messageIds=eventTypeIds.split(",");
         if(messageIds.length==0){
             return new ResponseResult(false,"002","参数错误，日程类型id为空");

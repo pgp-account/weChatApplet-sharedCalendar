@@ -1,11 +1,16 @@
 package com.bdilab.sharedcalendar.service.event.impl;
 
+import com.bdilab.sharedcalendar.common.enums.MessageType;
 import com.bdilab.sharedcalendar.mapper.EventInfoMapper;
 import com.bdilab.sharedcalendar.mapper.EventTypeMapper;
+import com.bdilab.sharedcalendar.mapper.UuidRelationMapper;
 import com.bdilab.sharedcalendar.model.Event;
 import com.bdilab.sharedcalendar.model.EventType;
+import com.bdilab.sharedcalendar.model.Message;
+import com.bdilab.sharedcalendar.model.SubscribedRelation;
 import com.bdilab.sharedcalendar.service.event.EventService;
 import com.bdilab.sharedcalendar.service.eventtype.EventTypeService;
+import com.bdilab.sharedcalendar.service.message.MessageService;
 import com.bdilab.sharedcalendar.vo.EventVO;
 import com.bdilab.sharedcalendar.vo.SubEventTypeVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +31,23 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventTypeService eventTypeService;
+
+    @Autowired
+    private MessageService messageService;
+
+    @Autowired
+    UuidRelationMapper uuidRelationMapper;
     /**
      * 创建日程
      */
     @Override
     public boolean createEvent(Event event) {
-        if(eventInfoMapper.insertEvent(event)==1) return true;
+        if(eventInfoMapper.insertEvent(event)==1) {
+            //给所有订阅该日程所属类型的用户发送消息
+            List<SubscribedRelation> subscribedRelations = uuidRelationMapper.selectSubscribedRelationByTypeId(event.getFkTypeId());
+            send(subscribedRelations,MessageType.CREATE_EVENT,event.getId());
+            return true;
+        }
         return false;
     }
 
@@ -64,7 +80,12 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public boolean updateEvent(Event event) {
-        if (eventInfoMapper.updateEvent(event)==1) return true;
+        if (eventInfoMapper.updateEvent(event)==1){
+            //给所有订阅该日程所属类型的用户发送消息
+            List<SubscribedRelation> subscribedRelations = uuidRelationMapper.selectSubscribedRelationByTypeId(event.getFkTypeId());
+            send(subscribedRelations,MessageType.UPDATE_EVENT,event.getId());
+            return true;
+        }
         return false;
     }
 
@@ -75,6 +96,12 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public boolean deleteEvent(List<Integer> eventIds) {
+        //给所有订阅该日程所属类型的用户发送消息
+        for (Integer eventId:eventIds
+             ) {
+            List<SubscribedRelation> subscribedRelations = uuidRelationMapper.selectSubscribedRelationByTypeId(eventInfoMapper.selectEventById(eventId).getFkTypeId());
+            send(subscribedRelations,MessageType.DELETE_EVENT,eventId);
+        }
         eventInfoMapper.deleteEvent(eventIds);
         return true;
 
@@ -91,37 +118,6 @@ public class EventServiceImpl implements EventService {
             events.addAll(eventInfoMapper.selectEventByEventType(subEventTypeVO.getId()));
         }
 
-//        List<EventVO> eventVOs =  new ArrayList<>();
-////        for (Event event:events) {
-////            List<Date> repeatStartTimeList = repeatStartTime(startTime,endTime,event);
-////
-////            for(Date date:repeatStartTimeList){
-////                EventVO eventVO = new EventVO(event);
-////                long duration = event.getEndTime().getTime()-event.getStartTime().getTime();
-////                eventVO.setCreatorName(eventTypeMapper.selectCreatorNameByTypeId(event.getFkTypeId()));
-////                eventVO.setEventTypeName(eventTypeMapper.selectEventTypeById(event.getFkTypeId()).getTypeName());
-////                int noticeChoice = eventInfoMapper.selectEventById(event.getId()).getNoticeChoice();
-////                if(noticeChoice==1) eventVO.setNoticeTime(new Date(date.getTime()-10*60*1000));
-////                else if(noticeChoice==2) eventVO.setNoticeTime(new Date(date.getTime()-30*60*1000));
-////
-////                eventVO.setStartTime(date);
-////                //对于按重复次数终结的日程，为其设置已重复次数
-////                if(event.getEventEndCondition()==0){
-////                    long timeInterval = 24 * 60 * 60 * 1000;
-////                    //每周重复日程
-////                    if(event.getEventFrequency()==2) timeInterval = 24 * 60 * 60 * 1000 * 7;
-////                    long repeatedTimes;
-////                    if(event.getStartTime().getTime()<date.getTime())
-////                        repeatedTimes = (date.getTime()-event.getStartTime().getTime())/(timeInterval)+1;
-////                    else repeatedTimes = 0;
-////                    eventVO.setCurrentRepeatTimes((int)repeatedTimes);
-////                }
-////
-////                eventVO.setEndTime(new Date(date.getTime()+duration));
-////                eventVOs.add(eventVO);
-////            }
-////        }
-////        return eventVOs;
         return getEventsByTime(events,startTime,endTime);
     }
 
@@ -236,6 +232,20 @@ public class EventServiceImpl implements EventService {
             }
         }
         return eventVOs;
+    }
+
+    void send(List<SubscribedRelation> subscribedRelations,MessageType messageType,int eventId){
+        System.out.println("length"+subscribedRelations.size());
+        for (SubscribedRelation subRel:subscribedRelations
+                ) {
+            Message message = new Message();
+            message.setIsRead(0);
+            message.setFkMsgSender(subRel.getFkCreatorId());
+            message.setFkMsgReciever(subRel.getFkUserId());
+            message.setCreateTime(new Date());
+            message.setFkEventId(eventId);
+            messageService.sendMessage(message, messageType);
+        }
     }
 
 }
