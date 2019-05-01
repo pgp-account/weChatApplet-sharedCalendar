@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bdilab.sharedcalendar.mapper.EventNoticeMapper">
+    <!--插入日程提醒-->
+    <insert id="insertEventNotice" useGeneratedKeys="true" keyProperty="id" parameterType="com.bdilab.sharedcalendar.model.EventNotice">
+        INSERT INTO event_notice(fk_type_id,fk_event_id,fk_user_id,notice_time,is_noticed) VALUES (#{fkTypeId},#{fkEventId},#{fkUserId},#{noticeTime},#{isNoticed});
+    </insert>
+    <!--获取日程提醒-->
+    <select id="getEventNotice" parameterType="int" resultType="com.bdilab.sharedcalendar.model.EventNotice">
+        select id,fk_type_id as fkTypeId,fk_event_id as fkEventId,fk_user_id as fkUserId,notice_time as noticeTime,is_noticed as isNoticed
+        from event_notice where id=#{noticeId}
+    </select>
+    <!--获取用户的日程提醒-->
+    <select id="selectEventNoticeByUserId" parameterType="int" resultType="com.bdilab.sharedcalendar.model.EventNotice">
+        select id,fk_type_id as fkTypeId,fk_event_id as fkEventId,fk_user_id as fkUserId,notice_time as noticeTime,is_noticed as isNoticed
+        from event_notice where fk_user_id=#{userId} and is_noticed=0
+    </select>
+    <!--设置提醒状态为已提醒-->
+    <update id="setIsNotice">
+        update event_notice set is_noticed=1 where id=#{noticeId}
+    </update>
+    <!--修改日程提醒时间-->
+    <update id="setNoticeTime">
+        update event_notice set notice_time=#{noticeTime} where id=#{noticeId}
+    </update>
+    <!--删除日程提醒-->
+    <delete id="deleteEventNotice" parameterType="Integer">
+        delete from event_notice where id=#{noticeId}
+    </delete>
+</mapper>

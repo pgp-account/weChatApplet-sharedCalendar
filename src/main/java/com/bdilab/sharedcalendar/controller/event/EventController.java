@@ -3,8 +3,10 @@ package com.bdilab.sharedcalendar.controller.event;
 import com.bdilab.sharedcalendar.common.response.MetaData;
 import com.bdilab.sharedcalendar.common.response.ResponseResult;
 import com.bdilab.sharedcalendar.model.Event;
+import com.bdilab.sharedcalendar.model.EventNotice;
 import com.bdilab.sharedcalendar.service.event.EventService;
 
+import com.bdilab.sharedcalendar.service.eventnotice.EventNoticeService;
 import com.bdilab.sharedcalendar.vo.EventVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,8 @@ import java.util.*;
 public class EventController {
     @Autowired
     private EventService eventService;
-
+    @Autowired
+    private EventNoticeService eventNoticeService;
     /**
      * 创建日程
      * @return
@@ -42,6 +45,7 @@ public class EventController {
                                       HttpSession httpSession) throws Exception{
         ResponseResult responseResult = new ResponseResult();
         Event event = new Event();
+        EventNotice eventNotice = new EventNotice();
         Integer creatorId = (Integer) httpSession.getAttribute("user_id");
 //        String date = "2019-05-11 12:00:00";
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -74,11 +78,25 @@ public class EventController {
 
         }
         if(eventService.createEvent(event)){
-            responseResult.setSuccess(true);
-            responseResult.setCode("301");
-            responseResult.setMessage("添加日程成功");
-            responseResult.setData(event);
+            switch (noticeChoice){
+                case 0:
+                    eventNotice = null;
+                    break;
+                case 1:
+                    eventNotice = eventNoticeService.createEventNotice(event.getFkTypeId(),event.getId(),event.getFkCreatorId(),new Date(event.getStartTime().getTime()-10*60*1000));
+                    break;
+                case 2:
+                    eventNotice = eventNoticeService.createEventNotice(event.getFkTypeId(),event.getId(),event.getFkCreatorId(),new Date(event.getStartTime().getTime()-30*60*1000));
+                    break;
+            }
         }
+        Map<String,Object> data = new HashMap<>();
+        data.put("event",event);
+        data.put("eventNotice",eventNotice);
+        responseResult.setSuccess(true);
+        responseResult.setCode("301");
+        responseResult.setMessage("添加日程成功");
+        responseResult.setData(data);
         return responseResult;
     }
 
@@ -90,6 +108,7 @@ public class EventController {
     @ResponseBody
     @RequestMapping(value = "event/updateEvent", method = RequestMethod.POST)
     public ResponseResult updateEvent(@RequestParam(value = "eventId") Integer eventId,
+                                      @RequestParam(value = "noticeId",required = false) Integer noticeId,
                                       @RequestParam(value = "eventName",required = false) String eventName,
                                       @RequestParam(value = "startTime",required = false)Date startTime,
                                       @RequestParam(value = "endTime",required = false) Date endTime,
@@ -103,33 +122,91 @@ public class EventController {
                                       HttpSession httpSession) throws Exception{
         ResponseResult responseResult = new ResponseResult();
         Event event = eventService.selectEventById(eventId);
+        EventNotice eventNotice = new EventNotice();
         if (eventName!=null){event.setEventName(eventName);}
         if (startTime!=null){event.setStartTime(startTime);}
         if (endTime!=null){event.setEndTime(endTime);}
         if (fkTypeId!=null){event.setFkTypeId(fkTypeId);}
         if (eventFrequency!=null){event.setEventFrequency(eventFrequency);}
-        if (noticeChoice!=null){event.setNoticeChoice(noticeChoice);}
         if (eventContent!=null)event.setEventContent(eventContent);
         if (eventEndCondition!=null){event.setEventEndCondition(eventEndCondition);}
         //重复终止条件为0设置重复次数，重复终止条件为1设置重复截止时间，否则不设置
-        if(eventEndCondition!=null && eventEndCondition== 0){
-            event.setRepeatTimes(repeatTimes);
-        }else if (eventEndCondition!=null && eventEndCondition == 1){
-            event.setRepeatEndTime(repeatEndTime);
-        }else {
-
+        if (eventEndCondition!=null){
+            event.setEventEndCondition(eventEndCondition);
+            //重复终止条件为0设置重复次数，重复终止条件为1设置重复截止时间，否则不设置
+            if(eventEndCondition == 0){
+                event.setRepeatTimes(repeatTimes);
+            }else if (eventEndCondition == 1){
+                event.setRepeatEndTime(repeatEndTime);
+            }
         }
-        if(eventService.updateEvent(event)){
-            responseResult.setSuccess(true);
-            responseResult.setCode("401");
-            responseResult.setMessage("更新日程成功");
-            responseResult.setData(event);
+        if (noticeId!=null){
+            switch (noticeChoice){
+                case 0:
+                    eventNoticeService.deleteEventNoticeById(noticeId);
+                    eventNotice = null;
+                    break;
+                case 1:
+                    eventNoticeService.resetNoticeTime(noticeId,new Date(event.getStartTime().getTime()-10*60*1000));
+                    eventNotice = eventNoticeService.selectEventNoticeById(noticeId);
+                    break;
+                case 2:
+                    eventNoticeService.resetNoticeTime(noticeId,new Date(event.getStartTime().getTime()-30*60*1000));
+                    eventNotice = eventNoticeService.selectEventNoticeById(noticeId);
+                    break;
+            }
+            event.setNoticeChoice(noticeChoice);
         }else {
-            responseResult.setSuccess(false);
-            responseResult.setCode("402");
-            responseResult.setMessage("更新日程失败");
+            switch (noticeChoice){
+                case 0:
+                    eventNotice = null;
+                    break;
+                case 1:
+                    eventNotice = eventNoticeService.createEventNotice(event.getFkTypeId(),event.getId(),event.getFkCreatorId(),new Date(event.getStartTime().getTime()-10*60*1000));
+                    break;
+                case 2:
+                    eventNotice = eventNoticeService.createEventNotice(event.getFkTypeId(),event.getId(),event.getFkCreatorId(),new Date(event.getStartTime().getTime()-30*60*1000));
+                    break;
+            }
+            event.setNoticeChoice(noticeChoice);
         }
+        eventService.updateEvent(event);
+        Map<String,Object> data = new HashMap<>();
+        data.put("event",event);
+        data.put("eventNotice",eventNotice);
+        responseResult.setSuccess(true);
+        responseResult.setCode("401");
+        responseResult.setMessage("更新日程成功");
+        responseResult.setData(data);
         return responseResult;
+    }
+
+    /**
+     * 查看日程
+     * @param eventIds
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "event/selectEvent",method = RequestMethod.POST)
+    public ResponseResult selectEvent(@RequestParam("eventIds") String eventIds) throws Exception{
+        String[] stringEventIds = eventIds.split(",");
+        List<Event> events = new ArrayList<>();
+        if (stringEventIds.length==0){
+            return new ResponseResult(false,"003","日程id为空");
+        }
+        for (String s:stringEventIds){
+            Event event = eventService.selectEventById(Integer.valueOf(s));
+            if (event!=null) events.add(event);
+        }
+        Map<String,Object> data = new HashMap<>();
+        data.put("events",events);
+        data.put("total",events.size());
+        if (events.size()>0){
+            return new ResponseResult(true,"001","查看多条日程成功",data);
+        }else {
+            return new ResponseResult(false,"002","查看多条日程失败",data);
+        }
     }
 
     /**
