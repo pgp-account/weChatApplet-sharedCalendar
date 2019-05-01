@@ -80,4 +80,9 @@ public class PubServiceImpl implements PubService {
     public boolean insertUser(User user) {
         return pubMapper.insertUser(user)==1;
     }
+
+    @Override
+    public User getUserInfo(Integer userId) {
+        return pubMapper.selectUserById(userId);
+    }
 }

@@ -6,4 +6,5 @@ public interface PubService {
     User userSignIn(String rescode);
     boolean updateUserInfo(User user);
     boolean insertUser(User user);
+    User getUserInfo(Integer userId);
 }

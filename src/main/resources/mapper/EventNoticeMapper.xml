@@ -14,6 +14,11 @@
         select id,fk_type_id as fkTypeId,fk_event_id as fkEventId,fk_user_id as fkUserId,notice_time as noticeTime,is_noticed as isNoticed
         from event_notice where id=#{noticeId}
     </select>
+    <!--获取日程id提醒-->
+    <select id="selectEventNoticeByEventId" parameterType="int" resultType="com.bdilab.sharedcalendar.model.EventNotice">
+        select id,fk_type_id as fkTypeId,fk_event_id as fkEventId,fk_user_id as fkUserId,notice_time as noticeTime,is_noticed as isNoticed
+        from event_notice where fk_event_id=#{eventId} and is_noticed=0
+    </select>
     <!--获取用户的日程提醒-->
     <select id="selectEventNoticeByUserId" parameterType="int" resultType="com.bdilab.sharedcalendar.model.EventNotice">
         select id,fk_type_id as fkTypeId,fk_event_id as fkEventId,fk_user_id as fkUserId,notice_time as noticeTime,is_noticed as isNoticed

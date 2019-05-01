@@ -7,6 +7,9 @@ import com.bdilab.sharedcalendar.model.EventNotice;
 import com.bdilab.sharedcalendar.service.event.EventService;
 
 import com.bdilab.sharedcalendar.service.eventnotice.EventNoticeService;
+import com.bdilab.sharedcalendar.service.eventtype.EventTypeService;
+import com.bdilab.sharedcalendar.service.pub.PubService;
+import com.bdilab.sharedcalendar.vo.EventTypeInfoVO;
 import com.bdilab.sharedcalendar.vo.EventVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,10 @@ public class EventController {
     private EventService eventService;
     @Autowired
     private EventNoticeService eventNoticeService;
+    @Autowired
+    private EventTypeService eventTypeService;
+    @Autowired
+    private PubService pubService;
     /**
      * 创建日程
      * @return
@@ -183,29 +190,24 @@ public class EventController {
 
     /**
      * 查看日程
-     * @param eventIds
+     * @param eventId
      * @return
      * @throws Exception
      */
     @ResponseBody
     @RequestMapping(value = "event/selectEvent",method = RequestMethod.POST)
-    public ResponseResult selectEvent(@RequestParam("eventIds") String eventIds) throws Exception{
-        String[] stringEventIds = eventIds.split(",");
-        List<Event> events = new ArrayList<>();
-        if (stringEventIds.length==0){
-            return new ResponseResult(false,"003","日程id为空");
-        }
-        for (String s:stringEventIds){
-            Event event = eventService.selectEventById(Integer.valueOf(s));
-            if (event!=null) events.add(event);
-        }
-        Map<String,Object> data = new HashMap<>();
-        data.put("events",events);
-        data.put("total",events.size());
-        if (events.size()>0){
-            return new ResponseResult(true,"001","查看多条日程成功",data);
+    public ResponseResult selectEvent(@RequestParam("eventId") Integer eventId) throws Exception{
+        Event event = eventService.selectEventById(eventId);
+        EventVO eventVO = new EventVO(event);
+        //System.out.println("event type id "+event.getFkTypeId());
+        EventTypeInfoVO eventTypeInfoVO = eventTypeService.getEventTypeInfoById(event.getFkTypeId());
+        eventVO.setEventTypeName(eventTypeInfoVO.getTypeName());
+        eventVO.setNoticeTime(eventNoticeService.selectEventNoticeByEventId(eventId).getNoticeTime());
+        eventVO.setCreatorName(pubService.getUserInfo(event.getFkCreatorId()).getNickName());
+        if (eventVO!=null){
+            return new ResponseResult(true,"001","查看日程成功",eventVO);
         }else {
-            return new ResponseResult(false,"002","查看多条日程失败",data);
+            return new ResponseResult(false,"002","查看日程失败",eventVO);
         }
     }
 

@@ -51,6 +51,11 @@ public class EventNoticeServiceImpl implements EventNoticeService {
         return eventNoticeMapper.selectEventNoticeByUserId(userId);
     }
 
+    @Override
+    public EventNotice selectEventNoticeByEventId(Integer eventId) {
+        return eventNoticeMapper.selectEventNoticeByEventId(eventId);
+    }
+
     /**
      * 修改日程的提醒状态为已提醒
      * @param noticeId

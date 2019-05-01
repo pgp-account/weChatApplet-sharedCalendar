@@ -18,6 +18,13 @@ public interface EventNoticeMapper {
      * @param noticeId
      */
     EventNotice getEventNotice(Integer noticeId);
+
+    /**
+     * 获取日程id当前未提醒的提醒
+     * @param eventId
+     * @return
+     */
+    EventNotice selectEventNoticeByEventId(@Param("eventId") Integer eventId);
     /**
      * 获取用户的提醒日程
      */

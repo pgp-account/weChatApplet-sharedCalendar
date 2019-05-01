@@ -27,6 +27,13 @@ public interface EventNoticeService {
      * @return
      */
     List<EventNotice> getEventNoticeByUserId(Integer userId);
+
+    /**
+     * 获取日程id的当前未提醒的提醒
+     * @param eventId
+     * @return
+     */
+    EventNotice selectEventNoticeByEventId(Integer eventId);
     /**
      * 设置提醒状态为已提醒
      * @param noticeId
