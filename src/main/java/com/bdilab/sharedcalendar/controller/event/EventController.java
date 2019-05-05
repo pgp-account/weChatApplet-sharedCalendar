@@ -199,11 +199,16 @@ public class EventController {
     public ResponseResult selectEvent(@RequestParam("eventId") Integer eventId) throws Exception{
         Event event = eventService.selectEventById(eventId);
         EventVO eventVO = new EventVO(event);
+        EventNotice eventNotice = new EventNotice();
+        if ((eventNotice=eventNoticeService.selectEventNoticeByEventId(eventId))!=null){
+            eventVO.setNoticeTime(eventNotice.getNoticeTime());
+        }
+        String nickName = pubService.getUserInfo(event.getFkCreatorId()).getNickName();
+        if (nickName!=null) eventVO.setCreatorName(nickName);
         //System.out.println("event type id "+event.getFkTypeId());
         EventTypeInfoVO eventTypeInfoVO = eventTypeService.getEventTypeInfoById(event.getFkTypeId());
         eventVO.setEventTypeName(eventTypeInfoVO.getTypeName());
-        eventVO.setNoticeTime(eventNoticeService.selectEventNoticeByEventId(eventId).getNoticeTime());
-        eventVO.setCreatorName(pubService.getUserInfo(event.getFkCreatorId()).getNickName());
+
         if (eventVO!=null){
             return new ResponseResult(true,"001","查看日程成功",eventVO);
         }else {
