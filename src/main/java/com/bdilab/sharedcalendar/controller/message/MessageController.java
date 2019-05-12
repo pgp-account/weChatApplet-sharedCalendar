@@ -39,8 +39,8 @@ public class MessageController {
     @ResponseBody
     @RequestMapping(value = "/message/getMessages", method = RequestMethod.GET)
     public ResponseResult getMessages(HttpSession httpSession) {
-        int userId = 3;
-        //int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
+        //int userId = 3;
+        int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
         List<Message> messages = messageService.getMessagesByUserId(userId);
         ResponseResult responseResult = new ResponseResult();
         Map<String ,Object> data = new HashMap<>();

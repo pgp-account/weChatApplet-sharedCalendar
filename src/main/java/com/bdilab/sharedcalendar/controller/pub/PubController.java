@@ -82,6 +82,23 @@ public class PubController {
         }
         return new ResponseResult(false, "002", "登陆失败，rescode无效", null);
 
+//            httpSession.setAttribute("user_id", 2);
+//            //httpSession.setAttribute("user_id", 2);
+//            session_id = httpSession.getId();
+//            System.out.println("session_id = " + httpSession.getId());
+//            Map<String, String> data = new HashMap<>();
+//            //返回session_id给前端缓存
+//            try{
+//                //对session_id进行编码，不然无法解析
+//                BASE64Encoder encoder = new BASE64Encoder();
+//                session_id = encoder.encode(session_id.getBytes("UTF-8"));
+//                System.out.println(session_id);
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+//            data.put("session_id", session_id);
+//            return new ResponseResult(true, "001", "登录成功", data);
+
     }
     /**
      * 获取用户信息，用户打开小程序时授权可以获得userInfo信息，在用户登录小程序后，发送到后端作为用户数据保存
