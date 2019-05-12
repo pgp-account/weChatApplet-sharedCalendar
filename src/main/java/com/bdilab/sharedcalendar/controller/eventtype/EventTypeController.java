@@ -137,10 +137,23 @@ public class EventTypeController {
 
     /**
      * 用户更新日程类型信息
+     * 现在的逻辑下，一个能见度为“分享可见”的类型，
+     * 被几个人订阅后，如果创建者修改了它的能见度为“仅自己可见”，会出现一些问题：
+     * 1、已经订阅该类型的用户能不能继续订阅
+     * 2、已经订阅该类型的能不能分享该类型
+     * 对于问题1，我们给用户提供这个选择
+     * （1）不让这些用户继续订阅
+     * （2）已订阅的可以继续订阅
+     * 对于问题2，已经订阅该类型的应当不能分享该类型
+     * 用户分享类型时，无论是否是类型的创建者，都需要根据透明度来判断是否能进行分享。
      * @param typeId 类型id
      * @param typeName 类型名
      * @param typeDescrption 类型描述
      * @param typeTransparency 类型可视度
+     * @param operationType 操作类型，当将typeTransparency由1为0时，需要该参数：
+     *                          1、不让这些用户继续订阅
+     *                          2、已订阅的可以继续订阅
+     *
      * @return
      */
     @ResponseBody
@@ -148,13 +161,21 @@ public class EventTypeController {
     public ResponseResult updateEventTypeInfo(@RequestParam int typeId,
                                               @RequestParam(required = false) String typeName,
                                               @RequestParam(required = false) String typeDescrption,
-                                              @RequestParam(required = false) Integer typeTransparency) {
+                                              @RequestParam(required = false) Integer typeTransparency,
+                                              @RequestParam(required = false)Integer operationType) {
         EventType eventType = new EventType();
         eventType.setId(typeId);
         eventType.setTypeName(typeName);
         eventType.setTypeTransparency(typeTransparency);
         eventType.setTypeDescrption(typeDescrption);
-        if(eventTypeService.updateEventTypeInfo(eventType))
+        if(typeTransparency!=null){
+            if(typeTransparency==0){
+                if(eventTypeService.updateEventTypeInfo(eventType,operationType))
+                    return new ResponseResult(false,"001","更新成功");
+                return new ResponseResult(false,"001","更新失败");
+            }
+        }
+        if(eventTypeService.updateEventTypeInfo(eventType,null))
             return new ResponseResult(false,"001","更新成功");
         return new ResponseResult(false,"001","更新失败");
     }

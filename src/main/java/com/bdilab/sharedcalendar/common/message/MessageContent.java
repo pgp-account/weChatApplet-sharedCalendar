@@ -31,6 +31,8 @@ public class MessageContent {
             case 4:return senderName+messageType.getTypeInfo()+"【"+eventTypeName+"】";
             case 5:return senderName+messageType.getTypeInfo()+"【"+eventTypeName+"】";
             case 6:return senderName+messageType.getTypeInfo()+"【"+eventTypeName+"】";
+            case 7:return senderName+messageType.getTypeInfo()+"【"+eventTypeName+"】"+"，该类型现在的权限为<仅自己可见>。创建者不希望订阅者继续订阅，因而该日程类型已经从您的列表中移除。";
+            case 8:return senderName+messageType.getTypeInfo()+"【"+eventTypeName+"】"+"，该类型现在的权限为<仅自己可见>。该类型的创建者允许订阅者继续订阅，这意味着您的订阅不会受到影响，但您无法分享再该类型。";
             default:return super.toString();
         }
     }

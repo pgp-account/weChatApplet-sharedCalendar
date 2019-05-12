@@ -99,25 +99,63 @@ public class EventTypeServiceImpl implements EventTypeService {
     }
 
     @Override
-    public boolean updateEventTypeInfo(EventType eventType) {
+    public boolean updateEventTypeInfo(EventType eventType,Integer operationType) {
 
         if(eventTypeMapper.updateEventTypeInfo(eventType)==1){
             //发送消息给所有订阅该类型的用户
             List<SubscribedRelation> subscribedRelations = uuidRelationMapper.selectSubscribedRelationByTypeId(eventType.getId());
-            for (SubscribedRelation subRel:subscribedRelations
-                    ) {
-                Message message = new Message();
-                message.setIsRead(0);
-                message.setFkMsgSender(subRel.getFkCreatorId());
-                message.setFkMsgReciever(subRel.getFkUserId());
-                message.setCreateTime(new Date());
-                message.setFkEventType(subRel.getFkTypeId());
-                messageService.sendMessage(message, MessageType.UPDATE_EVENT_TYPE);
+            if(operationType!=null){
+                //不允许继续订阅
+                if(operationType == 1){
+                    //发送消息
+                    for (SubscribedRelation subRel:subscribedRelations
+                            ) {
+                        Message message = new Message();
+                        message.setIsRead(0);
+                        message.setFkMsgSender(subRel.getFkCreatorId());
+                        message.setFkMsgReciever(subRel.getFkUserId());
+                        message.setCreateTime(new Date());
+                        message.setFkEventType(subRel.getFkTypeId());
+                        messageService.sendMessage(message, MessageType.UPDATE_TYPE_TRAN_1);
+                    }
+                    //删除订阅关系
+                    uuidRelationMapper.deleteByTypeId(eventType.getId());
+                }
+                //允许继续订阅
+                if(operationType == 2){
+                    //发送消息
+                    for (SubscribedRelation subRel:subscribedRelations
+                            ) {
+                        Message message = new Message();
+                        message.setIsRead(0);
+                        message.setFkMsgSender(subRel.getFkCreatorId());
+                        message.setFkMsgReciever(subRel.getFkUserId());
+                        message.setCreateTime(new Date());
+                        message.setFkEventType(subRel.getFkTypeId());
+                        messageService.sendMessage(message, MessageType.UPDATE_TYPE_TRAN_2);
+                    }
+                }
+            }
+            else{
+                //未更新类型透明度
+                for (SubscribedRelation subRel:subscribedRelations
+                        ) {
+                    Message message = new Message();
+                    message.setIsRead(0);
+                    message.setFkMsgSender(subRel.getFkCreatorId());
+                    message.setFkMsgReciever(subRel.getFkUserId());
+                    message.setCreateTime(new Date());
+                    message.setFkEventType(subRel.getFkTypeId());
+                    messageService.sendMessage(message, MessageType.UPDATE_EVENT_TYPE);
+                }
             }
             return true;
         }
         return false;
     }
+
+
+
 
     @Override
     public EventTypeInfoVO getEventTypeInfoById(int typeId) {
