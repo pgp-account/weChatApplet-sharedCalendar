@@ -8,13 +8,18 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import sun.misc.BASE64Encoder;
 import sun.misc.BASE64Decoder;
@@ -37,6 +42,8 @@ public class PubController {
     @Autowired
     private PubService pubService;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     /**
      * 微信服务器给开发者服务器颁发的身份凭证，开发者可以用session_key请求微信服务器其他接口来获取一些其他信息
      * session_key不应该泄露或者下发到小程序前端
@@ -122,5 +129,26 @@ public class PubController {
             return new ResponseResult(true, "001", "更新用户信息成功", data);
         }
         else return new ResponseResult(true, "002", "更新用户信息失败", null);
+    }
+
+    /**
+     * 获取多个formID并缓存到redis
+     */
+    @ResponseBody
+    @RequestMapping(value = "/public/getFormIdList", method = RequestMethod.POST)
+    public ResponseResult getFormIdList(@RequestParam List<String> formIds,
+                                        HttpSession httpSession) {
+        int userId = Integer.parseInt(httpSession.getAttribute("user_id").toString());
+        //设置key值，模式为【openID-时间】
+        String key = pubService.getUserInfo(userId).getUserOpenid() +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        System.out.println(formIds.size()+" formIDs in total");
+        for (String formId:formIds
+        ) {
+            System.out.println("formId: "+formId);
+            stringRedisTemplate.opsForSet().add(key,formId);
+        }
+        //设置formID过期时间为7天
+        stringRedisTemplate.expire(key,7 , TimeUnit.DAYS);
+        return new ResponseResult(true, "001", "缓存formID成功", null);
     }
 }

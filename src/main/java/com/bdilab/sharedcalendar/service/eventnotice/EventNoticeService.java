@@ -2,6 +2,7 @@ package com.bdilab.sharedcalendar.service.eventnotice;
 
 
 import com.bdilab.sharedcalendar.model.EventNotice;
+import com.bdilab.sharedcalendar.model.NoticeForPush;
 
 import java.util.Date;
 import java.util.List;
@@ -55,4 +56,7 @@ public interface EventNoticeService {
      */
     boolean deleteEventNoticeById(Integer noticeId);
 
+    List<NoticeForPush> getUnreadNoticeByDate(Date date);
+
+    void setNoticeRead(int noticeId);
 }

@@ -8,6 +8,7 @@ public class AppInfo {
 
     public static final String appID = "wx067574001a2dc5d7";
     public static final String appSecret = "7a618822f172af3ff6e1245220560334";
+    private static final String templateId = "bN8TGUZfWJNWgNFFJBxz6FNKZM_7z1HqzYzrdQtd3x0";
     public static String getAppID() {
         return appID;
     }
@@ -15,4 +16,6 @@ public class AppInfo {
     public static String getAppSecret(){
         return appSecret;
     }
+
+    public static String getTemplateId(){return templateId;}
 }

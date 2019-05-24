@@ -36,4 +36,9 @@
     <delete id="deleteEventNotice" parameterType="Integer">
         delete from event_notice where id=#{noticeId}
     </delete>
+    <select id="selectUnreadNoticeByDate" parameterType="java.util.Date" resultType="com.bdilab.sharedcalendar.model.EventNotice">
+        select id,fk_type_id as fkTypeId,fk_event_id as fkEventId,fk_user_id as fkUserId,notice_time as noticeTime,is_noticed as isNoticed
+        from event_notice where is_noticed=0 and notice_time&gt;=#{date} and notice_time&lt;#{datePlusOneMin};
+    </select>
+
 </mapper>
