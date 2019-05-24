@@ -1,0 +1,70 @@
+/* pages/message/message.wxss */
+@import "../../style/icon.wxss";
+.resultIsNull{
+  display: flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.messageItem{
+  margin-bottom: 10px;
+  margin-left: 5%;
+  padding: 10px;
+  /* border-bottom: 1px solid #aaa; */
+}
+label{
+  display: block;
+  width: 100%;
+}
+checkbox{
+  float: left;
+  display: block;
+}
+/* .listBody{
+  float: left;
+  display: block;
+} */
+.block{
+  display: inline-block;
+  margin-right: 10px;
+  width:13px;
+  height: 13px;
+  background-color: red;
+  border-radius: 50%;
+}
+.listHead{
+  margin-bottom: 5px;
+  font-size: 15px;
+  /* float: left; */
+}
+.listTime{
+  font-size: 10px;
+  color: #aaa;
+  float: right;
+  margin-right: 5%;
+  margin-top: 1%;
+}
+.listContent{
+  font-size: 13px;
+  color: #aaa;
+  display: block;
+}
+
+
+
+/* .icon-xiugai,.icon-shanchu{
+  float: right;
+  margin-left: 10px;
+  margin-right: 10px;
+} */
+.operationMessages{
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  margin-top: 10%;
+  /* position: fixed;
+  bottom: 10%; */
+}
+button{
+  font-size: 15px;
+}

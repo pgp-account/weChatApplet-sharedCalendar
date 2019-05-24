@@ -1,0 +1,33 @@
+<!--pages/news/news.wxml-->
+<!-- <form name='pushMsgFm' report-submit bindsubmit='orderSign'>  
+    enter product:<input type="text" name="product" value='' placeholder="enter your name" />  
+    detail: <input type="text" name='detail' placeholder="enter desc" />  
+    select sex:<switch type="switch" name='sex' />  
+    <button form-type="submit">submit</button>  
+</form>  -->
+
+<!-- <wxs module="util">
+  var sub = function(val) {
+    return val.substring(0, 10)+" "+val.substring(11, 19)
+  }
+  module.exports.sub = sub;
+</wxs> -->
+
+<view class='noticeList'>
+  <view class='resultIsNull' hidden='{{noticeNullHidden}}'>
+    暂无提醒日程！
+  </view>
+
+  <view class='typeList' hidden='{{noticeHidden}}'>
+    <view class='listItem' wx:for="{{items}}" wx:key="{{index}}" wx:for-index="index" data-idx='{{index}}' wx:for-item="items">
+      <view class='listBlock'>
+        <view class='listHead'>
+          <!-- <view class='block'></view>{{items.typeName}} -->
+        </view>
+        <view class='listBody'>
+          <text>创建时间：{{items.noticeTime}}\n</text>        
+        </view>      
+      </view>
+    </view>
+  </view>
+</view>

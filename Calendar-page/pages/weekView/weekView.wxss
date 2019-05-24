@@ -1,0 +1,69 @@
+/* pages/video/video.wxss */
+/* .weekCalendar{
+  padding-left: 30px;
+
+} */
+page {
+ background-color: #F6F6F6;
+}
+.table {
+  border-top: 1px solid #dadada;
+}
+.tr {
+  width: 100%;
+  /* height: 20%; */
+  display: flex;
+  /* justify-content: space-between; */
+}
+.td-column {
+  padding-left: 4rpx;
+  padding-right: 4rpx;
+  padding-top: 10rpx;
+  border-bottom: 1px solid #dadada;
+  border-right: 1px solid #dadada;
+  text-align: center;
+  width:13%;
+  font-size: 14px;
+  height: 60px;
+  /* display:table-cell;
+  vertical-align: middle; */
+}
+
+.table .tr .td-column:last-child{
+  border-right: 0;
+}
+
+.index{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left:0;
+  padding-right: 0;
+  background-color: #E6F3F9;
+  border-bottom: 1px solid #dadada;
+  border-right: 1px solid #dadada;
+  text-align: center;
+  width:100%
+}
+
+.addSchedule{
+  position: fixed;
+  width: 45px;
+  height: 45px;
+  bottom: 5%;
+  right: 7%;
+  background-color: #F6F6F6;
+}
+.addSchedule button image {
+  width: 45px;
+  height: 45px;
+}
+
+button{
+  background-color: #F6F6F6;
+  margin: 0;
+  padding: 0;
+  height: 45px;
+} 
+button::after {
+  border: none;
+}

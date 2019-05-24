@@ -1,0 +1,28 @@
+/* pages/news/news.wxss */
+.resultIsNull{
+  display: flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.listItem{
+  margin-top: 3%;
+  padding-left: 6%;
+  padding-right: 6%;
+  /* border-bottom: 1px solid #aaa; */
+}
+.block{
+  display: inline-block;
+  margin-right: 10px;
+  width:13px;
+  height: 13px;
+  background-color: red;
+  border-radius: 50%;
+}
+.listHead{
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+.listBody{
+  font-size: 13px;
+}

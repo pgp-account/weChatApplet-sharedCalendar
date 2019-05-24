@@ -1,0 +1,30 @@
+.form-list {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 10px;
+}
+.form-list-item {
+  width: 90%;
+  overflow: hidden;
+  padding: 10px;
+  color: #333;
+  margin-bottom: 15px;
+}
+.form-list-label {
+  float:left;
+  width: 25%;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 3px 5px;
+}
+.form-list-input {
+  padding: 5px 10px;
+  font-size: 18px;
+}
+.btn {
+  margin-top: 100rpx;
+  width: 60%;
+  font-size: 20px;
+  border-radius: 10px;
+}

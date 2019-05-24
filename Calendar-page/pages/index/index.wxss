@@ -1,7 +1,10 @@
 /* 日历 */
+page {
+  background-color:#F6F6F6;  
+  height: 100%;
+}
 .calendar {
-    background-color:white;  
-    padding-top: 10px; 
+  padding-top: 10px; 
 }
 .calendar-header{
   font-size: large;
@@ -9,5 +12,69 @@
 }
 .calendar-board{
   color: #c7cbe2;
-   font-weight: bold;
+  font-weight: bold;
+}
+.listPart{
+  margin-top: 15px;
+  height: 40%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.listPart::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+.listItem{
+  margin: 5px 15px;
+  padding: 3% 5%;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgb(232,232,232);
+  box-shadow: 0 0 10px rgb(232,232,232);
+}
+
+.scheduleNameList{
+  /* margin-top: 5%; */
+  font-size: 18px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgb(232,232,232); 
+}
+.listBody{
+  font-size: 13px;
+  padding-top: 5px;
+}
+
+.block{
+  display: inline-block;
+  margin-right: 5px;
+  width:8px;
+  height: 8px;
+  background-color: rgb(50, 139, 50);
+  border-radius: 50%;
+}
+
+
+.addSchedule{
+  position: fixed;
+  width: 45px;
+  height: 45px;
+  bottom: 5%;
+  right: 7%;
+  background-color: #F6F6F6;
+}
+.addSchedule button image {
+  width: 45px;
+  height: 45px;
+}
+
+button{
+  background-color: #F6F6F6;
+  margin: 0;
+  padding: 0;
+  height: 45px;
+} 
+button::after {
+  border: none;
 }

@@ -1,0 +1,36 @@
+<!--pages/scheduleListByType/scheduleListByType.wxml-->
+<wxs module="util">
+  var sub = function(val) {
+    return val.slice(0,10)+" "+val.slice(11,19)
+  }
+  module.exports.sub = sub;
+</wxs>
+{{date}}
+<view class='typeList'  wx:if='{{num == 0}}'>
+  本月该类型下暂无日程，快去创建吧！
+  <view class='listTips'>上拉查看下个月日程</view>
+</view>
+<view class='typeList' wx:else >
+  <view class='typeName'>{{typeName}}</view>
+  <view class='listItem' wx:for="{{items}}" wx:key="{{index}}" wx:for-index="index" data-idx='{{index}}' wx:for-item="items">
+    <view class='listHead'>
+      <view class='block'></view>{{items.eventName}}
+    </view>
+    <view class='listBody'>
+
+      <text>时间：{{util.sub(items.startTime)}} - {{util.sub(items.endTime)}}\n</text>
+      <text>事件内容：{{items.eventContent}}\n</text>
+      <text>事件频率：{{array[items.eventFrequency]}}\n</text>
+      <text hidden='{{hiddenCondition}}'>停止条件：{{endarray[items.eventEndCondition]}}\n</text>
+      <!-- <text hidden='{{hiddenNoticeTime}}'>提醒时间：{{util.sub(items.noticeTime)}}\n</text> -->
+      <text>创建人：{{items.creatorName}}\n</text>
+      <text>事件类型：{{items.eventTypeName}}\n</text>
+    </view>
+    <view class='listEdit'>
+      <view class='iconfont icon-shanchu' bindtap='deleteEvent' data-idx='{{index}}'></view>
+      <view class='iconfont icon-xiugai' bindtap='editEvent' data-idx='{{index}}'></view>
+    </view>
+  </view> 
+  <view class='listTips'>上拉查看下个月日程</view>
+</view>
+

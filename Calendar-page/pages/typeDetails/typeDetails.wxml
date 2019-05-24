@@ -1,0 +1,17 @@
+<!--pages/typeDetails/typeDetails.wxml-->
+<wxs module="util">
+  var sub = function(val) {
+    return val.substring(0, 10)+" "+val.substring(11, 19)
+  }
+  module.exports.sub = sub;
+</wxs>
+<view class='detail'>
+  <view class='detail-name'>{{typeName}}</view>
+  <view class='detail-body'>
+    <text>用户数量：{{subscriberNum}}\n</text>
+    <text>创建人：{{creatorName}}\n</text>
+    <text>创建时间：{{util.sub(createTime)}}\n</text>
+    <text>类型描述:{{typeDescrption}}\n</text>
+  </view>
+  <button class='shareButton' open-type='share'>确认分享</button>
+</view>

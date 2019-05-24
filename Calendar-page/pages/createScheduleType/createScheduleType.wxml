@@ -1,0 +1,31 @@
+<!--pages/createScheduleType/createScheduleType.wxml-->
+<view class="createScheduleType">
+  <form class='scheduleForm' bindsubmit="formSubmit">
+    <view class="field clearfix">
+      <input id="typeName" name="typeName" class="login-input" type="text" value='{{reset}}' placeholder="请输入类型名称" bindinput='typeNameInput'/>
+    </view>
+
+    <view class="field clearfix">
+      <input id="typeDescrption" name="typeDescrption" class="login-input" type="text" value='{{reset}}' placeholder="请输入类型描述" bindinput='typeDescrptionInput'/>
+    </view>
+
+    <view class="field clearfix">
+      <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+        <view class="picker">
+          类型可视度：{{array[index]}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="field clearfix">
+      
+        <view id='createTime'>
+          创建时间：{{time}}
+        </view>
+      
+    </view>
+      
+    <button class="btn_login" type="primary" form-type="submit" >创 建</button>
+
+  </form>
+</view>

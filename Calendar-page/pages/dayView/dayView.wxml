@@ -1,0 +1,36 @@
+<!--pages/dayView/dayView.wxml-->
+<wxs module="util">
+  var sub = function(val) {
+    return val.substring(11, 16)
+  }
+  module.exports.sub = sub;
+</wxs>
+
+<view class='weekCalendar'>
+  <weekCalendar timeBean="{{timeBean}}" bind:lastWeek="lastWeek" bind:nextWeek="nextWeek" bind:dayClick="dayClick" style></weekCalendar>
+</view>
+
+
+<!-- <view class="table">
+    <view class="tr" wx:for="{{24}}">
+      <view class="index">{{index}}</view>
+      <view class="td"></view>
+    </view>
+
+</view> -->
+
+<view class='listItem' wx:for="{{items}}" wx:key="{{index}}" wx:for-index="index" data-idx='{{index}}' wx:for-item="items" bindtap='eventDetail'>
+  <view class='scheduleNameList'>
+    {{items.eventName}}
+  </view>
+  <view class='listBody'>
+    <view class='block'></view><text>时间：{{util.sub(items.startTime)}} - {{util.sub(items.endTime)}}\n</text>
+  </view>
+  
+</view>
+
+<view class='addSchedule'>
+  <button bindtap='addSchedule'><image src='../../images/add.png'></image></button>
+</view>
+
+

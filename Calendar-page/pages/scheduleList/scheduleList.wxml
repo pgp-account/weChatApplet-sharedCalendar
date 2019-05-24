@@ -1,0 +1,51 @@
+<!--pages/scheduleList/scheduleList.wxml-->
+<wxs module="util">
+  var sub = function(val) {
+    return val.substring(0, 10)+" "+val.substring(11, 19)
+  }
+  module.exports.sub = sub;
+</wxs>
+<view class='typeList'>
+  <view class='listItem' wx:for="{{items}}" wx:key="{{index}}" wx:for-index="index" data-idx='{{index}}' wx:for-item="items">
+    <view class='listHead'>
+      <view class='block'></view>{{items.eventName}}
+    </view>
+    <view class='listBody'>
+
+      <text>时间：{{util.sub(items.startTime)}} - {{util.sub(items.endTime)}}\n</text>
+      <text>事件内容：{{items.eventContent}}\n</text>
+      <text>事件频率：{{array[items.eventFrequency]}}\n</text>
+      <text hidden='{{hiddenCondition}}'>停止条件：{{endarray[items.eventEndCondition]}}\n</text>
+      <text hidden='{{hiddenNoticeTime}}'>提醒时间：{{util.sub(items.noticeTime)}}\n</text>
+      <text>创建人：{{items.creatorName}}\n</text>
+      <text>事件类型：{{items.eventTypeName}}\n</text>
+    </view>
+    <view class='listEdit'>
+      <view class='iconfont icon-shanchu' bindtap='deleteEvent' data-idx='{{index}}'></view>
+      <view class='iconfont icon-xiugai' bindtap='editEvent' data-idx='{{index}}'></view>
+    </view>
+  </view> 
+
+
+  <!-- <view class='listItem'>
+    <view class='listHead'>
+      <view class='block'></view>{{eventName}}
+    </view>
+    <view class='listBody'>
+      <text>时间：{{util.sub(startTime)}} - {{util.sub(endTime)}}\n</text>
+      <text>事件内容：{{eventContent}}\n</text>
+      <text>事件频率：{{array[eventFrequency]}}\n</text>
+      <text>停止条件：{{endarray[eventEndCondition]}}\n</text>
+      <text>提醒时间：{{util.sub(noticeTime)}}\n</text>
+      <text>创建人：{{creatorName}}\n</text>
+      <text>事件类型：{{eventTypeName}}\n</text>
+    </view>
+    <view class='listEdit'>
+      <view class='iconfont icon-shanchu' bindtap='deleteEventTypes' data-idx='{{index}}'></view>
+      <view class='iconfont icon-xiugai'></view>
+    </view>
+  </view>  -->
+  
+
+
+</view>

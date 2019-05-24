@@ -1,0 +1,36 @@
+/* pages/eventDetail/eventDetail.wxss */
+@import "../../style/icon.wxss";
+
+.createSchedule{
+  width: 100%;
+  padding: 3% 3% 3% 5%;
+  /* position: absolute; */
+}
+
+.field{
+  width: 85%;
+  /* height: 30px; */
+  font-size: 16px;
+  border-bottom:1px solid #aaa;
+  margin-bottom: 1%;
+  padding-bottom: 2%;
+  padding-top: 3%;
+  padding-left: 1%;
+  display: flex;
+}
+
+.listEdit{
+  display: flex;
+  flex-direction: row;
+  justify-content:center;
+  flex-wrap: wrap;
+  align-items:center;
+  width: 50%;
+  padding-left: 25%;
+}
+.icon-xiugai,.icon-shanchu{
+  font-size: 23px;
+  width: 50%;
+  margin-top: 15%;
+  
+}

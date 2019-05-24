@@ -1,0 +1,46 @@
+/* pages/scheduleListByType/scheduleListByType.wxss */
+@import "../../style/icon.wxss";
+.typeList{
+  height: 700px;
+}
+.typeName{
+  display: flex;
+  align-content: center;
+  
+  justify-content: center;  
+  width: 100%;
+}
+.listItem{
+  margin-bottom: 10px;
+  padding: 10px;
+  /* border-bottom: 1px solid #aaa; */
+}
+.block{
+  display: inline-block;
+  margin-right: 10px;
+  width:13px;
+  height: 13px;
+  background-color: red;
+  border-radius: 50%;
+}
+.listHead{
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+.listBody{
+  font-size: 13px;
+}
+.icon-xiugai,.icon-shanchu{
+  float: right;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.listTips{
+  font-size: 11px;
+  color: #777;
+  text-align: center;
+  position: fixed;
+  bottom: 3%;
+  left: 35%;
+}

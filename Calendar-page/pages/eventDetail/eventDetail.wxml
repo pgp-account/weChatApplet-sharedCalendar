@@ -1,0 +1,78 @@
+<!--pages/eventDetail/eventDetail.wxml-->
+<wxs module="util">
+  var sub = function(val) {
+    return val.substring(11, 16)
+  }
+  module.exports.sub = sub;
+</wxs>
+<view class="createSchedule">
+  <form class='scheduleForm' bindsubmit="formSubmit">
+    <view class="field clearfix" style='text-align:center'>
+      {{time}}
+    </view>
+    <view class="field clearfix">
+      事件名称：{{eventName}}
+    </view>
+
+    <view class="field clearfix">
+      
+      开始时间: {{util.sub(startTime)}}
+          
+
+    </view>
+
+    <view class="field clearfix">
+      
+      结束时间: {{util.sub(endTime)}}
+
+    </view>
+
+    <view class="field clearfix">
+      
+      日程类型：{{typeName}}
+        
+    </view>
+
+    <view class="field clearfix">
+      
+      日程频率：{{ratearray[eventFrequency]}}
+        
+    </view>
+
+    <view class="field clearfix" hidden="{{hidden}}">
+      
+      重复终止条件：{{conditionarray[eventEndCondition]}}
+          
+    </view>
+
+    <view class="field clearfix" hidden="{{hiddenTime}}">
+      重复次数 : {{repeatTimes}}
+    </view>
+
+    <view class="field clearfix" hidden="{{hiddenDate}}">
+        
+      重复截止时间: {{repeatEndTime}}
+         
+    </view>
+
+    <view class="field clearfix">
+      
+      提醒时间：{{remindarray[noticeChoice]}}
+      
+    </view>
+
+    <view class="field clearfix">
+      日程描述：{{eventContent}}
+    </view>
+    
+      
+    <!-- <button class="btn_login" type="primary" form-type="submit" >确认修改</button> -->
+
+  </form>
+
+  <view class='listEdit'>
+    <view class='iconfont icon-xiugai' bindtap='editEvent' data-idx='{{index}}'></view>
+    <view class='iconfont icon-shanchu' bindtap='deleteEvent' data-idx='{{index}}'></view>
+    
+  </view>
+</view>

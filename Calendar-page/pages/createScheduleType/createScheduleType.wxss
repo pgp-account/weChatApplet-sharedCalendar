@@ -1,0 +1,23 @@
+/* pages/createScheduleType/createScheduleType.wxss */
+
+.createScheduleType{
+  width: 100%;
+  padding: 3% 3% 3% 5%;
+  /* position: absolute; */
+}
+
+.field{
+  width: 85%;
+  height: 30px;
+  font-size: 16px;
+  border-bottom:1px solid #aaa;
+  margin-bottom: 8px;
+  padding-left: 2%;
+}
+
+button{
+  margin-top: 20px;
+  width: 45%;
+  text-align: center;
+  margin-left:22.5%;
+}
