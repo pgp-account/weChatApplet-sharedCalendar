@@ -32,9 +32,16 @@
     <update id="setNoticeTime">
         update event_notice set notice_time=#{noticeTime} where id=#{noticeId}
     </update>
-    <!--删除日程提醒-->
+    <!--根据提醒id删除日程提醒-->
     <delete id="deleteEventNotice" parameterType="Integer">
         delete from event_notice where id=#{noticeId}
+    </delete>
+    <!--根据日程id删除日程提醒-->
+    <delete id="deleteEventNoticeByEventId" >
+        delete from event_notice where fk_event_id in
+        <foreach collection="eventIds" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
     </delete>
     <select id="selectUnreadNoticeByDate" parameterType="java.util.Date" resultType="com.bdilab.sharedcalendar.model.EventNotice">
         select id,fk_type_id as fkTypeId,fk_event_id as fkEventId,fk_user_id as fkUserId,notice_time as noticeTime,is_noticed as isNoticed

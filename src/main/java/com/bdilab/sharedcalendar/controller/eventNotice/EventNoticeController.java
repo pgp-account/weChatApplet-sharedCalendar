@@ -4,6 +4,7 @@ import com.bdilab.sharedcalendar.model.Event;
 import com.bdilab.sharedcalendar.model.EventNotice;
 import com.bdilab.sharedcalendar.service.event.EventService;
 import com.bdilab.sharedcalendar.service.eventnotice.EventNoticeService;
+import com.bdilab.sharedcalendar.vo.EventNoticeVO;
 import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,21 @@ public class EventNoticeController {
     @RequestMapping(value = "eventNotice/getNoticeList",method = RequestMethod.GET)
     public ResponseResult getNoticeList(HttpSession httpSession)throws Exception{
         Integer userId = Integer.valueOf(httpSession.getAttribute("user_id").toString());
-        //Integer userId = 1;
+        //Integer userId = 3;
         List<EventNotice> eventNotices = eventNoticeService.getEventNoticeByUserId(userId);
+        List<EventNoticeVO> eventNoticeVOS = new ArrayList<>();
+        for (EventNotice e: eventNotices){
+            EventNoticeVO eventNoticeVO = new EventNoticeVO(e);
+            Event event = eventService.selectEventById(e.getFkEventId());
+            if (event!=null){
+                eventNoticeVO.setEventName(event.getEventName());
+                eventNoticeVO.setEventContent(event.getEventContent());
+                eventNoticeVOS.add(eventNoticeVO);
+            }
+        }
         Map<String,Object> data = new HashMap<>();
-        data.put("eventNotices",eventNotices);
-        data.put("total",eventNotices.size());
+        data.put("eventNotices",eventNoticeVOS);
+        data.put("total",eventNoticeVOS.size());
         if (eventNotices.size()>0){
             return new ResponseResult(true,"101","获取提醒日程成功",data);
         }else {

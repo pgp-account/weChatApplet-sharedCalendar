@@ -2,6 +2,7 @@ package com.bdilab.sharedcalendar.service.event.impl;
 
 import com.bdilab.sharedcalendar.common.enums.MessageType;
 import com.bdilab.sharedcalendar.mapper.EventInfoMapper;
+import com.bdilab.sharedcalendar.mapper.EventNoticeMapper;
 import com.bdilab.sharedcalendar.mapper.EventTypeMapper;
 import com.bdilab.sharedcalendar.mapper.UuidRelationMapper;
 import com.bdilab.sharedcalendar.model.Event;
@@ -37,6 +38,9 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     UuidRelationMapper uuidRelationMapper;
+
+    @Autowired
+    EventNoticeMapper eventNoticeMapper;
     /**
      * 创建日程
      */
@@ -103,6 +107,7 @@ public class EventServiceImpl implements EventService {
             send(subscribedRelations,MessageType.DELETE_EVENT,eventId);
         }
         eventInfoMapper.deleteEvent(eventIds);
+        eventNoticeMapper.deleteEventNoticeByEventId(eventIds);
         return true;
 
     }

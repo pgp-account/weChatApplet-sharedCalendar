@@ -47,6 +47,8 @@ public interface EventNoticeMapper {
      */
     void deleteEventNotice(@Param("noticeId") Integer noticeId);
 
+    void deleteEventNoticeByEventId(@Param("eventIds") List<Integer> eventIds);
+
     List<EventNotice> selectUnreadNoticeByDate(Date date,Date datePlusOneMin);
 }
 
