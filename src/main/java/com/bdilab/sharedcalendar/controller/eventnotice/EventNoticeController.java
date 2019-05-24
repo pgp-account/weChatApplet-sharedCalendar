@@ -1,12 +1,10 @@
-package com.bdilab.sharedcalendar.controller.eventNotice;
+package com.bdilab.sharedcalendar.controller.eventnotice;
 import com.bdilab.sharedcalendar.common.response.ResponseResult;
 import com.bdilab.sharedcalendar.model.Event;
 import com.bdilab.sharedcalendar.model.EventNotice;
 import com.bdilab.sharedcalendar.service.event.EventService;
 import com.bdilab.sharedcalendar.service.eventnotice.EventNoticeService;
 import com.bdilab.sharedcalendar.vo.EventNoticeVO;
-import io.swagger.models.auth.In;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller

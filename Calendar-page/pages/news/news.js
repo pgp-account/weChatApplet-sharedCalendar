@@ -1,6 +1,6 @@
 // pages/news/news.js
 let ApiUrl = "http://39.96.188.220:8080/"
-let noticeList = ApiUrl + "eventNotice/getNoticeList"
+let noticeList = ApiUrl + "eventnotice/getNoticeList"
 Page({
 
   /**

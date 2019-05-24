@@ -284,8 +284,8 @@ Page({
           }
           
           // if (res.data.data.event.noticeChoice != 0){
-          //   let execTime = new Date(res.data.data.eventNotice.noticeTime).getTime();
-          //   let noticedID = res.data.data.eventNotice.id;
+          //   let execTime = new Date(res.data.data.eventnotice.noticeTime).getTime();
+          //   let noticedID = res.data.data.eventnotice.id;
           //   let eventFrequency = res.data.data.event.eventFrequency;
           //   let startTime = res.data.data.event.startTime;
           //   let eventName = res.data.data.event.eventName
