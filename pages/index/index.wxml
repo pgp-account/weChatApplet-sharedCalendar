@@ -1,0 +1,36 @@
+<!--index.wxml-->
+<wxs module="util">
+  var sub = function(val) {
+    return val.substring(11, 16)
+  }
+  module.exports.sub = sub;
+</wxs>
+<calendar  
+  calendar-style="calendar"  
+  header-style="calendar-header"  
+  board-style="calendar-board"
+  binddayClick="dayClick"
+  bindnextMonth="next"
+  bindprevMonth="prev"
+  days-color="{{dayStyle}}" 
+  weeks-type="cn" 
+  lunar=true
+  cell-size="40"
+   />
+
+<view class='listPart' >
+  <view class='listItem' wx:for="{{items}}" wx:key="{{index}}" wx:for-index="index" data-idx='{{index}}' wx:for-item="items" bindtap='eventDetail'>
+    <view class='scheduleNameList'>
+      {{items.eventName}}
+    </view>
+    <view class='listBody'>
+      <view class='block'></view><text>时间：{{util.sub(items.startTime)}} - {{util.sub(items.endTime)}}\n</text>
+    </view>
+  </view>
+</view>
+
+
+<view class='addSchedule'>
+  <view class='addSchedule' bindtap='addSchedule'><image src='../../images/add.png'></image></view>
+</view>
+

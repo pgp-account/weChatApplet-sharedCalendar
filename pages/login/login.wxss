@@ -1,0 +1,14 @@
+.userAvatar {
+  overflow:hidden;
+  display: block;
+  margin: 30% auto;
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+}
+
+.bottom {
+  border-radius: 80rpx;
+  margin: 160rpx 150rpx;
+  font-size: 35rpx;
+}

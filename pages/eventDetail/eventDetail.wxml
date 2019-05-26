@@ -1,0 +1,60 @@
+<!--pages/eventDetail/eventDetail.wxml-->
+<wxs module="util">
+  var sub = function(val) {
+    return val.substring(11, 16)
+  }
+  module.exports.sub = sub;
+</wxs>
+<view class="createSchedule">
+  <form class='scheduleForm' bindsubmit="formSubmit">
+    <view class="section1">
+      <view class="field clearfix" style='text-align:center'>
+        {{time}}
+      </view>
+      <view class="field clearfix">
+        事件名称 <text>{{eventName}}</text>
+      </view>
+    </view>
+    <view class="section1">
+      <view class="field clearfix">
+        开始时间 <text>{{util.sub(startTime)}}</text>
+      </view>
+      <view class="field clearfix">        
+        结束时间 <text>{{util.sub(endTime)}}</text>
+      </view>
+    </view>
+    <view class="section1">
+      <view class="field clearfix">
+        日程类型 <text>{{typeName}}</text>
+      </view>
+    </view>
+    <view class="section1"> 
+      <view class="field clearfix">
+        日程频率 <text>{{ratearray[eventFrequency]}}</text>
+      </view>
+      <view class="field clearfix" hidden="{{hidden}}">   
+        重复终止条件 <text>{{conditionarray[eventEndCondition]}}</text>      
+      </view>
+      <view class="field clearfix" hidden="{{hiddenTime}}">
+        重复次数 <text>{{repeatTimes}}</text>
+      </view>
+      <view class="field clearfix" hidden="{{hiddenDate}}">      
+        重复截止时间 <text>{{repeatEndTime}}</text>      
+      </view>
+      <view class="field clearfix"> 
+        提醒时间 <text>{{remindarray[noticeChoice]}}</text>
+      </view>
+    </view>
+    <view class="section1">
+      <view class="field clearfix">
+        日程描述 <text>{{eventContent}}</text>
+      </view>
+    </view> 
+  </form>
+
+  <view class='listEdit'>
+    <view class='iconfont icon-xiugai' bindtap='editEvent' data-idx='{{index}}'></view>
+    <view class='iconfont icon-shanchu' bindtap='deleteEvent' data-idx='{{index}}'></view>
+    
+  </view>
+</view>

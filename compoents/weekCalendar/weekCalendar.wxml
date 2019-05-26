@@ -1,0 +1,22 @@
+<!--compoents/weekCalendar/weekCalendar.wxml-->
+<!-- <view class='line'></view> -->
+ 
+<view class='row calender-header'>
+  <view class='row' bindtap='lastWeek'>
+    <text class='iconfont icon-zuojiantou'></text>
+    <view>上一周</view>
+  </view>
+  <view class='timeType'>{{timeBean.yearMonth}}</view>
+  <view class='row' bindtap='nextWeek'>
+    <view>下一周</view>
+    <text class='iconfont icon-youjiantou'></text>
+  </view>
+</view>
+ 
+<view class='row tableHead'>
+    <view wx:for="0123456" wx:key="{{index}}" data-index="{{index}}" class='{{index==timeBean.selectDay?"select-column":"column"}}' bindtap='itemClick'>
+      <view class='weekType'>{{timeBean.weekDayList[index].week}}</view>
+      <view class='dateType'>{{timeBean.weekDayList[index].day}}</view>
+      <!-- <text class='iconfont icon-mifan' style='color:#fff'></text> -->
+    </view>
+</view>

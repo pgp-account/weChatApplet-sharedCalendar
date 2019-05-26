@@ -1,0 +1,121 @@
+<!--pages/schedule/schedule.wxml-->
+
+<view class='createSchedule'>
+  <form class='scheduleForm' bindsubmit="formSubmit" report-submit='true'>
+    <view class="section1">
+      <view class="field clearfix">
+        {{time}}
+      </view>
+      <view class="field clearfix">
+        <form bindsubmit="saveFormId" report-submit="{{true}}" class='form_class'>
+          <button formType="submit" class='form_button'>
+            <input id="name" name="name" class="login-input" type="text" value='{{reset}}' placeholder="请输入事件标题" bindinput='nameInput'/>
+          </button>
+        </form>
+      </view>
+    </view>
+    <view class="section1">  
+      <view class="field clearfix">
+        全天事件<switch bindchange="switchChange" />
+      </view>
+      <view class="field clearfix">
+        <view class="section" id='startTime'>
+          <picker
+            mode="time"
+            value="{{startime}}"
+            start="00:00"
+            end="23:59"
+            bindchange="bindStartTimeChange"
+          >
+            <view class="picker">
+              开始时间 <text>{{startime}}</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="field clearfix">
+        <view class="section" id='endTime'>
+          <picker
+            mode="time"
+            value="{{endtime}}"
+            start="00:00"
+            end="23:59"
+            bindchange="bindEndTimeChange"
+          >
+            <view class="picker">
+              结束时间 <text>{{endtime}}</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <view class="section1">
+      <view class="field clearfix">
+        <picker bindchange="bindTypePickerChange" value="{{typeindex}}" range="{{typearray}}">
+          <view class="picker">
+            日程类型 <text>{{typearray[typeindex]}}</text>
+          </view>
+        </picker>
+      </view>
+    </view> 
+    
+    <view class="section1">
+      <view class="field clearfix">
+        <picker bindchange="bindPickerChange" value="{{rateindex}}" range="{{ratearray}}">
+          <view class="picker">
+            日程频率 <text>{{ratearray[rateindex]}}</text>
+          </view>
+        </picker>
+      </view>
+      <view hidden="{{hidden}}">
+        <view class="field clearfix">
+          <picker bindchange="bindConPickerChange"  range="{{conditionarray}}">
+            <view class="picker">
+              重复终止条件 <text>{{conditionarray[conditionindex]}}</text>
+            </view>
+          </picker>
+        </view>
+
+        <view class="field clearfix" hidden="{{hiddenTime}}">
+          <input id="repetition" name="repetition" class="login-input" value='{{1}}' type="text" placeholder="请输入重复次数" bindinput='repetitionInput'/>
+        </view>
+
+        <view class="field clearfix" hidden="{{hiddenDate}}">
+          <picker
+            mode="date"
+            value="{{endate}}"
+            start="2000-09-01"
+            end="9999-09-01"
+            bindchange="bindDateChange"
+          >
+            <view class="picker">
+              重复截止时间: <text>{{date}}</text>
+            </view>
+            
+          </picker>
+        </view>
+      </view>
+
+      <view class="field clearfix">
+        <picker bindchange="bindRemPickerChange" value="{{remindindex}}" range="{{remindarray}}">
+          <view class="picker">
+            提醒时间 <text>{{remindarray[remindindex]}}</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="section1">
+      <form bindsubmit="saveFormId" report-submit="{{true}}" class='form_class'>
+        <button formType="submit" class='form_button'>
+          <textarea id="describe" name="describe" maxlength="500" type="text" value='{{reset}}' placeholder="请输入日程描述(不超过500字)" bindinput='describeInput' >
+          </textarea>
+        </button>
+      </form>
+    </view>                      
+    <button class="btn_login" type="primary" form-type="submit" > 创 建 </button>
+            
+  </form> 
+</view>
+ 
+

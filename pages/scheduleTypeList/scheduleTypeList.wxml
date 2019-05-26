@@ -1,0 +1,76 @@
+<!--pages/scheduleTypeList/scheduleTypeList.wxml-->
+
+<view class='topTabSwiper'>
+    <view class='tab  {{currentData == 0 ? "tabBorer" : ""}}'  data-current = "0" bindtap='checkCurrent'>我的创建</view>
+    <view class='tab  {{currentData == 1 ? "tabBorer" : ""}}'  data-current = "1" bindtap='checkCurrent'>我的订阅</view>
+</view>
+
+
+<swiper current="{{currentData}}" class='swiper' duration="300" bindchange="bindchange">
+  <swiper-item>
+    <scroll-view style='height:100%;' scroll-y>
+      <view class='swiper_con' style='height:100%;'>
+        <view class='resultIsNull' hidden='{{createNullHidden}}'>
+          还没有创建过日程类型，快去创建吧！
+        </view>
+        
+        <view class='typeList' hidden='{{createHidden}}'>
+          <view class='listItem' wx:for="{{items}}" wx:key="{{index}}" wx:for-index="index" data-idx='{{index}}' wx:for-item="items">
+            <view class='listBlock'>
+              <view class='listHead'>
+                {{items.typeName}}
+              </view>
+              <view class='listBody'>
+                <view class='block'></view><text>可见度：{{array[items.typeTransparency]}}\n</text>
+                <view class='block'></view><text>创建时间：{{items.createTime}}\n</text>
+                <view class='block'></view><text>用户数量：{{items.subscriberNum}}\n</text>
+                <view class='block'></view><text>类型描述：{{items.typeDescrption}}\n</text>
+                <view class='eventPage' bindtap='typeShowEvent' data-idx='{{index}}'>查看该类型下事件</view>
+              </view>
+              
+            </view>
+            <view class='listEdit'>
+              <view class='iconfont icon-xiugai' bindtap='editEventTypes' data-idx='{{index}}'></view>
+              <!-- <button class='shareButton' open-type='share'> -->
+              <view class='iconfont icon-fasong' bindtap='shareEventTypes' data-idx='{{index}}'></view>
+              <view class='iconfont icon-shanchu' bindtap='deleteEventTypes' data-idx='{{index}}'></view>
+            </view>
+          </view> 
+        </view>
+      </view>
+    </scroll-view>
+  </swiper-item>
+
+  <swiper-item>
+    <scroll-view style='height:100%;' scroll-y>
+      <view class='swiper_con'>
+        <view class='resultIsNull' hidden='{{subscribeNullHidden}}'>
+          还没有订阅过日程类型，快去创建吧！
+        </view>
+        <view class='typeList' hidden='{{subscribeHidden}}'>
+          <view class='listItem' wx:for="{{items}}" wx:key="{{index}}" wx:for-index="index" data-idx='{{index}}' wx:for-item="items">
+            <view class='listBlock'>
+              <view class='listHead'>
+                {{items.typeName}}
+              </view>
+              <view class='listBody'>
+                <view class='block'></view><text>可见度：{{array[items.typeTransparency]}}\n</text>
+                <view class='block'></view><text>创建时间：{{util.sub(items.createTime)}}\n</text>
+                <view class='block'></view><text>用户数量：{{items.subscriberNum}}\n</text>
+                <view class='block'></view><text>类型描述：{{items.typeDescrption}}\n</text>
+                <view class='eventPage' bindtap='typeShowEvent' data-idx='{{index}}'>查看该类型下事件</view>
+              </view>
+              
+            </view>
+            <view class='listEdit mySub'>
+              <view class='iconfont icon-fasong subicon' bindtap='shareEventTypes' data-idx='{{index}}'></view>
+              <view class='iconfont icon-shanchu' bindtap='deleteSubscribeTypes' data-idx='{{index}}'></view>
+            </view>
+          </view> 
+        </view>
+        
+
+      </view>
+    </scroll-view>
+  </swiper-item>  
+</swiper>

@@ -1,0 +1,19 @@
+<!--pages/sharedTypeDetails/sharedTypeDetails.wxml-->
+<wxs module="util">
+  var sub = function(val) {
+    return val.substring(0, 10)+" "+val.substring(11, 19)
+  }
+  module.exports.sub = sub;
+</wxs>
+<view class='detail'>
+  <view class='detail-Item'>
+    <view class='detail-name'>{{typeName}}</view>
+    <view class='detail-body'>
+      <view class='detail-body-item'><view class='block'></view><text>用户数量：{{subscriberNum}}\n</text></view>
+      <view class='detail-body-item'><view class='block'></view><text>创建人：{{creatorName}}\n</text></view>
+      <view class='detail-body-item'><view class='block'></view><text>创建时间：{{util.sub(createTime)}}\n</text></view>
+      <view class='detail-body-item'><view class='block'></view><text>类型描述: {{typeDescrption}}\n</text></view>
+    </view>
+  </view> 
+  <button class='shareButton' bindtap='subscribeType'>订 阅</button>
+</view>

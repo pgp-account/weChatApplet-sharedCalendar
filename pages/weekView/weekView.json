@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "weekCalendar": "../../compoents/weekCalendar/weekCalendar"    
+  },
+  "navigationBarTitleText": "周视图"
+}

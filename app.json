@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/logs/logs",
+    "pages/dayView/dayView",
+    "pages/user/user",
+    "pages/weekView/weekView",
+    "pages/createSchedule/createSchedule",
+    "pages/scheduleList/scheduleList",
+    "pages/scheduleListByType/scheduleListByType",
+    "pages/scheduleInfo/scheduleInfo",
+    "pages/createScheduleType/createScheduleType",
+    "pages/scheduleTypeList/scheduleTypeList",
+    "pages/scheduleTypeInfo/scheduleTypeInfo",
+    "pages/typeDetails/typeDetails",
+    "pages/sharedTypeDetails/sharedTypeDetails",
+    "pages/eventDetail/eventDetail",
+    "pages/message/message",
+    "pages/news/news"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f6f6f6",
+    "navigationBarTitleText": "日历",
+    "navigationBarTextStyle": "black"
+  },
+  "plugins": {
+    "calendar": {
+      "version": "1.1.3",
+      "provider": "wx92c68dae5a8bb046"
+    }
+  },
+  "tabBar": {
+    "color": "#aaaaaa",
+    "selectedColor": "#333333",
+    "backgroundColor": "#eeeeee",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "月视图",
+        "iconPath": "/images/monthN.png",
+        "selectedIconPath": "/images/monthY.png"
+      },
+      {
+        "pagePath": "pages/weekView/weekView",
+        "text": "周视图",
+        "iconPath": "/images/weekN.png",
+        "selectedIconPath": "/images/weekY.png"
+      },
+      {
+        "pagePath": "pages/dayView/dayView",
+        "text": "日视图",
+        "iconPath": "/images/dayN.png",
+        "selectedIconPath": "/images/dayY.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "/images/userN.png",
+        "selectedIconPath": "/images/userY.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

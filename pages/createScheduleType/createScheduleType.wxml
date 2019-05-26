@@ -1,0 +1,39 @@
+<!--pages/createScheduleType/createScheduleType.wxml-->
+<view class="createScheduleType">
+  <form class='scheduleForm' bindsubmit="formSubmit">
+    <view class="section1">
+      <view class="field clearfix">
+        <form bindsubmit="saveFormId" report-submit="{{true}}" class='form_class'>
+          <button formType="submit" class='form_button'>
+          <input id="typeName" name="typeName" class="login-input" type="text" value='{{reset}}' placeholder="请输入类型名称" bindinput='typeNameInput'/>
+          </button>
+        </form>
+      </view>
+      <view class="field clearfix">
+        <form bindsubmit="saveFormId" report-submit="{{true}}" class='form_class'>
+          <button formType="submit" class='form_button'>
+          <input id="typeDescrption" name="typeDescrption" class="login-input" type="text" value='{{reset}}' placeholder="请输入类型描述" bindinput='typeDescrptionInput'/>
+          </button>
+        </form>
+      </view>
+    </view>
+    <view class="section1">
+      <view class="field clearfix">
+        <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+          <view class="picker">
+            类型可视度 <text>{{array[index]}}</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="section1">
+      <view class="field clearfix">
+          <view id='createTime'>
+            创建时间 <text>{{time}}</text>
+          </view>
+      </view>
+    </view>  
+    <button class="btn_login" type="primary" form-type="submit" >创 建</button>
+
+  </form>
+</view>

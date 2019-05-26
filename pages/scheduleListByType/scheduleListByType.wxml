@@ -1,0 +1,45 @@
+<!--pages/scheduleListByType/scheduleListByType.wxml-->
+<wxs module="util">
+  var sub = function(val) {
+    return val.slice(0,10)+" "+val.slice(11,16)
+  }
+  module.exports.sub = sub;
+</wxs>
+
+<view class='topTabSwiper'>
+  <view class="menu {{menuFixed ? 'fixed': ''}}" id="affix">
+    <view class='tab tabBorer'  data-current = "0" ><text decode="{{true}}">{{date}}&nbsp;&nbsp;&nbsp;{{typeName}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- <view class="menu {{menuFixed ? 'fixed': ''}}" id="affix">
+  <text class='scheduleDate'>{{date}}---{{typeName}}</text>
+</view> -->
+<!-- <text class='scheduleDate'>{{date}}</text> -->
+<view class='typeList resultIsNull'  wx:if='{{num == 0}}'>
+  本月该类型下暂无日程，快去创建吧！
+  <view class='listTips'>上拉查看下个月日程</view>
+</view>
+<view class='typeList' wx:else >
+  <!-- <view class='typeName'>{{typeName}}</view> -->
+  <view class='listItem' wx:for="{{items}}" wx:key="{{index}}" wx:for-index="index" data-idx='{{index}}' wx:for-item="items">
+    <view class='listHead'>
+      {{items.eventName}}
+    </view>
+    <view class='listBody'>
+      <view class='block'></view><text>创建人：{{items.creatorName}}\n</text>
+      <view class='block'></view><text>事件内容：{{items.eventContent}}\n</text>
+      <view class='block'></view><text>事件频率：{{array[items.eventFrequency]}}\n</text>
+      <view class='block'></view><text hidden='{{hiddenCondition}}'>停止条件：{{endarray[items.eventEndCondition]}}\n</text>
+      <!-- <view class='block'></view><text hidden='{{hiddenNoticeTime}}'>提醒时间：{{util.sub(items.noticeTime)}}\n</text> -->
+      <view class='block'></view><text>时间：{{util.sub(items.startTime)}} - {{util.sub(items.endTime)}}\n</text>
+    </view>
+    <view class='listEdit'>
+      <view class='iconfont icon-xiugai' bindtap='editEvent' data-idx='{{index}}'></view>
+      <view class='iconfont icon-shanchu' bindtap='deleteEvent' data-idx='{{index}}'></view>      
+    </view>
+  </view> 
+  <view class='listTips'>上拉查看下个月日程</view>
+</view>
+

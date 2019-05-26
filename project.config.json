@@ -1,0 +1,155 @@
+{
+	"cloudfunctionRoot": "functions/",
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"autoAudits": false,
+		"checkInvalidKey": true,
+		"nodeModules": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.7.0",
+	"appid": "wx067574001a2dc5d7",
+	"projectname": "%E6%97%A5%E5%8E%86",
+	"debugOptions": {
+		"hidedInDevtools": []
+	},
+	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 14,
+			"list": [
+				{
+					"id": -1,
+					"name": "createschedule",
+					"pathName": "pages/createSchedule/createSchedule",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "createScheduleType",
+					"pathName": "pages/createScheduleType/createScheduleType",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "typeList",
+					"pathName": "pages/scheduleTypeList/scheduleTypeList",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "index",
+					"pathName": "pages/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "scheduleList",
+					"pathName": "pages/scheduleList/scheduleList",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "scheduleTypeInfo",
+					"pathName": "pages/scheduleTypeInfo/scheduleTypeInfo",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "scheduleInfo",
+					"pathName": "pages/scheduleInfo/scheduleInfo",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "typeDetails",
+					"pathName": "pages/typeDetails/typeDetails",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "sharedTypeDetails",
+					"pathName": "pages/sharedTypeDetails/sharedTypeDetails",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 9,
+					"name": "weekView",
+					"pathName": "pages/weekView/weekView",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "dayView",
+					"pathName": "pages/dayView/dayView",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "eventDetail",
+					"pathName": "pages/eventDetail/eventDetail",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "message",
+					"pathName": "pages/message/message",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "schedule",
+					"pathName": "pages/schedule/schedule",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "news",
+					"pathName": "pages/news/news",
+					"scene": null
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,12 @@
+<view wx:if="{{canIUse}}">
+    <view class='userAvatar'>
+      <!-- 如果只是展示用户头像昵称，可以使用 <open-data /> 组件 -->
+      <open-data type="userAvatarUrl"></open-data>
+      <!-- <open-data class="userNickName" type="userNickName"></open-data> -->
+      <!-- <image src='/images/logo.jpg'></image> -->
+    </view>
+    <button class='bottom' type='primary' open-type="getUserInfo" lang="zh_CN" bindtap="tapLogin">
+        授 权 登 录
+    </button>
+</view>
+<view wx:else>请升级微信版本</view>

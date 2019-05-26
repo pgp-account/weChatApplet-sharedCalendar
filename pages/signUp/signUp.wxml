@@ -1,0 +1,14 @@
+<!-- <view class="container">
+  <view class="form-list">  
+    <view class="form-list-item">
+      <view class="form-list-label">用户名</view>
+      <input class="form-list-input" placeholder="请输入用户名" bindinput="addUserName"/>
+    </view>
+    <view class="form-list-item">
+      <view class="form-list-label"> 密 码</view>
+      <input class="form-list-input" type="password" placeholder="请输入密码" bindinput="addUserPassword"/>
+    </view>
+  </view>
+  <button class="btn" type="primary" bindtap="signUp">确 定</button>
+</view> -->
+<view>sign up</view>

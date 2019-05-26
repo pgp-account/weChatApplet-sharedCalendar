@@ -1,0 +1,32 @@
+<!--pages/message/message.wxml-->
+<wxs module="util">
+  var sub = function(val) {
+    return val.substring(0, 10)+" "+val.substring(11, 19)
+  }
+  module.exports.sub = sub;
+</wxs>
+<view class='messageList' >
+  <view class='resultIsNull' hidden='{{messageNullHidden}}'>
+    暂时没有消息哟！
+  </view>
+  <view class='messageItem' wx:for="{{items}}" wx:key="{{index}}" wx:for-index="index" data-idx='{{index}}'  wx:for-item="items" bindlongtap='showCheckbox' hidden='{{messageHidden}}'>
+  <checkbox hidden='{{hiddenCheck}}' checked="{{items.checked}}" data-index='{{ index }}' data-val='{{ items.id }}' catchtap="checkboxChange"/>
+    <view class='listBody'>
+      <view class='listHead'>
+        <view class='block' hidden='{{items.isRead ? true:false}}'></view>{{items.msgTitle}}
+      </view>
+      <view class='listContent'>
+        <text>{{items.msgContent}}</text>
+      </view>
+      <view class='listTime'>
+        <text>{{util.sub(items.createTime)}}</text>
+      </view> 
+    </view>
+    
+  </view>
+  
+</view>
+<view class='operationMessages'>
+  <button bindtap='setMessagesRead'>标为已读</button>
+  <button bindtap='deleteMessages'>删除</button>
+</view> 
