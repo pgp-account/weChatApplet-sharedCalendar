@@ -240,7 +240,6 @@ public class EventServiceImpl implements EventService {
     }
 
     void send(List<SubscribedRelation> subscribedRelations,MessageType messageType,int eventId){
-        System.out.println("length"+subscribedRelations.size());
         for (SubscribedRelation subRel:subscribedRelations
                 ) {
             Message message = new Message();

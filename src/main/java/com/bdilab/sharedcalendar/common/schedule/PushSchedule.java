@@ -68,6 +68,7 @@ public class PushSchedule implements ApplicationRunner {
         System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " Finish Pushing. Pushed " + successPushNum + " notices in total.");
     }
 
+    //从redis中取出一个formID
     private String getFormID(String openID){
         //模糊匹配取得未过期的openid列表
         Set<String> keySet;
