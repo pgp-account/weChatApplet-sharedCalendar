@@ -11,6 +11,7 @@ import com.bdilab.sharedcalendar.service.eventnotice.EventNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -106,7 +107,8 @@ public class EventNoticeServiceImpl implements EventNoticeService {
     @Override
     public List<NoticeForPush> getUnreadNoticeByDate(Date date){
         Date datePlusOneMin = new Date(date.getTime()+60000);
-        //查询这一分钟内的提醒
+        Date dateMinusOneMin = new Date(date.getTime()-60000);
+        //查询这一时刻±1min内的提醒
         List<EventNotice> eventNotices =eventNoticeMapper.selectUnreadNoticeByDate(date,datePlusOneMin);
         List<NoticeForPush> wechatNotices = new ArrayList<>();
         for (EventNotice eventNotice:eventNotices
@@ -184,6 +186,7 @@ public class EventNoticeServiceImpl implements EventNoticeService {
         if(event.getEventEndCondition()==2){
             eventNotice.setNoticeTime(getNextTime(event,eventNotice));
         }
+        System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+" Set Notice Read");
         eventNotice.setIsNoticed(1);
         if(eventNotice.getNoticeTime()!=null) eventNoticeMapper.insertEventNotice(eventNotice);
     }

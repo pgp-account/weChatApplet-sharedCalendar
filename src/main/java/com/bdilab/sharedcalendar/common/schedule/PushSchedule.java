@@ -50,31 +50,48 @@ public class PushSchedule implements ApplicationRunner {
         //推送
         for (NoticeForPush wechatNotice:wechatNotices
         ) {
-            //模糊匹配取得未过期的openid列表
-            Set<String> keySet;
-            keySet = stringRedisTemplate.keys(wechatNotice.getOpenId()+"*");
-            Iterator<String> keyIterator = keySet.iterator();
-            String formID = null;
-            if(keyIterator.hasNext()){
-                //从redis中取出一条formId用作推送
-                formID=stringRedisTemplate.opsForSet().randomMember(keyIterator.next());
+            String formID = getFormID(wechatNotice.getOpenId());
+            if(formID!=null){
+                //推送
+                JSONObject pushResult = pushOneNotice(wechatNotice.getOpenId(), AppInfo.getTemplateId(), "pages/index/index", formID, formData(wechatNotice.getNameAndType(),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(wechatNotice.getDate()),wechatNotice.getDescription()));
+                //推送成功
+                if(pushResult.get("errcode").toString().equals("0")){
+                    //推送后将isNoticed设为1，并根据重复条件创建下一次的提醒
+                    System.out.println(curDate +" Pushed 1 notice. Notice title is "+wechatNotice.getNameAndType());
+                    eventNoticeService.setNoticeRead(wechatNotice.getNoticeId());
+                    successPushNum++;
+                }
+                else System.out.println(curDate + pushResult.get(" errcode") + ": " + pushResult.get("errmsg"));
             }
-
-            //将formID从redis缓存中删除
-            stringRedisTemplate.opsForSet().remove(wechatNotice.getOpenId(),formID);
-            //推送
-            JSONObject pushResult = pushOneNotice(wechatNotice.getOpenId(), AppInfo.getTemplateId(), "pages/index/index", formID, formData(wechatNotice.getNameAndType(),new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(wechatNotice.getDate()),wechatNotice.getDescription()));
-            //推送成功
-            if(pushResult.getString("errcode").toString().equals("0")){
-                //推送后将isNoticed设为1，并根据重复条件创建下一次的提醒
-                eventNoticeService.setNoticeRead(wechatNotice.getNoticeId());
-                successPushNum++;
-            }
-            else System.out.println(curDate + pushResult.get(" errcode") + ":" + pushResult.get("errmsg"));
+            else System.out.println(curDate +" formID of this openID has been used out.");
         }
+        System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " Finish Pushing. Pushed " + successPushNum + " notices in total.");
+    }
 
-
-        System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " Finished Pushing. Pushed " + successPushNum + " notices in total.");
+    private String getFormID(String openID){
+        //模糊匹配取得未过期的openid列表
+        Set<String> keySet;
+        String curDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        keySet = stringRedisTemplate.keys(openID+"*");
+        if(keySet==null) return null;
+        Iterator<String> keyIterator = keySet.iterator();
+        String formID;
+        while(keyIterator.hasNext()){
+            String key = keyIterator.next();
+            //从redis中取出一条formId用作推送
+            formID=stringRedisTemplate.opsForSet().randomMember(key);
+            if(formID!=null){
+                System.out.println(curDate+" Get formID from Redis. FormID = " + formID);
+                //将formID从redis缓存中删除
+                stringRedisTemplate.opsForSet().remove(key,formID);
+                System.out.println(curDate+" Delete formID in Redis. FormID = " + formID);
+                return formID;
+            }
+            //删除已为空集合的key值
+            else stringRedisTemplate.delete(key);
+        }
+        //没有该openID对应的key
+        return null;
     }
 
     //获取token
