@@ -16,7 +16,7 @@ Page({
     currentData: 0,
     id: '',
     // typeName:'科研任务',
-    array: ['0-仅自己可见', '1-分享可见'],
+    array: ['仅自己可见', '分享可见'],
     // typeTransparency:1,
     // createTime:'2019-04-16 07:05:53',
     // subscriberNum:0,
@@ -24,7 +24,7 @@ Page({
     items: '',
     //createItems:'',
     //subscribeItems:'',
-    typeArray: ['1-删除', '2-转至另一个日程类型下'],
+    typeArray: ['删除', '转至另一个日程类型下'],
     arrindex: 0,
     operationType: 1,
     newEventType: '',
@@ -262,67 +262,8 @@ Page({
       })
     }
     
-    //wx.setStorageSync('shareId', shareId);
-    //console.log(shareId);
-
   },
 
-  // onShareAppMessage() {
-  //   console.log(wx.getStorageSync('shareId'));
-
-  //   return {
-
-  //     title: '弹出分享时显示的分享标题',
-
-  //     desc: '分享页面的内容',
-
-  //     path: '/pages/typeDetails/typeDetails?typeId=' + wx.getStorageSync('shareId') // 路径，传递参数到指定页面。
-
-
-
-  //   }
-
-  // },
-
-
-  //   onShareAppMessage: function (options) {
-  //     var that = this;
-  // 　　// 设置菜单中的转发按钮触发转发事件时的转发内容
-  //     var shareObj = {
-  //       title: "转发的标题",        // 默认是小程序的名称(可以写slogan等)
-  //       path: '/pages/typeDetails/typeDetails?typeId='+this.data.id,        // 默认是当前页面，必须是以‘/’开头的完整路径
-  //       imgUrl: '',     
-  //       //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
-  //       success: function (res) {
-  //         // 转发成功之后的回调
-  //         if (res.errMsg == 'shareAppMessage:ok') {
-  //           console.log("转发成功！");
-  //         }
-  //       },
-  //       fail: function () {
-  //         // 转发失败之后的回调
-  //         if (res.errMsg == 'shareAppMessage:fail cancel') {
-  //         // 用户取消转发
-  //         } else if (res.errMsg == 'shareAppMessage:fail') {
-  //           // 转发失败，其中 detail message 为详细失败信息
-  //         }
-  //       }
-  //       // 转发结束之后的回调（转发成不成功都会执行）
-  //       // complete: fucntion(){
-
-  //       // }
-  //     };
-  //   　　// 来自页面内的按钮的转发
-  //     if(options.from == 'button'){
-  //       var eData = options.target.dataset;
-  //       console.log(eData.name);     // shareBtn
-  //       // 此处可以修改 shareObj 中的内容
-  //       //shareObj.path = '/pages/typeDetails/btnname?btn_name=' + eData.name;
-  //       //shareObj.path = '/pages/typeDetails/btnname?typeId=' + eData.name;
-  //     }
-  // 　　// 返回shareObj
-  //     return shareObj;
-  //   },
 
   //删除类型
   deleteEventTypes: function (e) {
@@ -342,7 +283,7 @@ Page({
     //console.log(typeNamearr);
 
     wx.showActionSheet({
-      itemList: ['1-删除', '2-转至另一个日程类型下'],
+      itemList: ['删除', '转至另一个日程类型下'],
       success: function (res) {
         console.log(res.tapIndex);
         if (res.tapIndex === 0) {
@@ -510,101 +451,6 @@ Page({
         }
       }
     })
-    // var newEventType = '';
-    // var nowidx = e.currentTarget.dataset.idx;
-    // var olditems = this.data.items;
-    // var id = olditems[nowidx].id;
-    // var typeNamearr = new Array();
-    // var idarr = new Array();
-    // for (var i = 0; i < olditems.length; i++) {
-    //   typeNamearr.push(olditems[i].typeName);
-    //   idarr.push(olditems[i].id);
-    // }
-    // typeNamearr.splice(nowidx, 1);
-    // idarr.splice(nowidx, 1);
-    
-    //console.log(typeNamearr);
-
-    // wx.showActionSheet({
-    //   itemList: ['1-取消订阅', '2-转至另一个日程类型下'],
-    //   success: function (res) {
-    //     console.log(res.tapIndex);
-    //     if (res.tapIndex === 0) {
-          //that.setData2operationType1();
-          // wx.request({
-          //   url: cancelSubscribeType,
-          //   method: "POST",//默认GET
-          //   data: {
-          //     "typeId": id,
-
-          //   },
-          //   header: {
-          //     "Cookie": "SESSION=" + wx.getStorageSync('session_id'),
-          //     'content-type': 'application/x-www-form-urlencoded'
-          //   },
-          //   success: function (res) {
-          //     if (res.statusCode === 200) {
-          //       console.log(res.data.meta.message);
-          //       olditems.splice(nowidx, 1);
-          //       that.setData2items(olditems);
-          //       console.log(olditems);
-          //       // wx.navigateTo({
-          //       //   url: "../createSchedule/createSchedule"
-          //       // })
-          //     } else {
-          //       console.log(res.statusCode)
-          //     }
-
-          //   }, fail: function (res) {
-          //     console.log("error");
-          //   }
-          // });
-        // } else if (res.tapIndex === 1) {
-        //   //that.setData2operationType2();
-        //   wx.showActionSheet({
-        //     itemList: typeNamearr,
-        //     success(res) {
-        //       var tapIndex = res.tapIndex;
-        //       newEventType = idarr[tapIndex];
-        //       wx.request({
-        //         url: eventypeDeleteUrl,
-        //         method: "POST",//默认GET
-        //         data: {
-        //           "operationType": 2,
-        //           "eventTypeIds": id,
-        //           "newEventType": newEventType
-        //         },
-        //         header: {
-        //           "Cookie": "SESSION=" + wx.getStorageSync('session_id'),
-        //           'content-type': 'application/x-www-form-urlencoded'
-        //         },
-        //         success: function (res) {
-        //           if (res.statusCode === 200) {
-        //             console.log(res.data.meta.message);
-        //             olditems.splice(nowidx, 1);
-        //             that.setData2items(olditems);
-        //             console.log(olditems);
-        //             // wx.navigateTo({
-        //             //   url: "../createSchedule/createSchedule"
-        //             // })
-        //           } else {
-        //             console.log(res.statusCode)
-        //           }
-
-        //         }, fail: function (res) {
-        //           console.log("error");
-        //         }
-        //       })
-        //     }
-        //   })
-        // }
-
-      // },
-      // fail: function (res) {
-      //   console.log(res.errMsg)
-      // }
-    //});
-
   },
   onShow: function () {
     this.onLoad();

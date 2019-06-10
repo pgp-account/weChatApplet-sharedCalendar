@@ -12,7 +12,7 @@
         {{time}}
       </view>
       <view class="field clearfix">
-        事件名称 <text>{{eventName}}</text>
+        日程名称 <text>{{eventName}}</text>
       </view>
     </view>
     <view class="section1">

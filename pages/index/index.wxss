@@ -16,7 +16,7 @@ page {
 }
 .listPart{
   margin-top: 15px;
-  height: 40%;
+  height: 45%;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }

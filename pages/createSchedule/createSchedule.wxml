@@ -9,14 +9,14 @@
       <view class="field clearfix">
         <form bindsubmit="saveFormId" report-submit="{{true}}" class='form_class'>
           <button formType="submit" class='form_button'>
-            <input id="name" name="name" class="login-input" type="text" value='{{reset}}' placeholder="请输入事件标题" bindinput='nameInput'/>
+            <input id="name" name="name" class="login-input" type="text" value='{{reset}}' placeholder="请输入日程标题" bindinput='nameInput'/>
           </button>
         </form>
       </view>
     </view>
     <view class="section1">  
       <view class="field clearfix">
-        全天事件<switch bindchange="switchChange" />
+        全天日程<switch bindchange="switchChange" />
       </view>
       <view class="field clearfix">
         <view class="section" id='startTime'>
@@ -108,7 +108,7 @@
     <view class="section1">
       <form bindsubmit="saveFormId" report-submit="{{true}}" class='form_class'>
         <button formType="submit" class='form_button'>
-          <textarea id="describe" name="describe" maxlength="500" type="text" value='{{reset}}' placeholder="请输入日程描述(不超过500字)" bindinput='describeInput' >
+          <textarea id="describe" name="describe" maxlength="500" auto-height='true' type="text" value='{{reset}}' placeholder="请输入日程描述(不超过500字)" bindinput='describeInput' >
           </textarea>
         </button>
       </form>

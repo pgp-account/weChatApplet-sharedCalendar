@@ -14,7 +14,7 @@ page{
   width: 100%;
 }
 .typeList{
-  height: 700px;
+  height: 750px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }

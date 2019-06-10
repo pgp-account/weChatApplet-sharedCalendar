@@ -15,7 +15,7 @@
           <input id="typeDescrption" name="typeDescrption" class="login-input" type="text" value='{{reset}}' placeholder="请输入类型描述" bindinput='typeDescrptionInput'/>
           </button>
         </form>
-      </view>
+      </view>               
     </view>
     <view class="section1">
       <view class="field clearfix">

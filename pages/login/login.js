@@ -16,6 +16,9 @@ Page({
           wx.getUserInfo({
             success: function (res) {
               console.log(res.userInfo);
+              wx.showLoading({
+                title: '登录中',
+              })
               // wx.setStorageSync('nickName', res.userInfo.nickName);
               // wx.setStorageSync('avatarUrl', res.userInfo.avatarUrl);
               wx.request({
@@ -38,11 +41,13 @@ Page({
                       wx.setStorageSync('session_id', res.data.data.session_id);
                       // 获取用户信息
                       //跳转到TabBar中要使用wx.switchTab
+                      wx.hideLoading();
                       wx.switchTab({
                         url: '../index/index',
                       });
                     }
                     else {
+                      wx.hideLoading();
                       wx.showToast({
                         title: '授权失败，请重新操作！',
                         duration: 2000,
@@ -52,6 +57,7 @@ Page({
                   }
                 },
                 error: function (res) {
+                  wx.hideLoading();
                   console.log(123);
                 }
               }),
@@ -69,9 +75,9 @@ Page({
                   // 更新用户信息成功
                   if (res.statusCode === 200) {
                     console.log(res.data.meta.message);
-                    wx.switchTab({
-                      url: '../index/index',
-                    });
+                    // wx.switchTab({
+                    //   url: '../index/index',
+                    // });
                   }
                 },
                 error: function (res) {
@@ -89,42 +95,5 @@ Page({
     })
   },
   onLoad: function () {
-
-  //   //查看是否授权
-  //   wx.getSetting({
-  //     success: function (res) {
-  //       if (res.authSetting['scope.userInfo']) {
-  //         // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-  //         wx.getUserInfo({
-  //           success: function (res) {
-  //             console.log(res.userInfo);
-  //             // wx.setStorageSync('nickName', res.userInfo.nickName);
-  //             // wx.setStorageSync('avatarUrl', res.userInfo.avatarUrl);
-  //             wx.request({
-  //               url: 'http://39.96.188.220:8080/public/updateUserInfo',
-  //               method: "POST",
-  //               data: {
-  //                 nickName: res.userInfo.nickName,
-  //                 avatarUrl: res.userInfo.avatarUrl
-  //               },
-  //               header: {
-  //                 'content-type': 'application/x-www-form-urlencoded'
-  //               },
-  //               success: function (res) {
-  //                 // 登录成功
-  //                 if (res.statusCode === 200) {
-  //                   console.log(res.data.meta.message);
-                    
-  //                 }
-  //               },
-  //               error: function (res) {
-  //                 console.log(123);
-  //               }
-  //             })
-  //           }
-  //         })
-  //       }
-  //     }
-  //   })
-   },
+  },
 })

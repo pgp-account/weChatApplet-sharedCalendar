@@ -205,6 +205,7 @@ Page({
             console.log(res.data.data);
             //that.setData2items(res.data.data.EventVOs);
             resolve(res.data.data.EventVOs);
+            
             wx.hideLoading();
           } else {
             console.log(res.statusCode);

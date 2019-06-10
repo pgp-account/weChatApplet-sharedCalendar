@@ -29,8 +29,8 @@
     </view>
     <view class='listBody'>
       <view class='block'></view><text>创建人：{{items.creatorName}}\n</text>
-      <view class='block'></view><text>事件内容：{{items.eventContent}}\n</text>
-      <view class='block'></view><text>事件频率：{{array[items.eventFrequency]}}\n</text>
+      <view class='block'></view><text>日程内容：{{items.eventContent}}\n</text>
+      <view class='block'></view><text>日程频率：{{array[items.eventFrequency]}}\n</text>
       <view class='block'></view><text hidden='{{hiddenCondition}}'>停止条件：{{endarray[items.eventEndCondition]}}\n</text>
       <!-- <view class='block'></view><text hidden='{{hiddenNoticeTime}}'>提醒时间：{{util.sub(items.noticeTime)}}\n</text> -->
       <view class='block'></view><text>时间：{{util.sub(items.startTime)}} - {{util.sub(items.endTime)}}\n</text>

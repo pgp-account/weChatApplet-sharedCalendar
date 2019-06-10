@@ -1,4 +1,4 @@
-const ApiUrl = "http://39.96.188.220:8080/";
+const ApiUrl = "http://25k07i4849.wicp.vip/";
 const eventUrl = ApiUrl + "event/createEvent"
 const eventypeListUrl = ApiUrl + "eventtype/getEventTypeList"
 const getFormIdList = ApiUrl + "public/getFormIdList"

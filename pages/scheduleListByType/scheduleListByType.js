@@ -16,7 +16,7 @@ Page({
     hiddenCondition: true,
     hiddenNoticeTime: true,
     array: ['不重复', '每日', '每周', '每年'],
-    endarray: ['0-重复次数', '1-重复截止时间', '2-无限重复'],
+    endarray: ['重复次数', '重复截止时间', '无限重复'],
     items: '',
     typeId:'', 
     typeName:'',

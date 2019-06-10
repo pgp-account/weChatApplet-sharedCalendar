@@ -5,33 +5,7 @@
 
 
 <view class="table">
-
-  <!-- <view class="tr bg-w">
-
-    <view class="th">head1</view>
-
-    <view class="th">head2</view>
-
-    <view class="th ">head3</view>
-
-  </view> -->
-
-  <!-- <block wx:for="{{listData}}" wx:key="{{index}}" wx:for-index="index" data-idx='{{index}}' wx:for-item="listData"> -->
-
-    <!-- <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-
-      <view class="td">{{item.code}}</view>
-
-      <view class="td">{{item.text}}</view>
-
-      <view class="td">{{item.type}}</view>
-
-    </view> -->
-
-    <!-- <view class="tr" wx:else> -->
     <view class="tr" wx:for="{{length}}" wx:key="{{index}}"  >
-    <!-- <view class="tr"   > -->
-      <!-- <view class="index">{{index}}</view> -->
       <view class='td-column' wx:if="{{listData0.length > index}}">
         <view class="td" data-key='{{0}}' data-idx='{{index}}' bindtap='eventDetail'>{{listData0[index].eventName}}</view>
       </view>
@@ -62,19 +36,12 @@
       <view class='td-column' wx:else>
         <view class="td" ></view>
       </view>
-      <!-- <view class="td" data-idx='{{index}}' bindtap='eventDetail'>{{listData0.eventName}}</view> -->
-      <!-- <view class="td" >{{listData1[index].eventName}}</view>
-      <view class="td" >{{listData2[index].eventName}}</view>
-      <view class="td" >{{listData3[index].eventName}}</view>
-      <view class="td" >{{listData4[index].eventName}}</view> -->
       <view class='td-column' wx:if="{{listData5.length > index}}">
         <view class="td" data-key='{{5}}' data-idx='{{index}}' bindtap='eventDetail'>{{listData5[index].eventName}}</view>
       </view>
       <view class='td-column' wx:else>
         <view class="td" ></view>
       </view>
-      <!-- <view class="td" >{{listData5[index].eventName}}</view> -->
-      <!-- <view class="td" >{{listData6[index].eventName}}</view> -->
       <view class='td-column' wx:if="{{listData6.length > index}}">
         <view class="td" data-key='{{6}}' data-idx='{{index}}' bindtap='eventDetail'>{{listData6[index].eventName}}</view>
       </view>
@@ -82,7 +49,6 @@
         <view class="td" ></view>
       </view>
     </view>
-  <!-- </block> -->
 
 </view>
 

@@ -13,12 +13,12 @@
     <view class='listBody'>
 
       <text>时间：{{util.sub(items.startTime)}} - {{util.sub(items.endTime)}}\n</text>
-      <text>事件内容：{{items.eventContent}}\n</text>
-      <text>事件频率：{{array[items.eventFrequency]}}\n</text>
+      <text>日程内容：{{items.eventContent}}\n</text>
+      <text>日程频率：{{array[items.eventFrequency]}}\n</text>
       <text hidden='{{hiddenCondition}}'>停止条件：{{endarray[items.eventEndCondition]}}\n</text>
       <text hidden='{{hiddenNoticeTime}}'>提醒时间：{{util.sub(items.noticeTime)}}\n</text>
       <text>创建人：{{items.creatorName}}\n</text>
-      <text>事件类型：{{items.eventTypeName}}\n</text>
+      <text>日程类型：{{items.eventTypeName}}\n</text>
     </view>
     <view class='listEdit'>
       <view class='iconfont icon-shanchu' bindtap='deleteEvent' data-idx='{{index}}'></view>

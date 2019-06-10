@@ -53,9 +53,9 @@ Page({
     }
     let length = timeBean.weekDayList.length;
     for(var i = 0;i<length;i++){
-      var newMonth = parseInt(timeBean.yearMonth.slice(5, 7))
+      var newMonth = parseInt(timeBean.yearMonth.slice(5, 7)) + 1
       if (timeBean.weekDayList[i].day > timeBean.weekDayList[length-1].day) {
-        newMonth = parseInt(timeBean.yearMonth.slice(5, 7)) - 1;
+        newMonth = parseInt(timeBean.yearMonth.slice(5, 7));
         //var newMonth = parseInt(timeBean.yearMonth.slice(5, 7))
       }
       if (timeBean.yearMonth.slice(5) < 10) {

@@ -13,7 +13,7 @@ Page({
     typeDescrption:'',
     typeName:'',
     index:'',
-    array: ['0-仅自己可见', '1-分享可见'],
+    array: ['仅自己可见', '分享可见'],
     subscriberNum:'',
     operationType:'',
     formIdArray:[]
@@ -144,6 +144,14 @@ Page({
     })
   },
 
+  isEmpty: function (data) {
+    if (data == '') {
+      return false;
+    } else {
+      return true;
+    }
+  },
+
   formSubmit: function (e) {
     this.saveFormId(e);
     console.log("formIds:" + this.data.formIdArray);
@@ -153,43 +161,55 @@ Page({
     //var index = this.data.index;
     var header = wx.getStorageSync('session_id');
     //console.log(header);
-    wx.request({
-      url: eventypeUpdateUrl,
-      method: "POST",//默认GET
-      data: {
-        "typeId":this.data.id,
-        "typeName": this.data.typeName,
-        "typeDescrption": this.data.typeDescrption,
-        "typeTransparency": this.data.index,
-        "operationType": this.data.operationType
-      },
-      header: {
-        //以表单形式提交
-        //"Cookie": "JSESSIONID=" + wx.getStorageSync('session_id'),
-        "Cookie": "SESSION=" + wx.getStorageSync('session_id'),
-        "content-type": "application/x-www-form-urlencoded"
+    if (this.isEmpty(this.data.typeName)) {
+      if (this.isEmpty(this.data.typeDescrption)) {
+        wx.request({
+          url: eventypeUpdateUrl,
+          method: "POST",//默认GET
+          data: {
+            "typeId": this.data.id,
+            "typeName": this.data.typeName,
+            "typeDescrption": this.data.typeDescrption,
+            "typeTransparency": this.data.index,
+            "operationType": this.data.operationType
+          },
+          header: {
+            //以表单形式提交
+            //"Cookie": "JSESSIONID=" + wx.getStorageSync('session_id'),
+            "Cookie": "SESSION=" + wx.getStorageSync('session_id'),
+            "content-type": "application/x-www-form-urlencoded"
 
 
-        //以json形式提交
-        //"content-type": "application/json"
-      },
-      success: function (res) {
-        if (res.statusCode === 200) {
-          console.log(res.data.meta.message);
-        } else {
-          console.log(res.statusCode)
-        }
-        // this.setData({
-        //   reset: ''
-        // })
-
-      }, fail: function (res) {
-        console.log("error");
+            //以json形式提交
+            //"content-type": "application/json"
+          },
+          success: function (res) {
+            if (res.statusCode === 200) {
+              console.log(res.data.meta.message);
+              wx.navigateBack({
+                delta: 1
+              })
+            } else {
+              console.log(res.statusCode)
+            }
+          }, fail: function (res) {
+            console.log("error");
+          }
+        });
+      } else {
+        wx.showToast({
+          title: '请填写日程类型描述！',
+          icon: 'none',
+          duration: 2000//持续的时间
+        })
       }
-    });
-    wx.navigateBack({
-      delta: 1
-    })
+    } else {
+      wx.showToast({
+        title: '请填写日程类型名称！',
+        icon: 'none',
+        duration: 2000//持续的时间
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

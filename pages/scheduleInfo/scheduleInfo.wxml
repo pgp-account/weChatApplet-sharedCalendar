@@ -12,10 +12,10 @@
         {{time}}
       </view>
       <view class="field clearfix">
-        <text>事件名称 </text>
+        <text>日程名称 </text>
         <form bindsubmit="saveFormId" report-submit="{{true}}" class='form_class'>
           <button formType="submit" class='form_button'>
-          <input id="name" name="name" class="login-input" type="text" value='{{name}}' bindinput='nameInput'/>
+          <input id="name" name="name" class="login-input" type="text" value='{{name}}' placeholder="请输入日程标题" bindinput='nameInput'/>
           </button>
         </form>
         
@@ -71,7 +71,7 @@
           </view>
         </picker>
       </view>
-      <view hidden="{{hidden}}">
+      <view class="hidden" hidden="{{hidden}}">
         <view class="field clearfix">
           <picker bindchange="bindConPickerChange"  range="{{conditionarray}}">
             <view class="picker">
@@ -106,11 +106,11 @@
       </view>
     </view>   
     <view class="section1">  
-      <view class="field clearfix">
+      <view class="field1 clearfix">
         <text>日程描述 </text>
         <form bindsubmit="saveFormId" report-submit="{{true}}" class='form_class'>
           <button formType="submit" class='form_button'>
-          <textarea id="describe" name="describe" maxlength="500" type="text" value='{{describe}}' bindinput='describeInput' ></textarea>
+          <textarea id="describe" name="describe" maxlength="500" type="text" auto-height='true' value='{{describe}}' bindinput='describeInput' ></textarea>
           </button>
         </form>
       </view> 

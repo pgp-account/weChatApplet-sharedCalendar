@@ -25,7 +25,7 @@
                 <view class='block'></view><text>创建时间：{{items.createTime}}\n</text>
                 <view class='block'></view><text>用户数量：{{items.subscriberNum}}\n</text>
                 <view class='block'></view><text>类型描述：{{items.typeDescrption}}\n</text>
-                <view class='eventPage' bindtap='typeShowEvent' data-idx='{{index}}'>查看该类型下事件</view>
+                <view class='eventPage' bindtap='typeShowEvent' data-idx='{{index}}'>查看该类型下日程</view>
               </view>
               
             </view>
@@ -54,11 +54,13 @@
                 {{items.typeName}}
               </view>
               <view class='listBody'>
-                <view class='block'></view><text>可见度：{{array[items.typeTransparency]}}\n</text>
-                <view class='block'></view><text>创建时间：{{util.sub(items.createTime)}}\n</text>
                 <view class='block'></view><text>用户数量：{{items.subscriberNum}}\n</text>
+                <view class='block'></view><text>创建人：{{items.creatorName}}\n</text>
+                <view class='block'></view><text>可见度：{{array[items.typeTransparency]}}\n</text>
+                <view class='block'></view><text>创建时间：{{items.createTime}}\n</text>
+                <view class='block'></view><text>订阅时间：{{items.subscribedDate}}\n</text>
                 <view class='block'></view><text>类型描述：{{items.typeDescrption}}\n</text>
-                <view class='eventPage' bindtap='typeShowEvent' data-idx='{{index}}'>查看该类型下事件</view>
+                <view class='eventPage' bindtap='typeShowEvent' data-idx='{{index}}'>查看该类型下日程</view>
               </view>
               
             </view>

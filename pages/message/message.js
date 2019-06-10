@@ -174,7 +174,8 @@ Page({
           if (res.statusCode === 200) {
             console.log(res.data.meta.message);
             console.log(res.data.data);
-            that.refresh();
+            app.globalData.messageNum = app.globalData.messageNum - arr.length;            that.refresh();
+            
           } else {
             console.log(res.statusCode)
           }
